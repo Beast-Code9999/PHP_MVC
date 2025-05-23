@@ -1,7 +1,7 @@
 <?php 
 
 
-function render($view, data = []) {
+function render($view, $data = []) {
 
     extract($data); // extract the variables
  
