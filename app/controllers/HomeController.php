@@ -4,10 +4,8 @@
 class HomeController {
 
     public function index() {
-        return "returning home view";
+        // route the index.php 
+        require_once __DIR__ . '/../views/home/index.php';
     }
 
-    public function testing() {
-        
-    }
 }

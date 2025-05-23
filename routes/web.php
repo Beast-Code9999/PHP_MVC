@@ -2,6 +2,5 @@
 
 // associative arrays of routes
 $routes = [
-    '' => 'HomeController@index', // home controller class index
-    'testing' => 'HomeController@testing',
+    '' => 'HomeController@index', // home controller with class index
 ];
