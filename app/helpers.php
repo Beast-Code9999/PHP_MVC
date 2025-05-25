@@ -1,7 +1,7 @@
 <?php 
 
 
-function render($view, $data = []) {
+function render($view, $data = [], $layout = 'layout') {
 
     extract($data); // extract the variables
  
@@ -13,6 +13,6 @@ function render($view, $data = []) {
 
     // get content from output bufferring
     $content = ob_get_clean();
-
-    require __DIR__ . '/views/layout.php';
+    //gets a selected layout or defaults to layout
+    require __DIR__ . "/views/" . $layout . ".php";
 }

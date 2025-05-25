@@ -3,9 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title><?php echo isset($title) ? $title : 'News Website'; ?></title>
+    <link rel="stylesheet" href="/PHP_MVC/public/css/hero.css">
 </head>
 <body>
-    
+    <!-- Header/Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="nav-left">
+                <h1 class="logo">NEWS</h1>
+                <div class="search-box">
+                    <input type="text" placeholder="Search articles..." class="search-input">
+                    <span class="search-icon">🔍</span>
+                </div>
+            </div>
+            <nav class="nav-right">
+                <a href="/PHP_MVC/public/" class="nav-link">Home</a>
+                <a href="/PHP_MVC/public/articles" class="nav-link">Articles</a>
+                <a href="/PHP_MVC/public/about" class="nav-link">About Us</a>
+                <a href="/PHP_MVC/public/user/login" class="login-btn">Login</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title"><?php echo isset($hero_title) ? $hero_title : 'Lorem Ipsum Sit Amet'; ?></h1>
+            <p class="hero-description">
+                <?php echo isset($hero_description) ? $hero_description : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris'; ?>
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <?php echo $content; ?>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <h3 class="footer-logo">NEWS</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon">🐦</a>
+                    <a href="#" class="social-icon">📷</a>
+                    <a href="#" class="social-icon">📘</a>
+                    <a href="#" class="social-icon">⚫</a>
+                </div>
+            </div>
+            
+            <div class="footer-center">
+                <div class="footer-links">
+                    <a href="#" class="footer-link">About Us</a>
+                    <a href="#" class="footer-link">Contact us</a>
+                    <a href="#" class="footer-link">Legal</a>
+                </div>
+            </div>
+            
+            <div class="footer-right">
+                <div class="newsletter">
+                    <span class="newsletter-text">Subscribe to weekly news?</span>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Email address" class="newsletter-input">
+                        <button class="newsletter-btn">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
