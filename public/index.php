@@ -3,6 +3,15 @@ require_once __DIR__ . '/../app/init.php';
 require_once __DIR__ . '/../routes/web.php'; // include routes variable
 
 
+// HOW IT WORKS
+// e.g.
+// URL: http://localhost/PHP_MVC/public/user/login
+// Extract: $request = "user/login"
+// Match: $routes["user/login"] = "UserController@login"
+// Split: explode('@', "UserController@login") = ["UserController", "login"]
+// Execute: new UserController()->login()
+// Inside login(): Calls render('user/login', $data)
+// Render: Loads app/views/user/login.php with data
 
 $request = isset($_GET['url']) ? rtrim($_GET['url'], '/') : ''; // if request is not set, set it and right trim it else empty
 
