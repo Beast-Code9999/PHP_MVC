@@ -93,7 +93,7 @@ body {
 /* Hero Section */
 .hero {
     background: linear-gradient(135deg, #2d1b3d 0%, #4a2c5a 100%);
-    background-image: url('/PHP_MVC/public/images/imgHero.jpg');
+    background-image: url('../images/imgHero.jpg');
     background-size: cover;
     background-position: center;
     background-blend-mode: overlay;

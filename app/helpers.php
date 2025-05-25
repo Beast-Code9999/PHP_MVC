@@ -42,12 +42,14 @@ function render($view, $data = [], $layout = 'layout') {
     ob_start();
 
     // include specific file from views
-    require __DIR__ . '/views/' . $view . '.php';
+    require views_path($view . '.php');
 
     // get content from output bufferring
     $content = ob_get_clean();
     //gets a selected layout or defaults to layout
-    require __DIR__ . "/views/" . $layout . ".php";
+
+    // require __DIR__ . "/views/" . $layout . ".php";
+    require views_path($layout . ".php");
 }
 
 
@@ -105,4 +107,16 @@ function base_path($path = '') {
 // views path
 function views_path($path = '') {
     return base_path('app/views/' . ltrim($path, '/'));
+}
+
+
+function redirect($path = '', $queryParams = []) {
+    $url = base_url($path);
+
+    if(!empty($queryParams)) {
+        $url .= "?" . http_build_query($queryParams);
+    }
+
+    header("Location: " . $url);
+    exit();
 }
