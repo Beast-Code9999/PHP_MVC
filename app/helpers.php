@@ -1,50 +1,6 @@
 <?php 
 
 /**
- * BASE URL HELPER FUNCTION
- * ========================
- * Automatically generates the full URL for your website
- * Works on localhost, staging, and production servers
- * 
- * HOW IT WORKS:
- * 1. Detects protocol (http:// or https://) based on server settings
- * 2. Gets the host/domain name (localhost, example.com, etc.)
- * 3. Finds the base directory path (/PHP_MVC/public/)
- * 4. Combines everything into a full URL
- * 
- * EXAMPLES:
- * base_url() → http://localhost/PHP_MVC/public/
- * base_url('user/login') → http://localhost/PHP_MVC/public/user/login
- * base_url('css/style.css') → http://localhost/PHP_MVC/public/css/style.css
- * 
- * BENEFITS:
- * - No hardcoded URLs - works anywhere you deploy
- * - Automatically handles http vs https
- * - Prevents broken links when moving between environments
- * - Makes your code portable and professional
- */
-function base_url($path = '') {
-
-    if(defined('BASE_URL')) {
-        return BASE_URL . ltrim($path, '/');
-    }
-
-    // https:// or http://
-    $protocol = 
-    (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || 
-    $_SERVER['SERVER_PORT'] === 443 ? "https://" : "http://";
-
-    // server.com
-    $host = $_SERVER['HTTP_HOST'];
-
-    // example.com/blog
-    $base = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
-
-    return $protocol . $host . $base . '/' . ltrim($path, '/'); 
-}
-
-
-/**
  * VIEW RENDERING SYSTEM
  * =====================
  * Core MVC function that renders views with layouts and data
@@ -92,4 +48,61 @@ function render($view, $data = [], $layout = 'layout') {
     $content = ob_get_clean();
     //gets a selected layout or defaults to layout
     require __DIR__ . "/views/" . $layout . ".php";
+}
+
+
+
+
+/**
+ * BASE URL HELPER FUNCTION
+ * ========================
+ * Automatically generates the full URL for your website
+ * Works on localhost, staging, and production servers
+ * 
+ * HOW IT WORKS:
+ * 1. Detects protocol (http:// or https://) based on server settings
+ * 2. Gets the host/domain name (localhost, example.com, etc.)
+ * 3. Finds the base directory path (/PHP_MVC/public/)
+ * 4. Combines everything into a full URL
+ * 
+ * EXAMPLES:
+ * base_url() → http://localhost/PHP_MVC/public/
+ * base_url('user/login') → http://localhost/PHP_MVC/public/user/login
+ * base_url('css/style.css') → http://localhost/PHP_MVC/public/css/style.css
+ * 
+ * BENEFITS:
+ * - No hardcoded URLs - works anywhere you deploy
+ * - Automatically handles http vs https
+ * - Prevents broken links when moving between environments
+ * - Makes your code portable and professional
+ */
+function base_url($path = '') {
+
+    if(defined('BASE_URL')) {
+        return BASE_URL . ltrim($path, '/');
+    }
+
+    // https:// or http://
+    $protocol = 
+    (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || 
+    $_SERVER['SERVER_PORT'] === 443 ? "https://" : "http://";
+
+    // server.com
+    $host = $_SERVER['HTTP_HOST'];
+
+    // example.com/blog
+    $base = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
+
+    return $protocol . $host . $base . '/' . ltrim($path, '/'); 
+}
+
+// find real path
+function base_path($path = '') {
+    // __DIR__ is located in PHP_MVC/app/
+    return realpath(__DIR__ . '/../' . '/' . ltrim($path, '/'));
+}
+
+// views path
+function views_path($path = '') {
+    return base_path('app/views/' . ltrim($path, '/'));
 }
