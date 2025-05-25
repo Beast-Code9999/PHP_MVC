@@ -7,6 +7,8 @@ class HomeController {
         // route the index.php 
         // require_once __DIR__ . '/../views/home/index.php';
 
+        echo base_url();
+
         $data = [
             'title' => 'This is the main home page title',
             'message' => 'Welcome to the home page',
