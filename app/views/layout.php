@@ -9,7 +9,7 @@
  </head>
  <body>
     <header>
-
+      <h1>this is header</h1>
     </header>
 
     <main>
@@ -17,7 +17,7 @@
     </main>
 
     <footer>
-
+      <h2>This is footer</h2>
     </footer>
  </body>
  </html>

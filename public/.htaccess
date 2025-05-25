@@ -1,6 +1,9 @@
 Options -Multiviews
 RewriteEngine On
 
-# Redirect all requests to index.php
+# Only rewrite if the requested file doesn't actually exist
 RewriteCond %{REQUEST_FILENAME} !-f
+
+# Capture everything after /public/ and send it to index.php as ?url= parameter
+# Example: /public/user/login becomes index.php?url=user/login
 RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]

@@ -9,7 +9,7 @@ function render($view, $data = []) {
     ob_start();
 
     // include specific file from views
-    require __DIR__ . '/views/' / $view . '.php';
+    require __DIR__ . '/views/' . $view . '.php';
 
     // get content from output bufferring
     $content = ob_get_clean();
