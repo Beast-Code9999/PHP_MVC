@@ -1,10 +1,10 @@
 <!-- Frontend layout -->
- <!DOCTYPE html>
- <html lang="en">
- <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo base_url('css/layout.css')?>">
+    <link rel="stylesheet" href="<?= base_url('css/layout.css') ?>">
 </head>
 <body>
     <!-- Header/Navigation -->
@@ -18,16 +18,16 @@
                 </div>
             </div>
             <nav class="nav-right">
-                <a href="<?php echo base_url('/'); ?>" class="nav-link">Home</a>
-                <a href="/PHP_MVC/public/articles" class="nav-link">Articles</a>
-                <a href="<?php echo base_url('/about'); ?>" class="nav-link">About Us</a>
-                <a href="/PHP_MVC/public/user/login" class="login-btn">Login</a>
+                <a href="<?= base_url() ?>" class="nav-link">Home</a>
+                <a href="<?= base_url('articles') ?>" class="nav-link">Articles</a>
+                <a href="<?= base_url('about') ?>" class="nav-link">About Us</a>
+                <a href="<?= base_url('user/login') ?>" class="login-btn">Login</a>
             </nav>
         </div>
     </header>
 
     <main>
-        <?php echo $content; ?>
+        <?= $content; ?>
     </main>
 
     <footer class="footer">
@@ -44,8 +44,8 @@
             
             <div class="footer-center">
                 <div class="footer-links">
-                    <a href="#" class="footer-link">About Us</a>
-                    <a href="#" class="footer-link">Contact us</a>
+                    <a href="<?= base_url('about') ?>" class="footer-link">About Us</a>
+                    <a href="<?= base_url('contact') ?>" class="footer-link">Contact Us</a>
                     <a href="#" class="footer-link">Legal</a>
                 </div>
             </div>
@@ -61,5 +61,5 @@
             </div>
         </div>
     </footer>
- </body>
- </html>
+</body>
+</html>

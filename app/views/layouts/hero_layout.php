@@ -57,8 +57,8 @@
             
             <div class="footer-center">
                 <div class="footer-links">
-                    <a href="#" class="footer-link">About Us</a>
-                    <a href="#" class="footer-link">Contact us</a>
+                    <a href="<?= base_url('about') ?>" class="footer-link">About Us</a>
+                    <a href="<?= base_url('contact') ?>" class="footer-link">Contact Us</a>
                     <a href="#" class="footer-link">Legal</a>
                 </div>
             </div>

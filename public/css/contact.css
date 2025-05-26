@@ -1,0 +1,117 @@
+/* ===== Reset ===== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ===== Contact Container Layout ===== */
+.contact-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 60px 40px;
+    max-width: 1200px;
+    margin: auto;
+    gap: 80px;
+}
+
+/* ===== Contact Info Left Column ===== */
+.contact-info {
+    flex: 1;
+    max-width: 400px;
+}
+
+.contact-info h1 {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.contact-info p {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 30px;
+    line-height: 1.5;
+    max-width: 320px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.info-item span {
+    font-size: 26px;
+    margin-right: 15px;
+    color: #a48098;
+}
+
+.info-item p {
+    font-size: 16px;
+    color: #222;
+    line-height: 1.4;
+}
+
+/* ===== Form Right Column ===== */
+.contact-form {
+    flex: 1;
+}
+
+.contact-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group.double {
+    display: flex;
+    gap: 12px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    background-color: #ddd;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.contact-form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* ===== Submit Button ===== */
+.contact-form button {
+    align-self: flex-start;
+    padding: 10px 28px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #a48098;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    transition: background-color 0.3s ease;
+}
+
+.contact-form button:hover {
+    background-color: #926d87;
+}
+
+/* ===== Responsive ===== */
+@media screen and (max-width: 768px) {
+    .contact-container {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .form-group.double {
+        flex-direction: column;
+    }
+}
