@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Newspaper</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="<?php echo base_url('css/layout.css')?>">
  </head>
  <body>
     <header>
-      <h1>this is header</h1>
+      <h1 class="example">this is header</h1>
     </header>
 
     <main>
