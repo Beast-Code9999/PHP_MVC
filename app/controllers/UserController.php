@@ -4,7 +4,11 @@ class UserController {
     
     public function register() {
 
-        render();
+        $data = [
+            'title' => 'Register Page',
+        ];
+
+        render('users/register', $data);
     }
     
 }
