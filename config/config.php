@@ -1,3 +1,3 @@
 <?php 
 
-const BASE_URL = "http://PHP_MVC/public/";
+const BASE_URL = "http://localhost/PHP_MVC/public/";

@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($title) ? $title : 'News Website'; ?></title>
-    <link rel="stylesheet" href="/PHP_MVC/public/css/hero.css">
+    <link rel="stylesheet" href="<?php echo base_url('css/hero.css')?>">
 </head>
 <body>
+ 
     <!-- Header/Navigation -->
     <header class="header">
         <div class="nav-container">
