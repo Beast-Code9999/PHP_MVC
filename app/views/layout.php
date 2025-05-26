@@ -4,20 +4,62 @@
  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Newspaper</title>
     <link rel="stylesheet" href="<?php echo base_url('css/layout.css')?>">
- </head>
- <body>
-    <header>
-      <h1 class="example">this is header</h1>
+</head>
+<body>
+    <!-- Header/Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="nav-left">
+                <h1 class="logo">NEWS</h1>
+                <div class="search-box">
+                    <input type="text" placeholder="Search articles..." class="search-input">
+                    <span class="search-icon">🔍</span>
+                </div>
+            </div>
+            <nav class="nav-right">
+                <a href="/PHP_MVC/public/" class="nav-link">Home</a>
+                <a href="/PHP_MVC/public/articles" class="nav-link">Articles</a>
+                <a href="/PHP_MVC/public/about" class="nav-link">About Us</a>
+                <a href="/PHP_MVC/public/user/login" class="login-btn">Login</a>
+            </nav>
+        </div>
     </header>
 
     <main>
         <?php echo $content; ?>
     </main>
 
-    <footer>
-      <h2>This is footer</h2>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <h3 class="footer-logo">NEWS</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon">🐦</a>
+                    <a href="#" class="social-icon">📷</a>
+                    <a href="#" class="social-icon">📘</a>
+                    <a href="#" class="social-icon">⚫</a>
+                </div>
+            </div>
+            
+            <div class="footer-center">
+                <div class="footer-links">
+                    <a href="#" class="footer-link">About Us</a>
+                    <a href="#" class="footer-link">Contact us</a>
+                    <a href="#" class="footer-link">Legal</a>
+                </div>
+            </div>
+            
+            <div class="footer-right">
+                <div class="newsletter">
+                    <span class="newsletter-text">Subscribe to weekly news?</span>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Email address" class="newsletter-input">
+                        <button class="newsletter-btn">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </footer>
  </body>
  </html>
