@@ -18,7 +18,7 @@ class HomeController {
         ];
 
         render('home/index', $data, 'layouts/hero_layout');
-    }
+    } 
 
     public function about() {
         // route the index.php 
