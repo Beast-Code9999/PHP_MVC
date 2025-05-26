@@ -29,5 +29,7 @@ class HomeController {
         ];
 
         render('home/about', $data); // location of directory is home/about
-    }    
+    } 
+    
+    
 }
