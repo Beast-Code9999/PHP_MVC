@@ -32,7 +32,6 @@ class HomeController {
         ];
 
         render('home/about', $data); // location of directory is home/about
-<<<<<<< HEAD
     }   
     
     public function contact() {
@@ -48,9 +47,4 @@ class HomeController {
 
         render('home/contact', $data); // location of directory is home/contact
     }
-=======
-    } 
-    
-    
->>>>>>> 8e3cabec90fbb24ca06f1b314fe38fddd6bfca40
 }
