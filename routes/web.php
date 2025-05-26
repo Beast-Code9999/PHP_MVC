@@ -5,6 +5,7 @@ $routes = [
     '' => 'HomeController@index', // home controller with class index
     'about' => 'HomeController@about',
     'user/login' => 'UserController@login', 
+    'contact' => 'HomeController@contact',
 ];
 
 
