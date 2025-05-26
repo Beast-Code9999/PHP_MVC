@@ -19,9 +19,9 @@
             </div>
             <nav class="nav-right">
                 <?php var_dump(views_path('/home/about.php'));?>
-                <a href="<?php echo base_url('index.php'); ?>" class="nav-link">Home</a>
+                <a href="<?php echo base_url('/'); ?>" class="nav-link">Home</a>
                 <a href="/PHP_MVC/public/articles" class="nav-link">Articles</a>
-                <a href="<?php echo base_url('about'); ?>" class="nav-link">About Us</a>
+                <a href="<?php echo base_url('/about'); ?>" class="nav-link">About Us</a>
                 <a href="/PHP_MVC/public/user/login" class="login-btn">Login</a>
             </nav>
         </div>

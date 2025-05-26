@@ -6,7 +6,8 @@ $routes = [
     'about' => 'HomeController@about',
     'user/login' => 'UserController@login', 
     'contact' => 'HomeController@contact',
-];
+    'user/register' => 'UserController@register',
+]; 
 
 
 
