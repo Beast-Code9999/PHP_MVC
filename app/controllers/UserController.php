@@ -10,5 +10,14 @@ class UserController {
 
         render('users/register', $data);
     }
+
+    public function login() {
+
+        $data = [
+            'title' => 'Login Page',
+        ];
+
+        render('users/login', $data);
+    }
     
 }
