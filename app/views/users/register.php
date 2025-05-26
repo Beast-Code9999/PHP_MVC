@@ -1,5 +1,5 @@
 <head>
-<link rel="stylesheet" href="<?php echo base_url('css/register.css'); ?>">
+<link rel="stylesheet" href="<?php echo base_url('/css/register.css'); ?>">
 </head>
 <div class="register-container">
     <div class="register-left">
