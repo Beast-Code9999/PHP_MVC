@@ -18,17 +18,10 @@
                 </div>
             </div>
             <nav class="nav-right">
-<<<<<<< HEAD
                 <a href="<?= base_url() ?>" class="nav-link">Home</a>
                 <a href="<?= base_url('articles') ?>" class="nav-link">Articles</a>
                 <a href="<?= base_url('about') ?>" class="nav-link">About Us</a>
                 <a href="<?= base_url('user/login') ?>" class="login-btn">Login</a>
-=======
-                <a href="<?php echo base_url('/'); ?>" class="nav-link">Home</a>
-                <a href="/PHP_MVC/public/articles" class="nav-link">Articles</a>
-                <a href="<?php echo base_url('/about'); ?>" class="nav-link">About Us</a>
-                <a href="/PHP_MVC/public/user/login" class="login-btn">Login</a>
->>>>>>> ca0901df5525c16c4c1c623b2ba808772c7a9eed
             </nav>
         </div>
     </header>
