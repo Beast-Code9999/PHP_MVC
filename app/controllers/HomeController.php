@@ -47,4 +47,18 @@ class HomeController {
 
         render('home/contact', $data); // location of directory is home/contact
     }
+
+    public function article() {
+        // route the index.php 
+        // require_once __DIR__ . '/../views/home/index.php';
+        echo views_path('home/articles.php');
+
+        $data = [
+            'title' => 'Articles page',
+            'message' => 'Welcome to the articles page',
+        ];
+
+        render('home/articles', $data); // location of directory is home/article
+    }
+
 }
