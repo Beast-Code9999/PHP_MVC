@@ -20,4 +20,8 @@ class UserController {
         render('users/login', $data);
     }
     
+
+    public function registerUser() {
+        
+    }
 }

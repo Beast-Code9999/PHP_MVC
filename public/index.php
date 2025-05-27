@@ -19,6 +19,31 @@ $request = isset($_GET['url']) ? rtrim($_GET['url'], '/') : ''; // if request is
 // For "user/login" → $request = "user/login"
 // For "" (homepage) → $request = ""
 
+
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+$method = $_SERVER['REQUEST_METHOD'];
+
+
+
+
+
+if(isset($routes[$method][$request])) {
+    list($controller, $action) = explode('@', $routes[$method][$request]); // get either GET or POST then the URI
+
+    var_dump($action);
+    var_dump($controller);
+
+    require_once __DIR__ . '/../app/controllers/' . $controller . '.php';
+
+    $controllerInstance = new $controller;
+
+    $controllerInstance->$action();
+} else {
+    http_reponse_code(404);
+    echo "404 Not found";
+}
+
 if(array_key_exists($request, $routes)) {
 
     // var_dump(rtrim($_GET['url'], '/'));
@@ -47,6 +72,8 @@ if(array_key_exists($request, $routes)) {
     // dynamically grabbing controllers and instantiating the class to have access to the method
     $controller = new $controllerName(); // create new class of controller
     $controller->$methodName(); // find the right method within the file
+
+
 
     echo "True key exists in the routes";
 } else {
