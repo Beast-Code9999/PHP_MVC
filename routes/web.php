@@ -1,11 +1,35 @@
 <?php 
 
-// associative arrays of routes
+
+
 $routes = [
-    '' => 'HomeController@index', // home controller with class index
-    'about' => 'HomeController@about',
-    'user/login' => 'UserController@login', 
+    'GET' => [
+        '' => 'HomeController@index', // home controller with class index
+        'about' => 'HomeController@about',
+        'user/login' => 'UserController@login', 
+        'contact' => 'HomeController@contact',
+        'articles' => 'HomeController@article',
+        'user/register' => 'UserController@register',
+        'login' => 'UserController@login',
+        'admin/dashboard'=> 'AdminController@dashboard',
+    ],
+    'POST' => [
+        'register' => 'UserController@registerUser',
+        'user/login' => 'UserController@loginUser',
+    ],
 ];
+
+// associative arrays of routes
+// $routes = [
+//     '' => 'HomeController@index', // home controller with class index
+//     'about' => 'HomeController@about',
+//     'user/login' => 'UserController@login', 
+//     'contact' => 'HomeController@contact',
+//     'user/register' => 'UserController@register',
+//     'login' => 'UserController@login',
+// ];
+
+
 
 
 

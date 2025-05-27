@@ -19,38 +19,65 @@ $request = isset($_GET['url']) ? rtrim($_GET['url'], '/') : ''; // if request is
 // For "user/login" → $request = "user/login"
 // For "" (homepage) → $request = ""
 
-if(array_key_exists($request, $routes)) {
 
-    // var_dump(rtrim($_GET['url'], '/'));
-    // var_dump($routes[$request]);
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-    $route = explode('@', $routes[$request]);
-
-    // route testing
-    // echo "<pre>";
-    // print_r($route);
-    // echo "</pre>";
+$method = $_SERVER['REQUEST_METHOD'];
 
 
-    /* it will look something like this 
-    Array
-        (
-            [0] => HomeController // the controlelr
-            [1] => index // the method
-            [2] => testing
-        )
-    */
 
-    $controllerName = $route[0];
-    $methodName = $route[1];
 
-    // dynamically grabbing controllers and instantiating the class to have access to the method
-    $controller = new $controllerName(); // create new class of controller
-    $controller->$methodName(); // find the right method within the file
 
-    echo "True key exists in the routes";
+if(isset($routes[$method][$request])) {
+    list($controller, $action) = explode('@', $routes[$method][$request]); // get either GET or POST then the URI
+
+    var_dump($action);
+    var_dump($controller);
+
+    require_once __DIR__ . '/../app/controllers/' . $controller . '.php';
+
+    $controllerInstance = new $controller;
+
+    $controllerInstance->$action();
 } else {
-    // later include a 404 page
-
-    echo "404 - Page not found";
+    http_response_code(404);
+    echo "404 Not found";
 }
+
+// if(array_key_exists($request, $routes)) {
+
+//     // var_dump(rtrim($_GET['url'], '/'));
+//     // var_dump($routes[$request]);
+
+//     $route = explode('@', $routes[$request]);
+
+//     // route testing
+//     // echo "<pre>";
+//     // print_r($route);
+//     // echo "</pre>";
+
+
+//     /* it will look something like this 
+//     Array
+//         (
+//             [0] => HomeController // the controlelr
+//             [1] => index // the method
+//             [2] => testing
+//         )
+//     */
+
+//     $controllerName = $route[0];
+//     $methodName = $route[1];
+
+//     // dynamically grabbing controllers and instantiating the class to have access to the method
+//     $controller = new $controllerName(); // create new class of controller
+//     $controller->$methodName(); // find the right method within the file
+
+
+
+//     echo "True key exists in the routes";
+// } else {
+//     // later include a 404 page
+
+//     echo "404 - Page not found";
+// }

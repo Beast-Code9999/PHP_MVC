@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($title) ? $title : 'News Website'; ?></title>
-    <link rel="stylesheet" href="/PHP_MVC/public/css/hero.css">
+    <link rel="stylesheet" href="<?php echo base_url('css/hero.css')?>">
 </head>
 <body>
     <!-- Header/Navigation -->
@@ -18,9 +18,9 @@
                 </div>
             </div>
             <nav class="nav-right">
-                <a href="/PHP_MVC/public/" class="nav-link">Home</a>
+                <a href="<?php echo base_url('/'); ?>" class="nav-link">Home</a>
                 <a href="/PHP_MVC/public/articles" class="nav-link">Articles</a>
-                <a href="/PHP_MVC/public/about" class="nav-link">About Us</a>
+                <a href="<?php echo base_url('/about'); ?>" class="nav-link">About Us</a>
                 <a href="/PHP_MVC/public/user/login" class="login-btn">Login</a>
             </nav>
         </div>
@@ -56,8 +56,8 @@
             
             <div class="footer-center">
                 <div class="footer-links">
-                    <a href="#" class="footer-link">About Us</a>
-                    <a href="#" class="footer-link">Contact us</a>
+                    <a href="<?= base_url('about') ?>" class="footer-link">About Us</a>
+                    <a href="<?= base_url('contact') ?>" class="footer-link">Contact Us</a>
                     <a href="#" class="footer-link">Legal</a>
                 </div>
             </div>
