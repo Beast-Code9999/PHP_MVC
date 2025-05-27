@@ -22,6 +22,6 @@ class UserController {
     
 
     public function registerUser() {
-        
+        var_dump($_POST);
     }
 }

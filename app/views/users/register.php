@@ -10,7 +10,7 @@
     <div class="register-container">
         <div class="register-left">
             <div class="register-form">
-                <form action="/register" method="POST" class="form">
+                <form action="<?php echo base_url('register'); ?>" method="POST" class="form">
                     <div class="form-group">
                         <input type="text" name="username" placeholder="Full Name" class="form-input" required>
                     </div>
