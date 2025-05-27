@@ -9,7 +9,7 @@ class HomeController {
 
         // echo base_url();
         // echo base_path();
-        echo views_path('home/index.php');
+        // echo views_path('home/index.php');
 
         $data = [
             'title' => 'This is the main home page title',
