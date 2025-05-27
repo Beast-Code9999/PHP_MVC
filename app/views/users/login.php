@@ -18,6 +18,13 @@
                     <div class="form-group">
                         <input type="password" name="password" placeholder="Password" class="form-input" required>
                     </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="remember_me" class="checkbox-input">
+                            <span class="checkbox-text">Remember Me</span>
+                        </label>
+                    </div>
                     
                     <button type="submit" class="login-btn">Login</button>
                 </form>
