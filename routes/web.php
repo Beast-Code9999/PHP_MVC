@@ -13,7 +13,8 @@ $routes = [
         'login' => 'UserController@login',
     ],
     'POST' => [
-        'register' => 'UserController@registerUser', 
+        'register' => 'UserController@registerUser',
+        'user/login' => 'UserController@loginUser',
     ],
 ];
 

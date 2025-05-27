@@ -10,6 +10,18 @@
     <div class="login-container">
         <div class="login-left">
             <div class="login-form">
+
+                <!-- Show error messages if present -->
+                <?php if (!empty($errors)): ?>
+                    <div class="error-messages">
+                        <ul style="color: red;">
+                            <?php foreach ($errors as $error): ?>
+                                <li><?php echo htmlspecialchars($error); ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                <?php endif; ?>
+
                 <form action="<?php echo base_url('user/login'); ?>" method="POST" class="form">
                     <div class="form-group">
                         <input type="email" name="email" placeholder="Email Address" class="form-input" required>

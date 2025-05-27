@@ -14,7 +14,7 @@ class User {
 
         $stmt = $this->conn->prepare($sql);
 
-        $hashedPassword = $password; // plain for now, change to password_hash($password, PASSWORD_DEFAULT) later
+        $hashedPassword = $password; // You can switch this to password_hash($password, PASSWORD_DEFAULT)
 
         return $stmt->execute([
             ':username' => $username,
@@ -22,5 +22,14 @@ class User {
             ':password' => $hashedPassword,
             ':role_id' => 3, // default role = user
         ]);
+    }
+
+    //login method
+
+    public function findByEmail($email) {
+        $sql = "SELECT * FROM users WHERE email = :email LIMIT 1";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':email' => $email]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
