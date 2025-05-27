@@ -40,7 +40,7 @@ if(isset($routes[$method][$request])) {
 
     $controllerInstance->$action();
 } else {
-    http_reponse_code(404);
+    http_response_code(404);
     echo "404 Not found";
 }
 
