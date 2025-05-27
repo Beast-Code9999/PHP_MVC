@@ -11,6 +11,7 @@ $routes = [
         'articles' => 'HomeController@article',
         'user/register' => 'UserController@register',
         'login' => 'UserController@login',
+        'admin/dashboard'=> 'AdminController@dashboard',
     ],
     'POST' => [
         'register' => 'UserController@registerUser',
