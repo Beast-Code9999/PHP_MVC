@@ -10,6 +10,17 @@
     <div class="register-container">
         <div class="register-left">
             <div class="register-form">
+
+                <?php if (!empty($errors)): ?>
+                    <div class="error-messages">
+                        <ul style="color: red;">
+                            <?php foreach ($errors as $error): ?>
+                                <li><?php echo htmlspecialchars($error); ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                <?php endif; ?>
+
                 <form action="<?php echo base_url('register'); ?>" method="POST" class="form">
                     <div class="form-group">
                         <input type="text" name="username" placeholder="Full Name" class="form-input" required>
