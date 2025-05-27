@@ -8,12 +8,12 @@ $routes = [
         'about' => 'HomeController@about',
         'user/login' => 'UserController@login', 
         'contact' => 'HomeController@contact',
+        'articles' => 'HomeController@article',
         'user/register' => 'UserController@register',
         'login' => 'UserController@login',
-        'articles' => 'HomeController@article',
     ],
     'POST' => [
-         
+        '/register' => 'UserController@registerUser', 
     ],
 ];
 

@@ -10,9 +10,9 @@
     <div class="register-container">
         <div class="register-left">
             <div class="register-form">
-                <form action="<?php echo base_url('user/register'); ?>" method="POST" class="form">
+                <form action="/register" method="POST" class="form">
                     <div class="form-group">
-                        <input type="text" name="full_name" placeholder="Full Name" class="form-input" required>
+                        <input type="text" name="username" placeholder="Full Name" class="form-input" required>
                     </div>
                     
                     <div class="form-group">

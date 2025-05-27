@@ -44,40 +44,40 @@ if(isset($routes[$method][$request])) {
     echo "404 Not found";
 }
 
-if(array_key_exists($request, $routes)) {
+// if(array_key_exists($request, $routes)) {
 
-    // var_dump(rtrim($_GET['url'], '/'));
-    // var_dump($routes[$request]);
+//     // var_dump(rtrim($_GET['url'], '/'));
+//     // var_dump($routes[$request]);
 
-    $route = explode('@', $routes[$request]);
+//     $route = explode('@', $routes[$request]);
 
-    // route testing
-    // echo "<pre>";
-    // print_r($route);
-    // echo "</pre>";
-
-
-    /* it will look something like this 
-    Array
-        (
-            [0] => HomeController // the controlelr
-            [1] => index // the method
-            [2] => testing
-        )
-    */
-
-    $controllerName = $route[0];
-    $methodName = $route[1];
-
-    // dynamically grabbing controllers and instantiating the class to have access to the method
-    $controller = new $controllerName(); // create new class of controller
-    $controller->$methodName(); // find the right method within the file
+//     // route testing
+//     // echo "<pre>";
+//     // print_r($route);
+//     // echo "</pre>";
 
 
+//     /* it will look something like this 
+//     Array
+//         (
+//             [0] => HomeController // the controlelr
+//             [1] => index // the method
+//             [2] => testing
+//         )
+//     */
 
-    echo "True key exists in the routes";
-} else {
-    // later include a 404 page
+//     $controllerName = $route[0];
+//     $methodName = $route[1];
 
-    echo "404 - Page not found";
-}
+//     // dynamically grabbing controllers and instantiating the class to have access to the method
+//     $controller = new $controllerName(); // create new class of controller
+//     $controller->$methodName(); // find the right method within the file
+
+
+
+//     echo "True key exists in the routes";
+// } else {
+//     // later include a 404 page
+
+//     echo "404 - Page not found";
+// }
