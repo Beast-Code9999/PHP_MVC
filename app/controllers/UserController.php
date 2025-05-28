@@ -80,16 +80,24 @@ class UserController {
 
     public function loginUser() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $email = $_POST['email'] ?? '';
-            $password = $_POST['password'] ?? '';
-
-            $userModel = new User();
-            $user = $userModel->findByEmail($email);
+            $email = trim($_POST['email']);
+            $password = $_POST['password'];
 
             $errors = [];
 
-            if ($user) {
-                if ($password === $user['password']) {
+            if (empty($email) || empty($password)) {
+                $errors[] = "Email and password are required.";
+            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $errors[] = "Invalid email format.";
+            }
+
+            if (empty($errors)) {
+                $userModel = new User();
+                $user = $userModel->findByEmail($email);
+
+                // 🔐 Check if user exists and password matches
+                if ($user && password_verify($password, $user['password'])) {
+                    // ✅ Login success
                     $_SESSION['user'] = [
                         'id' => $user['id'],
                         'username' => $user['username'],
@@ -97,27 +105,26 @@ class UserController {
                         'role_id' => $user['role_id'],
                     ];
 
-                    if (in_array($user['role_id'], [1, 2, 10])) {
+                    // Redirect based on role
+                    if ($user['role_id'] == 10) {
                         header('Location: ' . base_url('admin/dashboard'));
                     } else {
                         header('Location: ' . base_url(''));
                     }
                     exit;
                 } else {
-                    $errors[] = 'Incorrect password.';
+                    $errors[] = "Invalid email or password.";
                 }
-            } else {
-                $errors[] = 'No account found with that email.';
             }
 
+            // Show login view with errors
             render('users/login', [
-                'title' => 'Login Page',
-                'errors' => $errors
+                'title' => 'Login',
+                'errors' => $errors,
             ]);
-
         } else {
-            header('Location: ' . base_url('user/login'));
-            exit;
+            // Show login form
+            render('users/login', ['title' => 'Login']);
         }
     }
 
