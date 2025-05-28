@@ -1,4 +1,9 @@
 <h2>Admin Dashboard – User List</h2>
+
+<?php if ($_SESSION['user']['role_id'] == 10): ?>
+    <a href="/PHP_MVC/public/admin/createUser" class="btn-create">Create New User</a>
+<?php endif; ?>
+
 <table>
     <tr>
         <th>ID</th>
@@ -7,6 +12,7 @@
         <th>Role</th>
         <th>Actions</th>
     </tr>
+
     <?php foreach ($users as $user): ?>
         <tr>
             <td><?= htmlspecialchars($user['id']) ?></td>

@@ -38,7 +38,7 @@ footer {
 }
 
 h2 {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
 }
 
 table {
@@ -47,6 +47,7 @@ table {
     background: white;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     overflow-x: auto;
+    margin-top: 2rem;
 }
 
 th, td {
@@ -57,6 +58,21 @@ th, td {
 
 th {
     background-color: #f8f8f8;
+}
+
+.btn-create {
+    background-color: #00b62d;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: background-color 0.3s;
+
+}
+
+.btn-create:hover {
+    background-color: #00741d;
 }
 
 a.btn-delete, a.btn-update {
@@ -135,3 +151,4 @@ body.dark-mode .btn-delete {
 body.dark-mode .btn-update {
     background: #2980b9;
 }
+
