@@ -24,39 +24,3 @@
         </tr>
     <?php endforeach; ?>
 </table>
-
-<style>
-    body { font-family: Arial; padding: 2rem; background: #f0f0f0; }
-    table { width: 100%; border-collapse: collapse; background: white; }
-    th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
-    th { background-color: #eee; }
-    h2 { margin-bottom: 1rem; }
-    .btn-update,
-.btn-delete {
-    padding: 6px 12px;
-    text-decoration: none;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    color: white; 
-}
-
-.btn-update {
-    background-color: #007bff;
-}
-
-.btn-update:hover {
-    background-color: #0056b3;
-}
-
-.btn-delete {
-    background-color: #dc3545;
-}
-
-.btn-delete:hover {
-    background-color: #c82333;
-}
-
-</style>
