@@ -1,3 +1,4 @@
 <?php 
 
-const BASE_URL = "http://localhost/PHP_MVC/public/";
+define('BASE_URL', '/PHP_MVC/public');
+

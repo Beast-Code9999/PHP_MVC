@@ -1,7 +1,5 @@
 <?php 
 
-
-
 $routes = [
     'GET' => [
         '' => 'HomeController@index', // home controller with class index
@@ -12,10 +10,16 @@ $routes = [
         'user/register' => 'UserController@register',
         'login' => 'UserController@login',
         'admin/dashboard'=> 'AdminController@dashboard',
+        'admin/userlist' => 'AdminController@userList',
+        'admin/updateUser' => 'AdminController@updateUser',
+
+
     ],
     'POST' => [
         'register' => 'UserController@registerUser',
         'user/login' => 'UserController@loginUser',
+        'admin/updateUser' => 'AdminController@updateUser',
+
     ],
 ];
 
