@@ -35,9 +35,19 @@ class User {
 
     // Fetch all users
     public function getAllUsers() {
-    $sql = "SELECT id, username, email, role_id FROM users";
-    $stmt = $this->conn->query($sql);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+        $sql = "SELECT id, username, email, role_id FROM users";
+        $stmt = $this->conn->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
+    // Delete User (with associated articles)
+    public function deleteUserById($id) {
+        // First delete all articles authored by the user
+        $stmtArticles = $this->conn->prepare("DELETE FROM articles WHERE author_id = ?");
+        $stmtArticles->execute([$id]);
+
+        // Then delete the user
+        $stmtUser = $this->conn->prepare("DELETE FROM users WHERE id = ?");
+        return $stmtUser->execute([$id]);
+    }
 }

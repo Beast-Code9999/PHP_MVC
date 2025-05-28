@@ -16,7 +16,9 @@
             <td>
                 <?php if ($currentUserId != $user['id']): ?>
                     <a class="btn-update" href="/PHP_MVC/public/admin/updateUser?id=<?= $user['id'] ?>">Update</a>
-                    <a class="btn-delete" href="/admin/delete_user?id=<?= $user['id'] ?>" onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
+                    <a class="btn-delete" 
+                        href="/PHP_MVC/public/admin/deleteUser?id=<?= $user['id'] ?>" 
+                        onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
                 <?php else: ?>
                     (You)
                 <?php endif; ?>
@@ -24,3 +26,4 @@
         </tr>
     <?php endforeach; ?>
 </table>
+
