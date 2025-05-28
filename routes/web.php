@@ -20,7 +20,7 @@ $routes = [
         'admin/reviewArticles' => 'AdminController@reviewArticles',
         'admin/editArticles' => 'AdminController@editArticles',
         'admin/deletearticle ' => 'AdminController@deleteArticles',
-
+        'admin/createUser' => 'AdminController@createUser',
 
     ],
     'POST' => [
