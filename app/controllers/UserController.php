@@ -95,26 +95,32 @@ class UserController {
                 $userModel = new User();
                 $user = $userModel->findByEmail($email);
 
-                // 🔐 Check if user exists and password matches
-                if ($user && password_verify($password, $user['password'])) {
-                    // ✅ Login success
-                    $_SESSION['user'] = [
-                        'id' => $user['id'],
-                        'username' => $user['username'],
-                        'email' => $user['email'],
-                        'role_id' => $user['role_id'],
-                    ];
+                if ($user) {
+                    $hashedPassword = $user['password'];
 
-                    // Redirect based on role
-                    if ($user['role_id'] == 10) {
-                        header('Location: ' . base_url('admin/dashboard'));
-                    } else {
-                        header('Location: ' . base_url(''));
+                    // Accept both hashed and plain text passwords
+                    $isValidPassword = password_verify($password, $hashedPassword) || $password === $hashedPassword;
+
+                    if ($isValidPassword) {
+                        // ✅ Login success
+                        $_SESSION['user'] = [
+                            'id' => $user['id'],
+                            'username' => $user['username'],
+                            'email' => $user['email'],
+                            'role_id' => $user['role_id'],
+                        ];
+
+                        // Redirect based on role
+                        if ($user['role_id'] == 10) {
+                            header('Location: ' . base_url('admin/dashboard'));
+                        } else {
+                            header('Location: ' . base_url(''));
+                        }
+                        exit;
                     }
-                    exit;
-                } else {
-                    $errors[] = "Invalid email or password.";
                 }
+
+                $errors[] = "Invalid email or password.";
             }
 
             // Show login view with errors
