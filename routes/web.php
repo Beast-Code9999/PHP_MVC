@@ -15,6 +15,10 @@ $routes = [
         'admin/userlist' => 'AdminController@userList',
         'admin/updateUser' => 'AdminController@updateUser',
         'admin/deleteUser' => 'AdminController@deleteUser',
+        'admin/reviewArticles' => 'AdminController@reviewArticles',
+        'admin/editArticles' => 'AdminController@editArticles',
+        'admin/deletearticle ' => 'AdminController@deleteArticles',
+
 
     ],
     'POST' => [
