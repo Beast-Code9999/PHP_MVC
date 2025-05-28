@@ -16,73 +16,67 @@ class UserController {
         render('users/login', $data);
     }
 
-public function createUser() {
-    if (!isset($_SESSION['user']) || $_SESSION['user']['role_id'] != 10) {
-        die("Access denied. Only admins can access this page.");
-    }
+    public function registerUser() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $username = trim($_POST['username']);
+            $email = trim($_POST['email']);
+            $password = $_POST['password'];
+            $confirmPassword = $_POST['confirm_password'];
+            $agreeTerms = isset($_POST['agree_terms']);
 
-    $roleNames = [
-        1 => 'Author',
-        2 => 'Editor',
-        3 => 'User',
-        10 => 'Admin'
-    ];
+            $errors = [];
 
-    $errors = [];
-    $success = '';
+            // Validation
+            if (empty($username) || empty($email) || empty($password) || empty($confirmPassword)) {
+                $errors[] = "All fields are required.";
+            }
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $username = trim($_POST['username']);
-        $email = trim($_POST['email']);
-        $password = $_POST['password'];
-        $confirmPassword = $_POST['confirm_password'];
-        $role_id = (int)$_POST['role_id'];
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $errors[] = "Invalid email format.";
+            }
 
-        // Validation
-        if (empty($username) || empty($email) || empty($password) || empty($confirmPassword)) {
-            $errors[] = "All fields are required.";
-        }
+            if ($password !== $confirmPassword) {
+                $errors[] = "Passwords do not match.";
+            }
 
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errors[] = "Invalid email format.";
-        }
+            if (!$agreeTerms) {
+                $errors[] = "You must agree to the privacy policy.";
+            }
 
-        if ($password !== $confirmPassword) {
-            $errors[] = "Passwords do not match.";
-        }
+            // Check for duplicate username or email
+            $user = new User();
 
-        if (!in_array($role_id, array_keys($roleNames))) {
-            $errors[] = "Invalid role selected.";
-        }
+            if ($user->usernameExists($username)) {
+                $errors[] = "The username is already taken.";
+            }
 
-        $userModel = new User();
+            if ($user->emailExists($email)) {
+                $errors[] = "The email is already registered.";
+            }
 
-        if ($userModel->usernameExists($username)) {
-            $errors[] = "The username is already taken.";
-        }
+            if (!empty($errors)) {
+                render('users/register', [
+                    'title' => 'Register Page',
+                    'errors' => $errors
+                ]);
+                return;
+            }
 
-        if ($userModel->emailExists($email)) {
-            $errors[] = "The email is already registered.";
-        }
+            // Save user
+            $created = $user->create($username, $email, $password);
 
-        // Create user if no errors
-        if (empty($errors)) {
-            $created = $userModel->createByAdmin($username, $email, $password, $role_id);
             if ($created) {
-                $success = "User created successfully.";
+                header('Location: ' . base_url('user/login'));
+                exit;
             } else {
-                $errors[] = "An error occurred. Could not create user.";
+                $errors[] = "An error occurred while creating your account. Please try again.";
+                render('users/register', [
+                    'title' => 'Register Page',
+                    'errors' => $errors
+                ]);
             }
         }
     }
-
-    render('admin/createUser', [
-        'title' => 'Create User',
-        'errors' => $errors,
-        'success' => $success,
-        'roleNames' => $roleNames
-    ], layout: 'admin/layout');
-}
 
     public function loginUser() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
