@@ -42,7 +42,7 @@
 
 .login-form .form-input:focus {
     outline: none;
-    border-color: #8b7cf8;
+    border-color: #9E829C;
     background-color: white;
     box-shadow: 0 0 0 3px rgba(139, 124, 248, 0.1);
 }
@@ -66,11 +66,11 @@
 
 .login-form .remember-input {
     margin-top: 0.2rem;
-    accent-color: #8b7cf8;
+    accent-color: #9E829C;
 }
 
 .login-form .login-btn {
-    background-color: #8b7cf8;
+    background-color: #9E829C;
     color: white;
     border: none;
     padding: 1rem 2rem;
@@ -83,7 +83,7 @@
 }
 
 .login-form .login-btn:hover {
-    background-color: #7c6df0;
+    background-color: #8b7189;
     transform: translateY(-2px);
 }
 
