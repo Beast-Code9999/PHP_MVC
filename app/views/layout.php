@@ -11,14 +11,16 @@
     <header class="header">
         <div class="nav-container">
             <div class="nav-left">
-                <h1 class="logo">NEWS</h1>
+                <a href="<?php echo base_url('')?>">
+                    <h1 class="logo">NEWS</h1>
+                </a>
                 <div class="search-box">
                     <input type="text" placeholder="Search articles..." class="search-input">
                     <span class="search-icon">🔍</span>
                 </div>
             </div>
             <nav class="nav-right">
-                <a href="<?= base_url() ?>" class="nav-link">Home</a>
+                <a href="<?= base_url('') ?>" class="nav-link">Home</a>
                 <a href="<?= base_url('articles') ?>" class="nav-link">Articles</a>
                 <a href="<?= base_url('about') ?>" class="nav-link">About Us</a>
 
