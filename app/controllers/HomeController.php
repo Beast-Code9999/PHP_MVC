@@ -3,8 +3,6 @@
 
 class HomeController {
 
-    
-
     public function index() {
         // route the index.php 
         // require_once __DIR__ . '/../views/home/index.php';
@@ -51,16 +49,28 @@ class HomeController {
     }
 
     public function article() {
-        // route the index.php 
-        // require_once __DIR__ . '/../views/home/index.php';
-        echo views_path('home/articles.php');
-
+        // Connect to the database
+        $db = new Database();
+        $pdo = $db->connect();
+        
+        // Query to get all published articles
+        $sql = "SELECT a.*, u.username as author_name 
+                FROM articles a 
+                LEFT JOIN users u ON a.author_id = u.id 
+                WHERE a.is_published = 1
+                ORDER BY a.created_at DESC";
+        
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
         $data = [
-            'title' => 'Articles page',
-            'message' => 'Welcome to the articles page',
+            'title' => 'Articles',
+            'message' => 'Latest Articles',
+            'articles' => $articles
         ];
-
-        render('home/articles', $data); // location of directory is home/article
+        
+        render('home/articles', $data);
     }
 
 }

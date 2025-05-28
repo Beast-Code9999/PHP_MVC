@@ -1,24 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Articles</title>
-    <link rel="stylesheet" href="/public/css/articles.css">
+    <link rel="stylesheet" href="<?php echo base_url('css/homeArticles.css')?>">
 </head>
-<body>
-    <h1>Articles</h1>
-    <?php if (!empty($articles) && is_array($articles)): ?>
-        <ul>
+
+
+<div class="articles-container">
+    <h1><?= $title ?></h1>
+    <p class="intro-message"><?= $message ?></p>
+
+    <?php if (!empty($articles)): ?>
+        <div class="articles-grid">
             <?php foreach ($articles as $article): ?>
-                <li>
-                    <h2><?php echo htmlspecialchars($article['title']); ?></h2>
-                    <p><?php echo nl2br(htmlspecialchars($article['content'])); ?></p>
-                    <small>Published on: <?php echo htmlspecialchars($article['created_at']); ?></small>
-                </li>
+                <article class="article-card">
+                    <h2 class="article-title"><?= htmlspecialchars($article['title']) ?></h2>
+                    <div class="article-meta">
+                        <span class="article-author">By <?= htmlspecialchars($article['author_name']) ?></span>
+                        <span class="article-date"><?= date('F j, Y', strtotime($article['created_at'])) ?></span>
+                    </div>
+                    <div class="article-content">
+                        <?php 
+                        // Display a preview of the content (first 150 characters)
+                        $preview = substr($article['content'], 0, 150);
+                        echo htmlspecialchars($preview);
+                        if (strlen($article['content']) > 150) echo '...';
+                        ?>
+                    </div>
+                    <a href="/article/<?= $article['id'] ?>" class="read-more-btn">Read More</a>
+                </article>
             <?php endforeach; ?>
-        </ul>
+        </div>
     <?php else: ?>
-        <p>No articles found.</p>
+        <p class="no-articles">No articles have been published yet.</p>
     <?php endif; ?>
-</body>
-</html>
+</div>
