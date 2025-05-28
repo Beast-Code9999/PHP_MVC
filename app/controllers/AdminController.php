@@ -5,7 +5,16 @@ require_once __DIR__ . '/../models/User.php';
 
 class AdminController {
     public function dashboard() {
-        $data = [];
+        if (!isset($_SESSION['user'])) {
+            die("Access denied. Please log in.");
+        }
+    
+        $roleId = $_SESSION['user']['role_id'];
+    
+        $data = [
+            'roleId' => $roleId
+        ];
+        
         render('admin/dashboard', $data, "admin/layout");
     }
 
