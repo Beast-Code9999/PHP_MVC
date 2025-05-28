@@ -17,7 +17,7 @@ $routes = [
         'admin/userlist' => 'AdminController@userList',
         'admin/updateUser' => 'AdminController@updateUser',
         'admin/deleteUser' => 'AdminController@deleteUser',
-        'admin/articles' => 'AdminController@articles'
+        'admin/articles' => 'AdminController@articles',
         
         'admin/reviewArticles' => 'AdminController@reviewArticles',
         'admin/editArticles' => 'AdminController@editArticles',
