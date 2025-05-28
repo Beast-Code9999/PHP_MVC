@@ -30,7 +30,7 @@ class AdminController {
             'currentUserId' => $_SESSION['user']['id'] ?? null,
         ];
 
-        render('admin/userlist', $data, layout:'admin/userlist');
+        render('admin/userlist', $data, layout:'admin/layout');
     }
 
     public function updateUser() {
