@@ -19,6 +19,6 @@
 
     <div class="section-box">
         <h2>Articles</h2>
-        <a href="/PHP_MVC/public/admin/articles/published" class="pill-button">All Articles</a>
+        <a href="/PHP_MVC/public/admin/articles" class="pill-button">All Articles</a>
     </div>
 </div>
