@@ -24,7 +24,7 @@
                         if (strlen($article['content']) > 150) echo '...';
                         ?>
                     </div>
-                    <a href="/article/<?= $article['id'] ?>" class="read-more-btn">Read More</a>
+                    <a href="/PHP_MVC/public/article?id=<?= $article['id'] ?>" class="read-more-btn">Read More</a>
                 </article>
             <?php endforeach; ?>
         </div>
