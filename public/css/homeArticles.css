@@ -39,6 +39,11 @@ h1 {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    min-height: 320px; /* Set a minimum height for consistency */
 }
 
 .article-card:hover {
@@ -63,23 +68,28 @@ h1 {
 
 .article-content {
     color: #444;
-    margin-bottom: 1.5rem;
     line-height: 1.5;
+    margin-bottom: 1rem;
+    flex-grow: 1; /* Allow content to grow but keep button at bottom */
 }
 
 .read-more-btn {
     display: inline-block;
     padding: 0.5rem 1rem;
-    background-color: #3b82f6;
+    background-color: #9E829C;
     color: white;
     text-decoration: none;
     border-radius: 4px;
     font-weight: 500;
     transition: background-color 0.2s ease;
+    align-self: flex-start;
+    margin-top: auto; /* Push button to bottom */
+    position: absolute;
+    bottom: 1.5rem;
 }
 
 .read-more-btn:hover {
-    background-color: #2563eb;
+    background-color: #9E829C;
 }
 
 .no-articles {
@@ -99,5 +109,9 @@ h1 {
     
     .articles-container {
         padding: 1rem;
+    }
+    
+    .article-card {
+        min-height: 280px; /* Slightly smaller on mobile */
     }
 }

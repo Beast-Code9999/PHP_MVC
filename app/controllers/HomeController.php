@@ -73,4 +73,41 @@ class HomeController {
         render('home/articles', $data);
     }
 
+
+    public function singleArticle() {
+        // Get ID from query parameter
+        if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+            header("Location: /PHP_MVC/public/articles");
+            exit;
+        }
+        
+        $id = (int)$_GET['id'];
+        
+        // Connect to the database
+        $db = new Database();
+        $pdo = $db->connect();
+        
+        // Query to get the specific published article
+        $sql = "SELECT a.*, u.username as author_name 
+                FROM articles a 
+                LEFT JOIN users u ON a.author_id = u.id 
+                WHERE a.id = ? AND a.is_published = 1";
+        
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id]);
+        $article = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        // If article doesn't exist or isn't published, redirect to articles list
+        if (!$article) {
+            header("Location: /PHP_MVC/public/articles");
+            exit;
+        }
+        
+        $data = [
+            'title' => $article['title'],
+            'article' => $article
+        ];
+        
+        render('home/articleSingle', $data);
+    }
 }

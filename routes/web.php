@@ -4,12 +4,14 @@ $routes = [
     'GET' => [
         '' => 'HomeController@index',
         'about' => 'HomeController@about',
-        'user/login' => 'UserController@login',
-        'user/logout' => 'UserController@logout',
         'contact' => 'HomeController@contact',
         'articles' => 'HomeController@article',
+        'article' => 'HomeController@singleArticle',
+
         'user/register' => 'UserController@register',
         'login' => 'UserController@login',
+        'user/login' => 'UserController@login',
+        'user/logout' => 'UserController@logout',
 
         'admin/dashboard'=> 'AdminController@dashboard',
         'admin/userlist' => 'AdminController@userList',
