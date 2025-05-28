@@ -23,6 +23,9 @@ $routes = [
         'admin/editArticles' => 'AdminController@editArticles',
         'admin/deletearticle ' => 'AdminController@deleteArticles',
         'admin/createUser' => 'AdminController@createUser',
+        'admin/deleteArticle' => 'AdminController@deleteArticles',
+        
+
 
     ],
     'POST' => [
@@ -30,6 +33,8 @@ $routes = [
         'user/login' => 'UserController@loginUser',
         'admin/updateUser' => 'AdminController@updateUser',
         'admin/createUser' => 'AdminController@createUser',
+        'admin/editArticles' => 'AdminController@editArticles',
+
     ],
 ];
 
