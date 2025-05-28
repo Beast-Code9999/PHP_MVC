@@ -15,7 +15,7 @@
             <td><?= $roleNames[$user['role_id']] ?? 'Unknown' ?></td>
             <td>
                 <?php if ($currentUserId != $user['id']): ?>
-                    <a href="/PHP_MVC/public/admin/updateUser?id=<?= $user['id'] ?>">Update</a>
+                    <a class="btn-update" href="/PHP_MVC/public/admin/updateUser?id=<?= $user['id'] ?>">Update</a>
                     <a class="btn-delete" href="/admin/delete_user?id=<?= $user['id'] ?>" onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
                 <?php else: ?>
                     (You)
@@ -31,11 +31,32 @@
     th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
     th { background-color: #eee; }
     h2 { margin-bottom: 1rem; }
-    .btn-delete, .btn-update {
-        padding: 5px 10px;
-        text-decoration: none;
-        margin-right: 5px;
-    }
-    .btn-delete { color: red; }
-    .btn-update { color: blue; }
+    .btn-update,
+.btn-delete {
+    padding: 6px 12px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    color: white; 
+}
+
+.btn-update {
+    background-color: #007bff;
+}
+
+.btn-update:hover {
+    background-color: #0056b3;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
 </style>
