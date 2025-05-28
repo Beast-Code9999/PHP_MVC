@@ -196,5 +196,31 @@ class AdminController {
         render('admin/createUser', $data, layout: 'admin/layout');
     }
 
+    public function articles() {
+        if (!isset($_SESSION['user'])) {
+            die("Access denied. Please log in.");
+        }
+        
+        // Connect to database
+        $db = new Database();
+        $pdo = $db->connect();
+        
+        // Simple query to get all articles
+        $sql = "SELECT a.*, u.username as author_name 
+                FROM articles a 
+                LEFT JOIN users u ON a.author_id = u.id 
+                ORDER BY a.created_at DESC";
+                
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        $data = [
+            'articles' => $articles
+        ];
+        
+        render('admin/publishedArticles', $data, "admin/layout");
+    }
+
 }
 ?>
