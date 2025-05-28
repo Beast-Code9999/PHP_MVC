@@ -16,59 +16,73 @@ class UserController {
         render('users/login', $data);
     }
 
-    public function registerUser() {
-         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $username = trim($_POST['username']);
-            $email = trim($_POST['email']);
-            $password = $_POST['password'];
-            $confirmPassword = $_POST['confirm_password'];
-            $agreeTerms = isset($_POST['agree_terms']);
+public function createUser() {
+    if (!isset($_SESSION['user']) || $_SESSION['user']['role_id'] != 10) {
+        die("Access denied. Only admins can access this page.");
+    }
 
-            $errors = [];
+    $roleNames = [
+        1 => 'Author',
+        2 => 'Editor',
+        3 => 'User',
+        10 => 'Admin'
+    ];
 
-            // Validation
-            if (empty($username) || empty($email) || empty($password) || empty($confirmPassword)) {
-                $errors[] = "All fields are required.";
-            }
+    $errors = [];
+    $success = '';
 
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $errors[] = "Invalid email format.";
-            }
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $username = trim($_POST['username']);
+        $email = trim($_POST['email']);
+        $password = $_POST['password'];
+        $confirmPassword = $_POST['confirm_password'];
+        $role_id = (int)$_POST['role_id'];
 
-            if ($password !== $confirmPassword) {
-                $errors[] = "Passwords do not match.";
-            }
+        // Validation
+        if (empty($username) || empty($email) || empty($password) || empty($confirmPassword)) {
+            $errors[] = "All fields are required.";
+        }
 
-            if (!$agreeTerms) {
-                $errors[] = "You must agree to the privacy policy.";
-            }
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors[] = "Invalid email format.";
+        }
 
-            if (!empty($errors)) {
-                // Return back to the registration page with errors
-                render('users/register', [
-                    'title' => 'Register Page',
-                    'errors' => $errors
-                ]);
-                return;
-            }
+        if ($password !== $confirmPassword) {
+            $errors[] = "Passwords do not match.";
+        }
 
-            // Save user
-            $user = new User();
-            $created = $user->create($username, $email, $password);
+        if (!in_array($role_id, array_keys($roleNames))) {
+            $errors[] = "Invalid role selected.";
+        }
 
+        $userModel = new User();
+
+        if ($userModel->usernameExists($username)) {
+            $errors[] = "The username is already taken.";
+        }
+
+        if ($userModel->emailExists($email)) {
+            $errors[] = "The email is already registered.";
+        }
+
+        // Create user if no errors
+        if (empty($errors)) {
+            $created = $userModel->createByAdmin($username, $email, $password, $role_id);
             if ($created) {
-                // Redirect to login
-                header('Location: ' . base_url('user/login'));
-                exit;
+                $success = "User created successfully.";
             } else {
-                $errors[] = "An error occurred while creating your account. Please try again.";
-                render('users/register', [
-                    'title' => 'Register Page',
-                    'errors' => $errors
-                ]);
+                $errors[] = "An error occurred. Could not create user.";
             }
         }
     }
+
+    render('admin/createUser', [
+        'title' => 'Create User',
+        'errors' => $errors,
+        'success' => $success,
+        'roleNames' => $roleNames
+    ], layout: 'admin/layout');
+}
 
     public function loginUser() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -81,9 +95,7 @@ class UserController {
             $errors = [];
 
             if ($user) {
-                // Plaintext password check (for now; should hash later)
                 if ($password === $user['password']) {
-                    // Login success
                     $_SESSION['user'] = [
                         'id' => $user['id'],
                         'username' => $user['username'],
@@ -91,12 +103,9 @@ class UserController {
                         'role_id' => $user['role_id'],
                     ];
 
-                    // Role-based redirect - ONLY CHANGE HERE
                     if (in_array($user['role_id'], [1, 2, 10])) {
-                        // Authors, Editors, Admins go to admin dashboard
                         header('Location: ' . base_url('admin/dashboard'));
                     } else {
-                        // Regular users go to homepage
                         header('Location: ' . base_url(''));
                     }
                     exit;
@@ -107,27 +116,20 @@ class UserController {
                 $errors[] = 'No account found with that email.';
             }
 
-            // Redisplay login form with errors
-            $data = [
+            render('users/login', [
                 'title' => 'Login Page',
                 'errors' => $errors
-            ];
-            render('users/login', $data);
+            ]);
 
         } else {
-            // If not POST, redirect to login page
             header('Location: ' . base_url('user/login'));
             exit;
         }
     }
 
     public function logout() {
-        // Destroy the session
         session_destroy();
-        
-        // Redirect to homepage
         header('Location: ' . base_url(''));
         exit;
     }
 }
-
