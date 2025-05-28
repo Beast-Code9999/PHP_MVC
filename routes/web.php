@@ -14,6 +14,7 @@ $routes = [
         'admin/userlist' => 'AdminController@userList',
         'admin/updateUser' => 'AdminController@updateUser',
         'admin/deleteUser' => 'AdminController@deleteUser',
+        'admin/articles/published' => 'AdminController@articles',
 
     ],
     'POST' => [
@@ -33,9 +34,6 @@ $routes = [
 //     'user/register' => 'UserController@register',
 //     'login' => 'UserController@login',
 // ];
-
-
-
 
 
 // Browser → public/index.php → Router → Controller → render() → View

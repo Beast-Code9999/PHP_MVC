@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../models/User.php';
+require_once __DIR__ . '/../models/Article.php';
 
 class AdminController {
     public function dashboard() {
@@ -109,36 +110,62 @@ class AdminController {
     }
 
     
-public function deleteUser() {
-    if (!isset($_SESSION['user']) || $_SESSION['user']['role_id'] != 10) {
-        die("Access denied. Admins only.");
-    }
-
-    if (!isset($_GET['id'])) {
-        die("User ID is missing.");
-    }
-
-    $userId = (int)$_GET['id'];
-
-    require_once __DIR__ . '/../models/User.php';
-    $userModel = new User();
-
-    try {
-        if ($userModel->deleteUserById($userId)) {
-            header("Location: /PHP_MVC/public/admin/userlist");
-            exit;
-        } else {
-            die("Failed to delete user.");
+    public function deleteUser() {
+        if (!isset($_SESSION['user']) || $_SESSION['user']['role_id'] != 10) {
+            die("Access denied. Admins only.");
         }
-    } catch (PDOException $e) {
-        if ($e->getCode() == 23000) {
-            die("Cannot delete user: user has associated data (e.g. articles).");
-        } else {
-            die("Error deleting user: " . $e->getMessage());
+
+        if (!isset($_GET['id'])) {
+            die("User ID is missing.");
+        }
+
+        $userId = (int)$_GET['id'];
+
+        require_once __DIR__ . '/../models/User.php';
+        $userModel = new User();
+
+        try {
+            if ($userModel->deleteUserById($userId)) {
+                header("Location: /PHP_MVC/public/admin/userlist");
+                exit;
+            } else {
+                die("Failed to delete user.");
+            }
+        } catch (PDOException $e) {
+            if ($e->getCode() == 23000) {
+                die("Cannot delete user: user has associated data (e.g. articles).");
+            } else {
+                die("Error deleting user: " . $e->getMessage());
+            }
         }
     }
-}
 
+
+    public function articles() {
+        if (!isset($_SESSION['user'])) {
+            die("Access denied. Please log in.");
+        }
+        
+        // Connect to database
+        $db = new Database();
+        $pdo = $db->connect();
+        
+        // Simple query to get all articles
+        $sql = "SELECT a.*, u.username as author_name 
+                FROM articles a 
+                LEFT JOIN users u ON a.author_id = u.id 
+                ORDER BY a.created_at DESC";
+                
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        $data = [
+            'articles' => $articles
+        ];
+        
+        render('admin/publishedArticles', $data, "admin/layout");
+    }
 
 }
 ?>

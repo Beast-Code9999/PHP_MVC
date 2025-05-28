@@ -1,5 +1,5 @@
 <head>
-    <link rel="stylesheet" href="<?php echo base_url('css/admin_dashboard.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('css/adminDashboard.css')?>">
 </head>
 
 <div class="dashboard-section">
@@ -18,7 +18,7 @@
     <?php endif; ?>
 
     <div class="section-box">
-        <h2>Published Articles</h2>
-        <a href="/PHP_MVC/public/admin/articles/published" class="pill-button">Published Articles</a>
+        <h2>Articles</h2>
+        <a href="/PHP_MVC/public/admin/articles/published" class="pill-button">All Articles</a>
     </div>
 </div>
