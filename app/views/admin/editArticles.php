@@ -1,3 +1,4 @@
+
 <form method="post" enctype="multipart/form-data">
     <label>Title: <input type="text" name="title" value="<?= htmlspecialchars($article['title']) ?>"></label>
     <br>
@@ -18,9 +19,12 @@
     <br>
 
     <label>Upload New Image: <input type="file" name="image"></label>
-    <?php if (!empty($article['image_path'])): ?>
-        <p>Current Image: <img src="<?= $article['image_path'] ?>" width="150"></p>
+    <?php if (!empty($article['image_data'])): ?>
+    <p>Current Image:
+        <img src="data:image/jpeg;base64,<?= base64_encode($article['image_data']) ?>" width="150">
+    </p>
     <?php endif; ?>
+
     <br>
 
     <button type="submit">Save Changes</button>

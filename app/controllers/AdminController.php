@@ -222,5 +222,121 @@ class AdminController {
         render('admin/allArticles', $data, "admin/layout");
     }
 
+
+    public function reviewArticles() {
+    if (!isset($_SESSION['user']) || $_SESSION['user']['role_id'] != 10) {
+        die("Access denied. Admins only.");
+    }
+
+    $db = new Database();
+    $pdo = $db->connect();
+
+    $stmt = $pdo->query("
+    SELECT a.id, a.title, a.content, a.created_at, a.image_data, u.username 
+    FROM articles a
+    JOIN users u ON a.author_id = u.id
+    WHERE a.is_published = 0
+    ORDER BY a.created_at DESC
+    ");
+
+    $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $data = [
+        'articles' => $articles
+    ];
+
+    render('admin/reviewArticles', $data, layout: 'admin/layout');
+}
+
+    
+    public function editArticles() {
+    if (!isset($_SESSION['user']) || !in_array($_SESSION['user']['role_id'], [2, 10])) {
+        die("Access denied. Admins and Editors only");
+    }
+
+    define('MAX_BLOB_SIZE', 65535); // BLOB size limit (65,535 bytes)
+
+    $db = new Database();
+    $pdo = $db->connect();
+
+    $id = $_GET['id'] ?? null;
+    if (!$id) die("Missing article ID.");
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $title = trim($_POST['title']);
+        $content = trim($_POST['content']);
+        $isPublished = isset($_POST['is_published']) ? 1 : 0;
+        $allow_comments = isset($_POST['allow_comments']) ? 1 : 0;
+
+        // Fetch existing image
+        $stmt = $pdo->prepare("SELECT image_data FROM articles WHERE id = ?");
+        $stmt->execute([$id]);
+        $existing = $stmt->fetch(PDO::FETCH_ASSOC);
+        $imageData = $existing['image_data'];
+
+
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $imageTmp = $_FILES['image']['tmp_name'];
+            $imageSize = filesize($imageTmp);
+
+            if ($imageSize > MAX_BLOB_SIZE) {
+                $error = "Image is too large. Max allowed is " . number_format(MAX_BLOB_SIZE) . " bytes.";
+            } else {
+                $imageData = file_get_contents($imageTmp);
+            }
+        }
+
+        $error = null;
+
+        // Handle new image upload
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $imageTmp = $_FILES['image']['tmp_name'];
+            $imageSize = filesize($imageTmp);
+
+            if ($imageSize > MAX_BLOB_SIZE) {
+                $error = "Image is too large. Max allowed is " . number_format(MAX_BLOB_SIZE) . " bytes. Please choose a smaller image.";
+            } else {
+                $imageData = file_get_contents($imageTmp);
+            }
+        }
+
+        if (!$error) {
+            $stmt = $pdo->prepare("UPDATE articles 
+                SET title = ?, content = ?, is_published = ?, allow_comments = ?, image_data = ?, updated_at = NOW() 
+                WHERE id = ?");
+            $stmt->execute([$title, $content, $isPublished, $allow_comments, $imageData, $id]);
+
+            header("Location: /PHP_MVC/public/admin/reviewArticles");
+            exit;
+        }
+
+        // If there's an error, fall through to show form again
+        $article = [
+            'id' => $id,
+            'title' => $title,
+            'content' => $content,
+            'is_published' => $isPublished,
+            'allow_comments' => $allow_comments,
+            'image_data' => $imageData,
+        ];
+
+        $data = ['article' => $article, 'error' => $error];
+        render('admin/editArticles', $data, layout: 'admin/layout');
+    } else {
+        $stmt = $pdo->prepare("SELECT * FROM articles WHERE id = ?");
+        $stmt->execute([$id]);
+        $article = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$article) die("Article not found.");
+
+        $data = ['article' => $article];
+        render('admin/editArticles', $data, layout: 'admin/layout');
+    }
+}
+
+
+
+
+
 }
 ?>
