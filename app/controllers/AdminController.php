@@ -1,10 +1,20 @@
 <?php
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../models/User.php';
+require_once __DIR__ . '/../models/Article.php';
 
 class AdminController {
     public function dashboard() {
-        $data = [];
+        if (!isset($_SESSION['user'])) {
+            die("Access denied. Please log in.");
+        }
+    
+        $roleId = $_SESSION['user']['role_id'];
+    
+        $data = [
+            'roleId' => $roleId
+        ];
+        
         render('admin/dashboard', $data, "admin/layout");
     }
 
@@ -99,10 +109,11 @@ class AdminController {
         render('admin/updateUser', $data, layout: 'admin/updateUser');
     }
 
-    public function deleteUser() {
-        if (!isset($_SESSION['user']) || $_SESSION['user']['role_id'] != 10) {
-            die("Access denied. Admins only.");
-        }
+    
+public function deleteUser() {
+    if (!isset($_SESSION['user']) || $_SESSION['user']['role_id'] != 10) {
+        die("Access denied. Admins only.");
+    }
 
         if (!isset($_GET['id'])) {
             die("User ID is missing.");
@@ -110,7 +121,8 @@ class AdminController {
 
         $userId = (int)$_GET['id'];
 
-        $userModel = new User();
+    require_once __DIR__ . '/../models/User.php';
+    $userModel = new User();
 
         try {
             if ($userModel->deleteUserById($userId)) {
@@ -128,60 +140,6 @@ class AdminController {
         }
     }
 
-    public function createUser() {
-        if (!isset($_SESSION['user']) || $_SESSION['user']['role_id'] != 10) {
-            die("Access denied. Only admins can access this page.");
-        }
 
-        $error = '';
-        $success = '';
-        $roleNames = [
-            1 => 'Author',
-            2 => 'Editor',
-            3 => 'User',
-            10 => 'Admin'
-        ];
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $username = trim($_POST['username']);
-            $email = trim($_POST['email']);
-            $password = $_POST['password'];
-            $confirmPassword = $_POST['confirm_password'];
-            $role_id = (int)$_POST['role_id'];
-
-            if (empty($username) || empty($email) || empty($password) || empty($confirmPassword)) {
-                $error = "All fields are required.";
-            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $error = "Invalid email format.";
-            } elseif ($password !== $confirmPassword) {
-                $error = "Passwords do not match.";
-            } elseif (!in_array($role_id, array_keys($roleNames))) {
-                $error = "Invalid role selected.";
-            } else {
-                $userModel = new User();
-
-                if ($userModel->usernameExists($username)) {
-                    $error = "Username already exists.";
-                } elseif ($userModel->emailExists($email)) {
-                    $error = "Email already exists.";
-                } else {
-                    $created = $userModel->createByAdmin($username, $email, $password, $role_id);
-                    if ($created) {
-                        $success = "User created successfully.";
-                    } else {
-                        $error = "An error occurred. Could not create user.";
-                    }
-                }
-            }
-        }
-
-        $data = [
-            'error' => $error,
-            'success' => $success,
-            'roleNames' => $roleNames
-        ];
-
-        render('admin/createUser', $data, layout: 'admin/layout');
-    }
 }
 ?>
