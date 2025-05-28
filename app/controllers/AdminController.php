@@ -1,4 +1,8 @@
 <?php
+
+require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../models/User.php';
+
 class AdminController {
     public function dashboard() {
         $data = [];
@@ -9,8 +13,6 @@ class AdminController {
         if (!isset($_SESSION['user']) || $_SESSION['user']['role_id'] != 10) {
             die("Access denied. This page is for admins only.");
         }
-
-        require_once __DIR__ . '/../models/User.php';
 
         $userModel = new User();
         $users = $userModel->getAllUsers();
@@ -44,9 +46,6 @@ class AdminController {
         }
 
         $userId = (int)$_GET['id'];
-
-        require_once __DIR__ . '/../../config/database.php';
-        require_once __DIR__ . '/../models/User.php';
 
         $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
         $stmt->execute([$userId]);

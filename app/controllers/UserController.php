@@ -41,7 +41,14 @@ class UserController {
                         'role_id' => $user['role_id'],
                     ];
 
-                    header('Location: ' . base_url('')); // adjust destination as needed
+                    // Role-based redirect - ONLY CHANGE HERE
+                    if (in_array($user['role_id'], [1, 2, 10])) {
+                        // Authors, Editors, Admins go to admin dashboard
+                        header('Location: ' . base_url('admin/dashboard'));
+                    } else {
+                        // Regular users go to homepage
+                        header('Location: ' . base_url(''));
+                    }
                     exit;
                 } else {
                     $errors[] = 'Incorrect password.';
@@ -62,6 +69,15 @@ class UserController {
             header('Location: ' . base_url('user/login'));
             exit;
         }
+    }
+
+    public function logout() {
+        // Destroy the session
+        session_destroy();
+        
+        // Redirect to homepage
+        header('Location: ' . base_url(''));
+        exit;
     }
 }
 

@@ -21,7 +21,14 @@
                 <a href="<?= base_url() ?>" class="nav-link">Home</a>
                 <a href="<?= base_url('articles') ?>" class="nav-link">Articles</a>
                 <a href="<?= base_url('about') ?>" class="nav-link">About Us</a>
-                <a href="<?= base_url('user/login') ?>" class="login-btn">Login</a>
+
+                <?php if (isset($_SESSION['user'])): ?>
+                    <!-- User is logged in - show logout -->
+                    <a href="<?php echo base_url('user/logout'); ?>" class="login-btn">Logout</a>
+                <?php else: ?>
+                    <!-- User is not logged in - show login -->
+                    <a href="/PHP_MVC/public/user/login" class="login-btn">Login</a>
+                <?php endif; ?>
             </nav>
         </div>
     </header>
