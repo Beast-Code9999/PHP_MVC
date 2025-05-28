@@ -13,7 +13,7 @@ $routes = [
         'admin/dashboard'=> 'AdminController@dashboard',
         'admin/userlist' => 'AdminController@userList',
         'admin/updateUser' => 'AdminController@updateUser',
-
+        'admin/deleteUser' => 'AdminController@deleteUser',
 
     ],
     'POST' => [

@@ -12,9 +12,10 @@
     <header>
         <h1>Admin Dashboard</h1>
         <nav class="admin-nav">
-            <a href="/PHP_MVC/public/admin/dashboard">Dashboard</a>
-            <a href="/PHP_MVC/public/admin/userlist">Users</a>
-            <a href="/PHP_MVC/public/logout">Logout</a>
+
+            <a href="<?php echo base_url('admin/dashboard'); ?>">Dashboard</a>
+            <a href="<?php echo base_url('admin/userlist'); ?>">Users</a>
+            <a href="<?php echo base_url('user/logout'); ?>">Logout</a>
         </nav>
     </header>
 

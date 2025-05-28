@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../models/User.php';
 
@@ -108,5 +107,38 @@ class AdminController {
 
         render('admin/updateUser', $data, layout: 'admin/updateUser');
     }
+
+    
+public function deleteUser() {
+    if (!isset($_SESSION['user']) || $_SESSION['user']['role_id'] != 10) {
+        die("Access denied. Admins only.");
+    }
+
+    if (!isset($_GET['id'])) {
+        die("User ID is missing.");
+    }
+
+    $userId = (int)$_GET['id'];
+
+    require_once __DIR__ . '/../models/User.php';
+    $userModel = new User();
+
+    try {
+        if ($userModel->deleteUserById($userId)) {
+            header("Location: /PHP_MVC/public/admin/userlist");
+            exit;
+        } else {
+            die("Failed to delete user.");
+        }
+    } catch (PDOException $e) {
+        if ($e->getCode() == 23000) {
+            die("Cannot delete user: user has associated data (e.g. articles).");
+        } else {
+            die("Error deleting user: " . $e->getMessage());
+        }
+    }
+}
+
+
 }
 ?>
