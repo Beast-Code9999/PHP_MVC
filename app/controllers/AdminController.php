@@ -334,6 +334,56 @@ class AdminController {
     }
 }
 
+    public function deleteArticles() {
+    if (!isset($_SESSION['user']) || !in_array($_SESSION['user']['role_id'], [2, 10])) {
+        die("Access denied. Admins and Editors only.");
+    }
+
+    $db = new Database();
+    $pdo = $db->connect();
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $id = $_POST['id'] ?? null;
+
+        if (!$id) {
+            $error = "Missing article ID.";
+        } else {
+            // Check if the article exists
+            $stmt = $pdo->prepare("SELECT id FROM articles WHERE id = ?");
+            $stmt->execute([$id]);
+            $article = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$article) {
+                $error = "Article not found.";
+            } else {
+                // No need to delete image file since it's stored as BLOB
+                $stmt = $pdo->prepare("DELETE FROM articles WHERE id = ?");
+                $stmt->execute([$id]);
+                $success = "Article deleted successfully.";
+            }
+        }
+    }
+
+    // Reload unpublished articles
+    $stmt = $pdo->query("SELECT articles.*, users.username 
+                         FROM articles 
+                         JOIN users ON articles.author_id = users.id 
+                         WHERE is_published = 0 
+                         ORDER BY created_at DESC");
+    $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $data = [
+        'articles' => $articles,
+        'success' => $success ?? null,
+        'error' => $error ?? null,
+    ];
+
+    render('admin/reviewArticles', $data, layout: 'admin/layout');
+}
+
+
+
+
 
 
 

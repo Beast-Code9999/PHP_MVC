@@ -23,7 +23,6 @@ $routes = [
         'admin/editArticles' => 'AdminController@editArticles',
         'admin/deletearticle ' => 'AdminController@deleteArticles',
         'admin/createUser' => 'AdminController@createUser',
-        'admin/deleteArticle' => 'AdminController@deleteArticles',
         
 
 
@@ -34,7 +33,7 @@ $routes = [
         'admin/updateUser' => 'AdminController@updateUser',
         'admin/createUser' => 'AdminController@createUser',
         'admin/editArticles' => 'AdminController@editArticles',
-
+        'admin/deleteArticles' => 'AdminController@deleteArticles',
     ],
 ];
 
