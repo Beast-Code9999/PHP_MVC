@@ -17,7 +17,7 @@ class UserController {
     }
 
     public function registerUser() {
-         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = trim($_POST['username']);
             $email = trim($_POST['email']);
             $password = $_POST['password'];
@@ -43,8 +43,18 @@ class UserController {
                 $errors[] = "You must agree to the privacy policy.";
             }
 
+            // Check for duplicate username or email
+            $user = new User();
+
+            if ($user->usernameExists($username)) {
+                $errors[] = "The username is already taken.";
+            }
+
+            if ($user->emailExists($email)) {
+                $errors[] = "The email is already registered.";
+            }
+
             if (!empty($errors)) {
-                // Return back to the registration page with errors
                 render('users/register', [
                     'title' => 'Register Page',
                     'errors' => $errors
@@ -53,11 +63,9 @@ class UserController {
             }
 
             // Save user
-            $user = new User();
             $created = $user->create($username, $email, $password);
 
             if ($created) {
-                // Redirect to login
                 header('Location: ' . base_url('user/login'));
                 exit;
             } else {
@@ -81,9 +89,7 @@ class UserController {
             $errors = [];
 
             if ($user) {
-                // Plaintext password check (for now; should hash later)
                 if ($password === $user['password']) {
-                    // Login success
                     $_SESSION['user'] = [
                         'id' => $user['id'],
                         'username' => $user['username'],
@@ -91,12 +97,9 @@ class UserController {
                         'role_id' => $user['role_id'],
                     ];
 
-                    // Role-based redirect - ONLY CHANGE HERE
                     if (in_array($user['role_id'], [1, 2, 10])) {
-                        // Authors, Editors, Admins go to admin dashboard
                         header('Location: ' . base_url('admin/dashboard'));
                     } else {
-                        // Regular users go to homepage
                         header('Location: ' . base_url(''));
                     }
                     exit;
@@ -107,27 +110,20 @@ class UserController {
                 $errors[] = 'No account found with that email.';
             }
 
-            // Redisplay login form with errors
-            $data = [
+            render('users/login', [
                 'title' => 'Login Page',
                 'errors' => $errors
-            ];
-            render('users/login', $data);
+            ]);
 
         } else {
-            // If not POST, redirect to login page
             header('Location: ' . base_url('user/login'));
             exit;
         }
     }
 
     public function logout() {
-        // Destroy the session
         session_destroy();
-        
-        // Redirect to homepage
         header('Location: ' . base_url(''));
         exit;
     }
 }
-

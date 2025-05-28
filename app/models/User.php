@@ -8,13 +8,14 @@ class User {
         $this->conn = $db->connect();
     }
 
+    // Regular user registration — always role_id = 3
     public function create($username, $email, $password) {
         $sql = "INSERT INTO users (username, email, password, role_id, created_at) 
                 VALUES (:username, :email, :password, :role_id, NOW())";
 
         $stmt = $this->conn->prepare($sql);
 
-        $hashedPassword = $password; // You can switch this to password_hash($password, PASSWORD_DEFAULT)
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         return $stmt->execute([
             ':username' => $username,
@@ -24,8 +25,38 @@ class User {
         ]);
     }
 
-    //login method
+    public function usernameExists($username) {
+        $sql = "SELECT COUNT(*) FROM users WHERE username = :username";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':username' => $username]);
+        return $stmt->fetchColumn() > 0;
+    }
 
+    public function emailExists($email) {
+        $sql = "SELECT COUNT(*) FROM users WHERE email = :email";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':email' => $email]);
+        return $stmt->fetchColumn() > 0;
+    }
+
+    // Admin user creation — accepts a role_id
+    public function createByAdmin($username, $email, $password, $role_id) {
+        $sql = "INSERT INTO users (username, email, password, role_id, created_at) 
+                VALUES (:username, :email, :password, :role_id, NOW())";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        return $stmt->execute([
+            ':username' => $username,
+            ':email' => $email,
+            ':password' => $hashedPassword,
+            ':role_id' => $role_id,
+        ]);
+    }
+
+    // Login method
     public function findByEmail($email) {
         $sql = "SELECT * FROM users WHERE email = :email LIMIT 1";
         $stmt = $this->conn->prepare($sql);
@@ -35,18 +66,16 @@ class User {
 
     // Fetch all users
     public function getAllUsers() {
-        $sql = "SELECT id, username, email, role_id FROM users";
+        $sql = "SELECT id, username, email, role_id, created_at FROM users";
         $stmt = $this->conn->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Delete User (with associated articles)
+    // Delete user (and their articles)
     public function deleteUserById($id) {
-        // First delete all articles authored by the user
         $stmtArticles = $this->conn->prepare("DELETE FROM articles WHERE author_id = ?");
         $stmtArticles->execute([$id]);
 
-        // Then delete the user
         $stmtUser = $this->conn->prepare("DELETE FROM users WHERE id = ?");
         return $stmtUser->execute([$id]);
     }
