@@ -126,10 +126,18 @@ class HomeController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user'])) {
             $comment_id = $_POST['comment_id'];
             $user_id = $_SESSION['user']['id'];
+            $role_id = $_SESSION['user']['role_id'] ?? 0;
 
             require_once __DIR__ . '/../models/Comment.php';
             $commentModel = new Comment();
-            $commentModel->delete($comment_id, $user_id);
+            
+            if (in_array($role_id, [2, 10])) {
+                // Admin or Editor: can delete any comment
+                $commentModel->deleteById($comment_id);
+            } else {
+                // Regular user: can only delete their own comment
+                $commentModel->delete($comment_id, $user_id);
+            }
 
             // Optionally, redirect back to the article
             $article_id = $_POST['article_id'];

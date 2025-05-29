@@ -57,12 +57,20 @@
                                 <?php else: ?>
                                     <?= nl2br(htmlspecialchars($comment['content'])) ?>
                                     <div class="comment-date"><?= date('F j, Y H:i', strtotime($comment['created_at'])) ?></div>
-                                    <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] == $comment['user_id']): ?>
+                                    <?php if (
+                                        isset($_SESSION['user']) && 
+                                        (
+                                            $_SESSION['user']['id'] == $comment['user_id'] || 
+                                            in_array($_SESSION['user']['role_id'] ?? 0, [2, 10])
+                                        )
+                                    ): ?>
                                         <form action="<?= base_url('delete-comment') ?>" method="POST" style="display:inline;">
                                             <input type="hidden" name="comment_id" value="<?= $comment['id'] ?>">
                                             <input type="hidden" name="article_id" value="<?= $article['id'] ?>">
                                             <button type="submit" onclick="return confirm('Delete this comment?')">Delete</button>
                                         </form>
+                                    <?php endif; ?>
+                                    <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] == $comment['user_id']): ?>
                                         <form action="<?= base_url('article') ?>" method="GET" style="display:inline;">
                                             <input type="hidden" name="id" value="<?= $article['id'] ?>">
                                             <input type="hidden" name="edit_comment" value="<?= $comment['id'] ?>">

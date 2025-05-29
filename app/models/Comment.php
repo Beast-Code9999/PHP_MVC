@@ -25,6 +25,11 @@ class Comment {
         return $stmt->execute([$comment_id, $user_id]);
     }
 
+    public function deleteById($comment_id) {
+        $stmt = $this->db->prepare("DELETE FROM comments WHERE id = ?");
+        return $stmt->execute([$comment_id]);
+    }
+
     public function update($comment_id, $user_id, $content) {
         $stmt = $this->db->prepare("UPDATE comments SET content = ? WHERE id = ? AND user_id = ?");
         return $stmt->execute([$content, $comment_id, $user_id]);
