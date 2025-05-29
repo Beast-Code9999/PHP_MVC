@@ -36,6 +36,7 @@ $routes = [
         'admin/deleteArticles' => 'AdminController@deleteArticles',
         'post-comment' => 'HomeController@postComment',
         'delete-comment' => 'HomeController@deleteComment',
+        'edit-comment' => 'HomeController@editComment',
     ],
 ];
 

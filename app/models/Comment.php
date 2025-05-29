@@ -24,4 +24,9 @@ class Comment {
         $stmt = $this->db->prepare("DELETE FROM comments WHERE id = ? AND user_id = ?");
         return $stmt->execute([$comment_id, $user_id]);
     }
+
+    public function update($comment_id, $user_id, $content) {
+        $stmt = $this->db->prepare("UPDATE comments SET content = ? WHERE id = ? AND user_id = ?");
+        return $stmt->execute([$content, $comment_id, $user_id]);
+    }
 }
