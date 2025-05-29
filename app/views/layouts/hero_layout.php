@@ -11,7 +11,11 @@
     <header class="header">
         <div class="nav-container">
             <div class="nav-left">
-                <h1 class="logo">NEWS</h1>
+                <div class="logo">
+                    <a href="<?= base_url('/') ?>">
+                        <span style="font-weight:bold; color:#fff;">NEWS</span>
+                    </a>
+                </div>
                 <div class="search-box">
                     <input type="text" placeholder="Search articles..." class="search-input">
                     <span class="search-icon">🔍</span>
@@ -21,12 +25,12 @@
                 <a href="<?php echo base_url('/'); ?>" class="nav-link">Home</a>
                 <a href="/PHP_MVC/public/articles" class="nav-link">Articles</a>
                 <a href="<?php echo base_url('/about'); ?>" class="nav-link">About Us</a>
-
                 <?php if (isset($_SESSION['user'])): ?>
-                    <!-- User is logged in - show logout -->
+                    <span style="color: #fff; margin-right: 1rem;">
+                        👤 <?= htmlspecialchars($_SESSION['user']['username']) ?>
+                    </span>
                     <a href="<?php echo base_url('user/logout'); ?>" class="login-btn">Logout</a>
                 <?php else: ?>
-                    <!-- User is not logged in - show login -->
                     <a href="/PHP_MVC/public/user/login" class="login-btn">Login</a>
                 <?php endif; ?>
             </nav>
