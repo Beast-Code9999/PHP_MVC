@@ -8,7 +8,7 @@
             <h2>Articles</h2>
         </div>
         <div class="col-auto">
-            <a href="#" class="btn btn-primary">Create Article</a>
+            <a href="<?php echo base_url('admin/createArticle')?>" class="btn btn-primary">Create Article</a>
         </div>
     </div>
     

@@ -111,7 +111,7 @@ class UserController {
                         ];
 
                         // Redirect based on role
-                        if ($user['role_id'] == 10) {
+                        if (in_array($user['role_id'], [1, 2, 10])) {
                             header('Location: ' . base_url('admin/dashboard'));
                         } else {
                             header('Location: ' . base_url(''));
