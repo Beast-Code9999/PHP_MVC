@@ -49,27 +49,18 @@ class HomeController {
     }
 
     public function article() {
-        // Connect to the database
-        $db = new Database();
-        $pdo = $db->connect();
-        
-        // Query to get all published articles
-        $sql = "SELECT a.*, u.username as author_name 
-                FROM articles a 
-                LEFT JOIN users u ON a.author_id = u.id 
-                WHERE a.is_published = 1
-                ORDER BY a.created_at DESC";
-        
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute();
-        $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
+        $search = isset($_GET['search']) ? trim($_GET['search']) : '';
+
+        require_once __DIR__ . '/../models/Article.php';
+        $articleModel = new Article();
+
+        $articles = $articleModel->getFilteredArticles($search);
+
         $data = [
             'title' => 'Articles',
-            'message' => 'Latest Articles',
             'articles' => $articles
         ];
-        
+
         render('home/articles', $data);
     }
 

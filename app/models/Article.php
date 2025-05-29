@@ -9,43 +9,23 @@ class Article {
         $this->db = $database->connect();
     }
     
-    public function getFilteredArticles($search = '', $author_id = 0, $is_published = 1, $page = 1, $limit = 50) {
-        $offset = ($page - 1) * $limit;
-        
-        $sql = "SELECT a.*, u.username as author_name 
-                FROM articles a 
-                LEFT JOIN users u ON a.author_id = u.id 
-                WHERE 1=1";
-        
+    public function getFilteredArticles($search = '', $offset = 0, $limit = 50) {
+        $sql = "SELECT articles.*, users.username AS author_name
+                FROM articles
+                LEFT JOIN users ON articles.author_id = users.id";
         $params = [];
-        
-        // Add search condition if provided
-        if (!empty($search)) {
-            $sql .= " AND (a.title LIKE ? OR a.content LIKE ?)";
-            $params[] = "%$search%";
-            $params[] = "%$search%";
+
+        if ($search !== '') {
+            $sql .= " WHERE articles.title LIKE :search OR articles.content LIKE :search";
+            $params[':search'] = '%' . $search . '%';
         }
-        
-        // Filter by author if provided
-        if ($author_id > 0) {
-            $sql .= " AND a.author_id = ?";
-            $params[] = $author_id;
-        }
-        
-        // Filter by publication status
-        if ($is_published !== null) {
-            $sql .= " AND a.is_published = ?";
-            $params[] = $is_published;
-        }
-        
-        // Add ordering and limit
-        $sql .= " ORDER BY a.created_at DESC LIMIT ?, ?";
-        $params[] = $offset;
-        $params[] = $limit;
-        
+
+        $offset = (int)$offset;
+        $limit = (int)$limit;
+        $sql .= " ORDER BY articles.created_at DESC LIMIT $offset, $limit";
+
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
-        
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     

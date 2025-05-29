@@ -15,8 +15,10 @@
                     <h1 class="logo">NEWS</h1>
                 </a>
                 <div class="search-box">
-                    <input type="text" placeholder="Search articles..." class="search-input">
-                    <span class="search-icon">🔍</span>
+                    <form action="<?= base_url('articles') ?>" method="get" style="display:flex;">
+                        <input type="text" name="search" placeholder="Search articles..." class="search-input" value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
+                        <button type="submit" class="search-icon" style="background:none;border:none;cursor:pointer;">🔍</button>
+                    </form>
                 </div>
             </div>
             <nav class="nav-right">

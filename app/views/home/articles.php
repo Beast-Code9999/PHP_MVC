@@ -5,7 +5,10 @@
 
 <div class="articles-container">
     <h1><?= $title ?></h1>
-    <p class="intro-message"><?= $message ?></p>
+
+    <?php if (!empty($message)): ?>
+        <p class="intro-message"><?= $message ?></p>
+    <?php endif; ?>
 
     <?php if (!empty($articles)): ?>
         <div class="articles-grid">
