@@ -3,7 +3,12 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f5f5f5;
+    color: #4a4458;
 }
 
 /* ===== Contact Container Layout ===== */
@@ -11,10 +16,13 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding: 60px 40px;
-    max-width: 1200px;
-    margin: auto;
-    gap: 80px;
+    padding: 4rem 1.5rem;
+    max-width: 1100px;
+    margin: 2.5rem auto;
+    gap: 4rem;
+    background: #faf8fc;
+    border-radius: 18px;
+    box-shadow: 0 4px 32px 0 rgba(158, 130, 156, 0.07);
 }
 
 /* ===== Contact Info Left Column ===== */
@@ -24,61 +32,74 @@
 }
 
 .contact-info h1 {
-    font-size: 32px;
-    font-weight: 600;
-    margin-bottom: 15px;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    color: #7c5e99;
+    letter-spacing: 0.01em;
 }
 
 .contact-info p {
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 30px;
-    line-height: 1.5;
+    font-size: 1.08rem;
+    color: #7a6b8a;
+    margin-bottom: 2rem;
+    line-height: 1.6;
     max-width: 320px;
 }
 
 .info-item {
     display: flex;
     align-items: center;
-    margin-bottom: 25px;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
 }
 
 .info-item span {
-    font-size: 26px;
-    margin-right: 15px;
-    color: #a48098;
+    font-size: 1.7rem;
+    color: #a088b6;
 }
 
 .info-item p {
-    font-size: 16px;
-    color: #222;
+    font-size: 1.05rem;
+    color: #4a4458;
     line-height: 1.4;
+    margin: 0;
 }
 
 /* ===== Form Right Column ===== */
 .contact-form {
     flex: 1;
+    max-width: 500px;
 }
 
 .contact-form form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 1.2rem;
 }
 
 .form-group.double {
     display: flex;
-    gap: 12px;
+    gap: 1rem;
 }
 
 .form-group input,
 .form-group textarea {
     width: 100%;
-    padding: 12px;
-    background-color: #ddd;
-    border: none;
-    border-radius: 4px;
-    font-size: 14px;
+    padding: 1rem;
+    background-color: #f5f2fa;
+    border: 1.5px solid #e0d6e6;
+    border-radius: 10px;
+    font-size: 1rem;
+    color: #4a4458;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #a088b6;
+    background-color: #fff;
 }
 
 .contact-form textarea {
@@ -89,29 +110,60 @@
 /* ===== Submit Button ===== */
 .contact-form button {
     align-self: flex-start;
-    padding: 10px 28px;
-    font-size: 14px;
+    padding: 0.8rem 2.2rem;
+    font-size: 1rem;
     color: #fff;
-    background-color: #a48098;
+    background: linear-gradient(90deg, #a088b6 0%, #7c5e99 100%);
     border: none;
-    border-radius: 20px;
+    border-radius: 30px;
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    transition: background-color 0.3s ease;
+    font-weight: 600;
+    box-shadow: 0 2px 8px 0 rgba(158, 130, 156, 0.08);
+    transition: background 0.2s, transform 0.15s;
 }
 
 .contact-form button:hover {
-    background-color: #926d87;
+    background: linear-gradient(90deg, #7c5e99 0%, #a088b6 100%);
+    transform: translateY(-2px) scale(1.03);
 }
 
 /* ===== Responsive ===== */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 900px) {
     .contact-container {
         flex-direction: column;
-        gap: 40px;
+        gap: 2.5rem;
+        padding: 2rem 0.7rem;
     }
+    .contact-info h1 {
+        font-size: 1.5rem;
+    }
+    .contact-form {
+        max-width: 100%;
+    }
+    .contact-info {
+        max-width: 100%;
+    }
+}
 
+@media screen and (max-width: 600px) {
+    .contact-container {
+        padding: 1rem 0.2rem;
+        border-radius: 8px;
+    }
     .form-group.double {
         flex-direction: column;
+        gap: 0.5rem;
+    }
+    .contact-info h1 {
+        font-size: 1.1rem;
+    }
+    .contact-info p,
+    .info-item p {
+        font-size: 0.97rem;
+    }
+    .contact-form button {
+        font-size: 0.95rem;
+        padding: 0.7rem 1.2rem;
+        border-radius: 18px;
     }
 }

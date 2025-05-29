@@ -24,11 +24,13 @@
 
                 <form action="<?php echo base_url('user/login'); ?>" method="POST" class="form">
                     <div class="form-group">
-                        <input type="email" name="email" placeholder="Email Address" class="form-input" required>
+                        <label for="email" class="floating-label">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="Email Address" class="form-input" required>
                     </div>
                     
                     <div class="form-group">
-                        <input type="password" name="password" placeholder="Password" class="form-input" required>
+                        <label for="password" class="floating-label">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Password" class="form-input" required>
                     </div>
 
                     <div class="form-group">
