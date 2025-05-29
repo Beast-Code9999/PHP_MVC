@@ -224,28 +224,28 @@ class AdminController {
 
 
     public function reviewArticles() {
-    if (!isset($_SESSION['user']) || $_SESSION['user']['role_id'] != 10) {
-        die("Access denied. Admins only.");
-    }
+        if (!isset($_SESSION['user']) || $_SESSION['user']['role_id'] != 10) {
+            die("Access denied. Admins only.");
+        }
 
-    $db = new Database();
-    $pdo = $db->connect();
+        $db = new Database();
+        $pdo = $db->connect();
 
-    $stmt = $pdo->query("
-    SELECT a.id, a.title, a.content, a.created_at, a.image_data, u.username 
-    FROM articles a
-    JOIN users u ON a.author_id = u.id
-    WHERE a.is_published = 0
-    ORDER BY a.created_at DESC
-    ");
+        $stmt = $pdo->query("
+        SELECT a.id, a.title, a.content, a.created_at, a.image_data, u.username 
+        FROM articles a
+        JOIN users u ON a.author_id = u.id
+        WHERE a.is_published = 0
+        ORDER BY a.created_at DESC
+        ");
 
-    $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $data = [
-        'articles' => $articles
-    ];
+        $data = [
+            'articles' => $articles
+        ];
 
-    render('admin/reviewArticles', $data, layout: 'admin/layout');
+        render('admin/reviewArticles', $data, layout: 'admin/layout');
 }
 
     

@@ -24,8 +24,6 @@ $routes = [
         'admin/deletearticle ' => 'AdminController@deleteArticles',
         'admin/createUser' => 'AdminController@createUser',
         
-
-
     ],
     'POST' => [
         'register' => 'UserController@registerUser',

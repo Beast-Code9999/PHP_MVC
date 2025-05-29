@@ -12,18 +12,19 @@ class Article {
     public function getFilteredArticles($search = '', $offset = 0, $limit = 50) {
         $sql = "SELECT articles.*, users.username AS author_name
                 FROM articles
-                LEFT JOIN users ON articles.author_id = users.id";
+                LEFT JOIN users ON articles.author_id = users.id
+                WHERE articles.is_published = 1";
         $params = [];
-
+    
         if ($search !== '') {
-            $sql .= " WHERE articles.title LIKE :search OR articles.content LIKE :search";
+            $sql .= " AND (articles.title LIKE :search OR articles.content LIKE :search)";
             $params[':search'] = '%' . $search . '%';
         }
-
+    
         $offset = (int)$offset;
         $limit = (int)$limit;
         $sql .= " ORDER BY articles.created_at DESC LIMIT $offset, $limit";
-
+    
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
