@@ -1,4 +1,3 @@
-
 <head>
     <link rel="stylesheet" href="<?php echo base_url('css/articlesList.css')?>">
 </head>
@@ -60,8 +59,14 @@
                                     <td><?= date('Y-m-d H:i', strtotime($article['updated_at'])) ?></td>
                                     <td>
                                         <div class="btn-group">
-                                            <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                                            <button type="button" class="btn btn-sm btn-danger">Delete</button>
+                                            <form action="/PHP_MVC/public/admin/editArticles" method="get" style="display:inline;">
+                                                <input type="hidden" name="id" value="<?= $article['id'] ?>">
+                                                <button type="submit" class="btn btn-sm btn-primary">Edit</button>
+                                            </form>
+                                            <form action="/PHP_MVC/public/admin/deleteArticles" method="post" style="display:inline;" onsubmit="return confirm('Delete this article?');">
+                                                <input type="hidden" name="id" value="<?= $article['id'] ?>">
+                                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>
