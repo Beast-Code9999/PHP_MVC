@@ -103,11 +103,47 @@ class HomeController {
             exit;
         }
         
+        require_once __DIR__ . '/../models/Comment.php';
+        $commentModel = new Comment();
+        $comments = $commentModel->getByArticle($id);
+
         $data = [
-            'title' => $article['title'],
-            'article' => $article
+            'article' => $article,
+            'comments' => $comments,
         ];
-        
+
         render('home/articleSingle', $data);
+    }
+    
+    public function postComment() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user'])) {
+            $article_id = $_POST['article_id'];
+            $content = trim($_POST['content']);
+            $user_id = $_SESSION['user']['id'];
+
+            if ($content) {
+                require_once __DIR__ . '/../models/Comment.php';
+                $commentModel = new Comment();
+                $commentModel->add($article_id, $user_id, $content);
+            }
+            header('Location: ' . base_url('article?id=' . $article_id));
+            exit;
+        }
+    }
+
+    public function deleteComment() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user'])) {
+            $comment_id = $_POST['comment_id'];
+            $user_id = $_SESSION['user']['id'];
+
+            require_once __DIR__ . '/../models/Comment.php';
+            $commentModel = new Comment();
+            $commentModel->delete($comment_id, $user_id);
+
+            // Optionally, redirect back to the article
+            $article_id = $_POST['article_id'];
+            header('Location: ' . base_url('article?id=' . $article_id));
+            exit;
+        }
     }
 }

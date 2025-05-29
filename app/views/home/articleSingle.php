@@ -37,8 +37,37 @@
         <?php if ($article['allow_comments']): ?>
             <div class="comments-section">
                 <h3>Comments</h3>
-                <!-- You can add a comments implementation here in the future -->
-                <p class="comments-placeholder">Comments feature coming soon!</p>
+
+                <?php if (!empty($comments)): ?>
+                    <ul class="comments-list">
+                        <?php foreach ($comments as $comment): ?>
+                            <li>
+                                <strong><?= htmlspecialchars($comment['username']) ?>:</strong>
+                                <?= nl2br(htmlspecialchars($comment['content'])) ?>
+                                <div class="comment-date"><?= date('F j, Y H:i', strtotime($comment['created_at'])) ?></div>
+                                <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] == $comment['user_id']): ?>
+                                    <form action="<?= base_url('delete-comment') ?>" method="POST" style="display:inline;">
+                                        <input type="hidden" name="comment_id" value="<?= $comment['id'] ?>">
+                                        <input type="hidden" name="article_id" value="<?= $article['id'] ?>">
+                                        <button type="submit" onclick="return confirm('Delete this comment?')">Delete</button>
+                                    </form>
+                                <?php endif; ?>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php else: ?>
+                    <p>No comments yet.</p>
+                <?php endif; ?>
+
+                <?php if (isset($_SESSION['user'])): ?>
+                    <form action="<?= base_url('post-comment') ?>" method="POST" class="comment-form">
+                        <input type="hidden" name="article_id" value="<?= $article['id'] ?>">
+                        <textarea name="content" rows="3" required placeholder="Write your comment..."></textarea>
+                        <button type="submit">Post Comment</button>
+                    </form>
+                <?php else: ?>
+                    <p><a href="<?= base_url('user/login') ?>">Log in</a> to post a comment.</p>
+                <?php endif; ?>
             </div>
         <?php endif; ?>
     </div>
