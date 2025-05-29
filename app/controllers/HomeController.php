@@ -146,4 +146,21 @@ class HomeController {
             exit;
         }
     }
+
+    public function editComment() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user'])) {
+            $comment_id = $_POST['comment_id'];
+            $article_id = $_POST['article_id'];
+            $content = trim($_POST['content']);
+            $user_id = $_SESSION['user']['id'];
+
+            if ($content) {
+                require_once __DIR__ . '/../models/Comment.php';
+                $commentModel = new Comment();
+                $commentModel->update($comment_id, $user_id, $content);
+            }
+            header('Location: ' . base_url('article?id=' . $article_id));
+            exit;
+        }
+    }
 }
