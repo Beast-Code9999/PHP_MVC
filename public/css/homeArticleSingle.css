@@ -116,26 +116,92 @@ body {
     box-shadow: 0 4px 6px rgba(158, 130, 156, 0.3); /* Shadow with the same color */
 }
 
+/* --- Pink Comment Section Styles --- */
 .comments-section {
-    margin-top: 3rem;
-    border-top: 1px solid #eaeaea;
-    padding-top: 1.5rem;
+    background: #f0c2d0;
+    border-radius: 8px;
+    padding: 18px 18px 10px 18px;
+    margin-top: 10px;
 }
 
 .comments-section h3 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    color: #2d3748;
+    margin-top: 0;
+    font-size: 1.18rem;
+    color: #ad1457;
+    margin-bottom: 12px;
 }
 
-/* Updated color for comments placeholder */
-.comments-placeholder {
-    padding: 1.5rem;
-    background-color: #f0e8f0; /* Lighter shade of #9E829C */
+.comments-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 12px 0;
+}
+
+.comments-list li {
+    background: #fff;
     border-radius: 6px;
-    color: #9E829C; /* The requested color */
-    text-align: center;
-    font-style: italic;
+    margin-bottom: 14px;
+    padding: 12px 14px 8px 14px;
+    box-shadow: 0 1px 4px rgba(233, 30, 99, 0.04);
+    position: relative;
+}
+
+.comments-list strong {
+    color: #e91e63;
+    font-size: 1rem;
+}
+
+.comment-date {
+    font-size: 0.88rem;
+    color: #f06292;
+    margin-top: 2px;
+    margin-bottom: 4px;
+}
+
+.comment-form textarea,
+.comments-list textarea {
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #f8bbd0;
+    padding: 8px;
+    font-size: 1rem;
+    margin-bottom: 8px;
+    resize: vertical;
+    background: #fff0f6;
+    color: #ad1457;
+}
+
+.comment-form button,
+.comments-list button {
+    background: #e91e63;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 16px;
+    font-size: 0.98rem;
+    cursor: pointer;
+    margin-right: 6px;
+    transition: background 0.2s;
+}
+
+.comment-form button:hover,
+.comments-list button:hover {
+    background: #ad1457;
+}
+
+.comments-list form {
+    display: inline;
+}
+
+.comments-list a {
+    color: #f06292;
+    margin-left: 8px;
+    font-size: 0.97rem;
+    text-decoration: underline;
+}
+
+.comments-list a:hover {
+    color: #e91e63;
 }
 
 @media screen and (max-width: 768px) {
