@@ -1,3 +1,8 @@
+<?php if (!empty($success)): ?>
+    <div style="padding:10px; background:#d4edda; color:#155724; border-radius:5px; margin-bottom:15px;">
+        <?= htmlspecialchars($success) ?>
+    </div>
+<?php endif; ?>
 
 <form method="post" enctype="multipart/form-data">
     <label>Title: <input type="text" name="title" value="<?= htmlspecialchars($article['title']) ?>"></label>
@@ -24,8 +29,10 @@
         <img src="data:image/jpeg;base64,<?= base64_encode($article['image_data']) ?>" width="150">
     </p>
     <?php endif; ?>
-
     <br>
 
     <button type="submit">Save Changes</button>
 </form>
+
+<!-- Return to Articles Button -->
+<a href="/PHP_MVC/public/admin/articles">&larr; Return to Articles</a>

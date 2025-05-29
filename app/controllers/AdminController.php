@@ -306,8 +306,20 @@ class AdminController {
                 WHERE id = ?");
             $stmt->execute([$title, $content, $isPublished, $allow_comments, $imageData, $id]);
 
-            header("Location: /PHP_MVC/public/admin/reviewArticles");
-            exit;
+            // Instead of redirecting, set a success message and show the form again
+            $success = "Article updated successfully.";
+
+            // Fetch updated article data
+            $stmt = $pdo->prepare("SELECT * FROM articles WHERE id = ?");
+            $stmt->execute([$id]);
+            $article = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            render('admin/editArticles', [
+                'article' => $article,
+                'success' => $success,
+                'error' => null
+            ], layout: 'admin/layout');
+            return;
         }
 
         // If there's an error, fall through to show form again
