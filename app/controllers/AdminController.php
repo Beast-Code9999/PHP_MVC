@@ -3,6 +3,7 @@ require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../models/Article.php';
 
+
 class AdminController {
     public function dashboard() {
         if (!isset($_SESSION['user'])) {
@@ -399,7 +400,7 @@ class AdminController {
             die("Access denied. Authors, Editors, and Admins only.");
         }
     
-        define('MAX_BLOB_SIZE', 65535); // BLOB size limit (65,535 bytes)
+
     
         $db = new Database();
         $pdo = $db->connect();
