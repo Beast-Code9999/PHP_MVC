@@ -10,12 +10,14 @@
 <?php endif; ?>
 
 <div>
-    <a href="/PHP_MVC/public/admin/articles" class="back-to-articles">
-        ← Back to Articles
+    <a href="<?php echo base_url($backPage) ?>" class="back-to-articles">
+        ← Back to <?php echo strpos($backPage, 'review') !== false ? 'Review Articles' : 'Articles' ?>
     </a>
 </div>
 
 <form method="post" enctype="multipart/form-data">
+    <input type="hidden" name="source" value="<?= $backPage ?>">
+
     <label>Title: <input type="text" name="title" value="<?= htmlspecialchars($article['title']) ?>"></label>
     <br>
 

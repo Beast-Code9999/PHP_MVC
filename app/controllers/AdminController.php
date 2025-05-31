@@ -262,6 +262,15 @@ class AdminController {
 
         $id = $_GET['id'] ?? null;
         if (!$id) die("Missing article ID.");
+        
+        // Determine where to redirect back based on referer
+        $referer = $_SERVER['HTTP_REFERER'] ?? '';
+        $backPage = 'admin/articles'; // Default
+        
+        // Check if they came from review articles page
+        if (strpos($referer, 'reviewArticles') !== false) {
+            $backPage = 'admin/reviewArticles';
+        }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $title = trim($_POST['title']);
@@ -269,6 +278,9 @@ class AdminController {
             $isPublished = isset($_POST['is_published']) ? 1 : 0;
             $allow_comments = isset($_POST['allow_comments']) ? 1 : 0;
             $removeImage = isset($_POST['remove_image']) && $_POST['remove_image'] == '1';
+
+            // Get the source page from the form submission
+            $backPage = $_POST['source'] ?? 'admin/articles';
 
             // Fetch existing image
             $stmt = $pdo->prepare("SELECT image_data FROM articles WHERE id = ?");
@@ -314,7 +326,8 @@ class AdminController {
                 render('admin/editArticles', [
                     'article' => $article,
                     'success' => $success,
-                    'error' => null
+                    'error' => null,
+                    'backPage' => $backPage
                 ], layout: 'admin/layout');
                 return;
             }
@@ -329,7 +342,11 @@ class AdminController {
                 'image_data' => $imageData,
             ];
 
-            $data = ['article' => $article, 'error' => $error];
+            $data = [
+                'article' => $article, 
+                'error' => $error,
+                'backPage' => $backPage
+            ];
             render('admin/editArticles', $data, layout: 'admin/layout');
         } else {
             $stmt = $pdo->prepare("SELECT * FROM articles WHERE id = ?");
@@ -338,7 +355,12 @@ class AdminController {
 
             if (!$article) die("Article not found.");
 
-            $data = ['article' => $article];
+            // For GET requests, also pass the source to preserve it
+            $data = [
+                'article' => $article,
+                'backPage' => $backPage,
+                'source' => $backPage  // Pass the detected source
+            ];
             render('admin/editArticles', $data, layout: 'admin/layout');
         }
     }
