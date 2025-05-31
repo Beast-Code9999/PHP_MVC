@@ -5,6 +5,8 @@ require_once __DIR__ . '/../models/Article.php';
 
 
 class AdminController {
+    const MAX_BLOB_SIZE = 2097152; // 2MB = 2,097,152 bytes for images
+
     public function dashboard() {
         if (!isset($_SESSION['user'])) {
             die("Access denied. Please log in.");
@@ -254,12 +256,10 @@ class AdminController {
         if (!isset($_SESSION['user']) || !in_array($_SESSION['user']['role_id'], [2, 10])) {
             die("Access denied. Admins and Editors only");
         }
-
-        define('MAX_BLOB_SIZE', 65535); // BLOB size limit (65,535 bytes)
-
+    
         $db = new Database();
         $pdo = $db->connect();
-
+    
         $id = $_GET['id'] ?? null;
         if (!$id) die("Missing article ID.");
         
@@ -271,58 +271,57 @@ class AdminController {
         if (strpos($referer, 'reviewArticles') !== false) {
             $backPage = 'admin/reviewArticles';
         }
-
+    
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $title = trim($_POST['title']);
             $content = trim($_POST['content']);
             $isPublished = isset($_POST['is_published']) ? 1 : 0;
             $allow_comments = isset($_POST['allow_comments']) ? 1 : 0;
             $removeImage = isset($_POST['remove_image']) && $_POST['remove_image'] == '1';
-
+    
             // Get the source page from the form submission
             $backPage = $_POST['source'] ?? 'admin/articles';
-
+    
             // Fetch existing image
             $stmt = $pdo->prepare("SELECT image_data FROM articles WHERE id = ?");
             $stmt->execute([$id]);
             $existing = $stmt->fetch(PDO::FETCH_ASSOC);
-
+    
             // Handle image removal or replacement
             if ($removeImage) {
                 $imageData = null; // Remove the image
             } else {
                 $imageData = $existing['image_data']; // Keep existing image
             }
-
-
+    
             $error = null;
-
+    
             // Handle new image upload (only if no error and new file uploaded)
             if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
                 $imageTmp = $_FILES['image']['tmp_name'];
                 $imageSize = filesize($imageTmp);
             
-                if ($imageSize > MAX_BLOB_SIZE) {
-                    $error = "Image is too large. Max allowed is " . number_format(MAX_BLOB_SIZE) . " bytes. Please choose a smaller image.";
+                if ($imageSize > self::MAX_BLOB_SIZE) {
+                    $error = "Image is too large. Max allowed is " . number_format(self::MAX_BLOB_SIZE) . " bytes. Please choose a smaller image.";
                 } else {
                     $imageData = file_get_contents($imageTmp); // New image replaces everything
                 }
             }
-
+    
             if (!$error) {
                 $stmt = $pdo->prepare("UPDATE articles 
                     SET title = ?, content = ?, is_published = ?, allow_comments = ?, image_data = ?, updated_at = NOW() 
                     WHERE id = ?");
                 $stmt->execute([$title, $content, $isPublished, $allow_comments, $imageData, $id]);
-
+    
                 // Instead of redirecting, set a success message and show the form again
                 $success = "Article updated successfully.";
-
+    
                 // Fetch updated article data
                 $stmt = $pdo->prepare("SELECT * FROM articles WHERE id = ?");
                 $stmt->execute([$id]);
                 $article = $stmt->fetch(PDO::FETCH_ASSOC);
-
+    
                 render('admin/editArticles', [
                     'article' => $article,
                     'success' => $success,
@@ -331,7 +330,7 @@ class AdminController {
                 ], layout: 'admin/layout');
                 return;
             }
-
+    
             // If there's an error, fall through to show form again
             $article = [
                 'id' => $id,
@@ -341,7 +340,7 @@ class AdminController {
                 'allow_comments' => $allow_comments,
                 'image_data' => $imageData,
             ];
-
+    
             $data = [
                 'article' => $article, 
                 'error' => $error,
@@ -352,9 +351,9 @@ class AdminController {
             $stmt = $pdo->prepare("SELECT * FROM articles WHERE id = ?");
             $stmt->execute([$id]);
             $article = $stmt->fetch(PDO::FETCH_ASSOC);
-
+    
             if (!$article) die("Article not found.");
-
+    
             // For GET requests, also pass the source to preserve it
             $data = [
                 'article' => $article,

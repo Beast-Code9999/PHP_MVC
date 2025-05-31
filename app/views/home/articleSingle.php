@@ -21,11 +21,13 @@
         </div>
     </div>
     
-    <?php if (!empty($article['image_data']) && $article['image_data'] !== 'NULL'): ?>
     <div class="article-image">
-        <img src="data:image/jpeg;base64,<?= base64_encode($article['image_data']) ?>" alt="<?= htmlspecialchars($article['title']) ?>" />
+        <?php if (!empty($article['image_data']) && $article['image_data'] !== 'NULL' && $article['image_data'] !== null): ?>
+            <img src="data:image/jpeg;base64,<?= base64_encode($article['image_data']) ?>" alt="<?= htmlspecialchars($article['title']) ?>" />
+        <?php else: ?>
+            <img src="<?= base_url('images/default-article.jpg') ?>" alt="Default article image" />
+        <?php endif; ?>
     </div>
-    <?php endif; ?>
     
     <div class="article-content">
         <?= nl2br(htmlspecialchars($article['content'])) ?>
