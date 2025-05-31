@@ -227,8 +227,8 @@ class AdminController {
 
 
     public function reviewArticles() {
-        if (!isset($_SESSION['user']) || $_SESSION['user']['role_id'] != 10) {
-            die("Access denied. Admins only.");
+        if (!isset($_SESSION['user']) || !in_array($_SESSION['user']['role_id'], [2, 10])) {
+            die("Access denied. Admins and Editors only.");
         }
 
         $db = new Database();
@@ -528,6 +528,21 @@ class AdminController {
         ];
     
         render('admin/createArticle', $data, layout: 'admin/layout');
+    }
+
+    public function yourArticles() {
+        if (!isset($_SESSION['user'])) {
+            die("Access denied. Please log in.");
+        }
+        $userId = $_SESSION['user']['id'];
+        $articleModel = new Article();
+        // Get all articles by this user (regardless of published status)
+        $db = new Database();
+        $pdo = $db->connect();
+        $stmt = $pdo->prepare("SELECT * FROM articles WHERE author_id = ? ORDER BY created_at DESC");
+        $stmt->execute([$userId]);
+        $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        render('admin/yourArticles', ['articles' => $articles], layout: 'admin/layout');
     }
 
 

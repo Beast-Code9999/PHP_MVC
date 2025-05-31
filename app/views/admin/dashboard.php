@@ -21,4 +21,11 @@
         <h2>Articles</h2>
         <a href="/PHP_MVC/public/admin/articles" class="pill-button">All Articles</a>
     </div>
+
+    <?php if (in_array($roleId, [1, 10])): // Journalist & Admin ?>
+        <div class="section-box">
+            <h2>Your Articles</h2>
+            <a href="/PHP_MVC/public/admin/yourArticles" class="pill-button">Your Articles</a>
+        </div>
+    <?php endif; ?>
 </div>
