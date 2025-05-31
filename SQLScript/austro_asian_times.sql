@@ -284,3 +284,42 @@ CREATE TABLE `article_tags` (
   FOREIGN KEY (`article_id`) REFERENCES `articles`(`id`) ON DELETE CASCADE,
   FOREIGN KEY (`tag_id`) REFERENCES `tags`(`tag_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Assign tags to preloaded articles (multiple tags per article)
+INSERT INTO `article_tags` (`article_id`, `tag_id`) VALUES
+(1, 3), -- The Rise of AI Journalism: Technology
+(1, 2), -- Economy
+(1, 6), -- Education
+(2, 5), -- Climate Change and Southeast Asia: Environment
+(2, 4), -- Health
+(2, 1), -- Politics
+(3, 3), -- Tech Startups to Watch in 2025: Technology
+(3, 2), -- Economy
+(3, 8), -- Entertainment
+(4, 1), -- Local Voices: Community Journalism: Politics
+(4, 6), -- Education
+(4, 5), -- Environment
+(5, 3), -- Digital Privacy in the Modern Age: Technology
+(5, 4), -- Health
+(5, 2), -- Economy
+(6, 4), -- Mental Health in the Digital Age: Health
+(6, 3), -- Technology
+(7, 7), -- Inside the World of eSports: Sports
+(7, 8), -- Entertainment
+(8, 3), -- Space Tourism: Technology
+(8, 8), -- Entertainment
+(8, 2), -- Economy
+(9, 5), -- Urban Farming: Environment
+(9, 4), -- Health
+(10, 3), -- Understanding Blockchain Beyond Bitcoin: Technology
+(10, 2), -- Economy
+(11, 6), -- Reviving Indigenous Languages Through Tech: Education
+(11, 3), -- Technology
+(12, 2), -- The Gig Economy: Economy
+(12, 3), -- Technology
+(13, 3), -- Cybersecurity Trends for 2025: Technology
+(13, 2), -- Economy
+(14, 3), -- Smart Homes: Technology
+(14, 8), -- Entertainment
+(15, 6), -- The Rise of EdTech Startups: Education
+(15, 3); -- Technology

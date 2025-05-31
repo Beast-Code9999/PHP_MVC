@@ -50,15 +50,27 @@ class HomeController {
 
     public function article() {
         $search = isset($_GET['search']) ? trim($_GET['search']) : '';
+        $selectedTags = isset($_GET['tags']) ? (array)$_GET['tags'] : [];
 
         require_once __DIR__ . '/../models/Article.php';
+        require_once __DIR__ . '/../models/Tag.php';
         $articleModel = new Article();
+        $tagModel = new Tag();
+        $allTags = $tagModel->getAllTags();
 
-        $articles = $articleModel->getFilteredArticles($search);
+        $articles = $articleModel->getFilteredArticles($search, 0, 50, $selectedTags);
+
+        foreach ($articles as &$article) {
+            require_once __DIR__ . '/../models/Tag.php';
+            $tagModel = new Tag();
+            $article['tags'] = $tagModel->getTagsForArticle($article['id']);
+        }
 
         $data = [
             'title' => 'Articles',
-            'articles' => $articles
+            'articles' => $articles,
+            'selectedTags' => $selectedTags,
+            'allTags' => $allTags
         ];
 
         render('home/articles', $data);
