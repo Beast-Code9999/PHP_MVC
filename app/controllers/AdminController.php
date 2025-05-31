@@ -234,12 +234,13 @@ class AdminController {
         $db = new Database();
         $pdo = $db->connect();
 
+        // Exclude drafts from review list
         $stmt = $pdo->query("
-        SELECT a.id, a.title, a.content, a.created_at, a.image_data, u.username 
-        FROM articles a
-        JOIN users u ON a.author_id = u.id
-        WHERE a.is_published = 0
-        ORDER BY a.created_at DESC
+            SELECT a.id, a.title, a.content, a.created_at, a.image_data, u.username 
+            FROM articles a
+            JOIN users u ON a.author_id = u.id
+            WHERE a.is_published = 0 AND a.status != 'draft'
+            ORDER BY a.created_at DESC
         ");
 
         $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
