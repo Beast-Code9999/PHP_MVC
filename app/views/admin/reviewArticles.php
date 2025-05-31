@@ -32,7 +32,7 @@
             <button type="submit">Edit</button>
         </form>
 
-        <form action="/PHP_MVC/public/admin/deleteArticles" method="post" onsubmit="return confirm('Are you sure?');" style="display:inline;">
+        <form action="/PHP_MVC/public/admin/deleteArticles" method="post" onsubmit="return confirm('Are you sure you want to delete this article?');" style="display:inline;">
             <input type="hidden" name="id" value="<?= $article['id'] ?>">
             <button type="submit" style="background:red; color:white;">Delete</button>
         </form>
