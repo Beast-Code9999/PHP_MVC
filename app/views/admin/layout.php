@@ -15,7 +15,10 @@
 
             <a href="<?php echo base_url('admin/dashboard'); ?>">Dashboard</a>
             <a href="<?php echo base_url('admin/userlist'); ?>">Users</a>
+            <a href="<?php echo base_url('admin/reviewArticles'); ?>">Pending</a>
+            <a href="<?php echo base_url('admin/articles'); ?>">Articles</a>
             <a href="<?php echo base_url('user/logout'); ?>">Logout</a>
+            
         </nav>
     </header>
 
