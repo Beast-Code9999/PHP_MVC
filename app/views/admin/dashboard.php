@@ -30,4 +30,11 @@
             <a href="/PHP_MVC/public/admin/yourArticles" class="pill-button">Your Articles</a>
         </div>
     <?php endif; ?>
+
+    <?php if ($roleId == 1): // Journalist only ?>
+        <div class="section-box">
+            <h2>Continue Editing Drafts</h2>
+            <a href="/PHP_MVC/public/admin/drafts" class="pill-button">Your Drafts</a>
+        </div>
+    <?php endif; ?>
 </div>

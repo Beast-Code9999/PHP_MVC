@@ -304,8 +304,14 @@ class AdminController {
             $selected_tags = $tag_ids;
 
             // Enforce: Journalists cannot publish directly
+            $status = 'pending';
             if (($_SESSION['user']['role_id'] ?? null) == 1) {
                 $isPublished = 0;
+                if (isset($_POST['save_draft'])) {
+                    $status = 'draft';
+                }
+            } else {
+                $status = $isPublished ? 'published' : 'pending';
             }
 
             $removeImage = isset($_POST['remove_image']) && $_POST['remove_image'] == '1';
@@ -329,10 +335,10 @@ class AdminController {
             }
 
             if (!$error) {
-                // Update article
+                // Update article with status
                 $articleModel = new Article();
-                $articleModel->updateArticleWithTags($id, $title, $content, $isPublished, $allow_comments, $imageData, $tag_ids);
-                $success = "Article updated successfully.";
+                $articleModel->updateArticleWithStatus($id, $title, $content, $status, $isPublished, $allow_comments, $imageData, $tag_ids);
+                $success = ($status === 'draft') ? "Draft saved. You can continue editing later." : "Article updated successfully.";
                 $article = $articleModel->getArticleWithTags($id);
                 render('admin/editArticles', [
                     'article' => $article,
@@ -438,68 +444,51 @@ class AdminController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $title = trim($_POST['title']);
             $content = trim($_POST['content']);
-            
-            // Authors (role_id = 1) cannot publish articles directly - always set to 0
-            if ($_SESSION['user']['role_id'] == 1) {
-                $isPublished = 0; // Force unpublished for authors
-            } else {
-                $isPublished = isset($_POST['is_published']) ? 1 : 0; // Editors and Admins can choose
-            }
-            
             $allowComments = isset($_POST['allow_comments']) ? 1 : 0;
-            $authorId = $_SESSION['user']['id'];
             $tag_ids = isset($_POST['tags']) ? $_POST['tags'] : [];
-            $selected_tags = $tag_ids;
-
-            // Validation
-            if (empty($title)) {
-                $error = "Title is required.";
-            } elseif (empty($content)) {
-                $error = "Content is required.";
-            } elseif (empty($tag_ids)) {
-                $error = "At least one tag must be selected.";
+            $authorId = $_SESSION['user']['id'];
+            $isPublished = 0;
+            $status = 'pending';
+            if ($_SESSION['user']['role_id'] == 1) {
+                if (isset($_POST['save_draft'])) {
+                    $status = 'draft';
+                }
             } else {
-                $imageData = null;
-                
-                // Handle image upload
-                if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-                    $imageTmp = $_FILES['image']['tmp_name'];
-                    $imageSize = filesize($imageTmp);
-    
-                    //if ($imageSize > MAX_BLOB_SIZE) {
-                    //    $error = "Image is too large. Max allowed is " . number_format(MAX_BLOB_SIZE) . " bytes. Please choose a smaller image.";
-                    //} else {
-                    //    $imageData = file_get_contents($imageTmp);
-                    //}
+                $isPublished = isset($_POST['is_published']) ? 1 : 0;
+                $status = $isPublished ? 'published' : 'pending';
+            }
 
-
-                    // Adjusted image function
-                    if ($imageSize > self::MAX_BLOB_SIZE) {
-                        $error = "Image is too large. Max allowed is " . number_format(self::MAX_BLOB_SIZE) . " bytes. Please choose a smaller image.";
-                    } else {
-                        $imageData = file_get_contents($imageTmp); // New image replaces everything
-                    }
-                }
-    
-                // Insert article if no errors
-                if (!$error) {
-                    require_once __DIR__ . '/../models/Article.php';
-                    $articleModel = new Article();
-                    $article_id = $articleModel->createArticleWithTags($title, $content, $authorId, $isPublished, $allowComments, $imageData, $tag_ids);
-                    if ($_SESSION['user']['role_id'] == 1) {
-                        $success = "Article created successfully and sent for review!";
-                    } else {
-                        $success = "Article created successfully!";
-                    }
-                    // Clear form data after successful creation
-                    $title = '';
-                    $content = '';
-                    $isPublished = 0;
-                    $allowComments = 0;
-                    $selected_tags = [];
+            $imageData = null;
+            $error = '';
+            if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+                $imageTmp = $_FILES['image']['tmp_name'];
+                $imageSize = filesize($imageTmp);
+                if ($imageSize > self::MAX_BLOB_SIZE) {
+                    $error = "Image is too large. Max allowed is " . number_format(self::MAX_BLOB_SIZE) . " bytes. Please choose a smaller image.";
                 } else {
-                    $error = "Failed to create article. Please try again.";
+                    $imageData = file_get_contents($imageTmp);
                 }
+            }
+
+            if (!$error) {
+                require_once __DIR__ . '/../models/Article.php';
+                $articleModel = new Article();
+                $article_id = $articleModel->createArticleWithStatus($title, $content, $authorId, $status, $isPublished, $allowComments, $imageData, $tag_ids);
+                if ($_SESSION['user']['role_id'] == 1 && $status === 'draft') {
+                    $success = "Draft saved. You can continue editing later!";
+                } elseif ($_SESSION['user']['role_id'] == 1) {
+                    $success = "Article created successfully and sent for review!";
+                } else {
+                    $success = "Article created successfully!";
+                }
+                // Clear form data after successful creation
+                $title = '';
+                $content = '';
+                $isPublished = 0;
+                $allowComments = 0;
+                $selected_tags = [];
+            } else {
+                $error = "Failed to create article. Please try again.";
             }
         } else {
             // Default values for GET request
@@ -543,6 +532,16 @@ class AdminController {
         $stmt->execute([$userId]);
         $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
         render('admin/yourArticles', ['articles' => $articles], layout: 'admin/layout');
+    }
+
+    public function drafts() {
+        if (!isset($_SESSION['user']) || $_SESSION['user']['role_id'] != 1) {
+            die("Access denied. Journalists only.");
+        }
+        $userId = $_SESSION['user']['id'];
+        $articleModel = new Article();
+        $drafts = $articleModel->getDraftsByAuthor($userId);
+        render('admin/drafts', ['drafts' => $drafts], layout: 'admin/layout');
     }
 
 

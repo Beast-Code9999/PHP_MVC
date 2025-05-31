@@ -138,5 +138,32 @@ class Article {
         $tagModel->setTagsForArticle($id, $tag_ids);
         return true;
     }
+
+    public function getDraftsByAuthor($author_id) {
+        $stmt = $this->db->prepare("SELECT * FROM articles WHERE author_id = ? AND status = 'draft' ORDER BY updated_at DESC");
+        $stmt->execute([$author_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function createArticleWithStatus($title, $content, $author_id, $status, $is_published, $allow_comments, $image_data, $tag_ids) {
+        $sql = "INSERT INTO articles (title, content, author_id, status, is_published, allow_comments, created_at, updated_at, image_data) VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW(), ?)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$title, $content, $author_id, $status, $is_published, $allow_comments, $image_data]);
+        $article_id = $this->db->lastInsertId();
+        require_once __DIR__ . '/Tag.php';
+        $tagModel = new Tag();
+        $tagModel->setTagsForArticle($article_id, $tag_ids);
+        return $article_id;
+    }
+
+    public function updateArticleWithStatus($id, $title, $content, $status, $is_published, $allow_comments, $image_data, $tag_ids) {
+        $sql = "UPDATE articles SET title = ?, content = ?, status = ?, is_published = ?, allow_comments = ?, updated_at = NOW(), image_data = ? WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$title, $content, $status, $is_published, $allow_comments, $image_data, $id]);
+        require_once __DIR__ . '/Tag.php';
+        $tagModel = new Tag();
+        $tagModel->setTagsForArticle($id, $tag_ids);
+        return true;
+    }
 }
 ?>

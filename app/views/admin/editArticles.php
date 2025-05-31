@@ -77,5 +77,8 @@
    <?php endif; ?>
    <br>
 
-   <button type="submit">Save Changes</button>
+   <button type="submit" name="save_edit">Save Changes</button>
+   <?php if (isset($_SESSION['user']) && $_SESSION['user']['role_id'] == 1): ?>
+       <button type="submit" name="save_draft" value="1" style="background:#6c757d; color:white; margin-left:10px;">Save as Draft</button>
+   <?php endif; ?>
 </form>

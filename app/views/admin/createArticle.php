@@ -81,6 +81,9 @@
                         <div class="d-flex justify-content-between">
                             <a href="/PHP_MVC/public/admin/articles" class="btn btn-secondary">Back to Articles</a>
                             <button type="submit" class="btn btn-primary">Create Article</button>
+                            <?php if (isset($_SESSION['user']) && $_SESSION['user']['role_id'] == 1): ?>
+                                <button type="submit" name="save_draft" value="1" class="btn btn-secondary" style="margin-left:10px;">Save as Draft</button>
+                            <?php endif; ?>
                         </div>
                     </form>
                 </div>
