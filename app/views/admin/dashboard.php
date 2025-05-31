@@ -17,10 +17,12 @@
         </div>
     <?php endif; ?>
 
-    <div class="section-box">
-        <h2>Articles</h2>
-        <a href="/PHP_MVC/public/admin/articles" class="pill-button">All Articles</a>
-    </div>
+    <?php if ($roleId != 1): // Hide from journalists ?>
+        <div class="section-box">
+            <h2>Articles</h2>
+            <a href="/PHP_MVC/public/admin/articles" class="pill-button">All Articles</a>
+        </div>
+    <?php endif; ?>
 
     <?php if (in_array($roleId, [1, 10])): // Journalist & Admin ?>
         <div class="section-box">
