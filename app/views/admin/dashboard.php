@@ -1,8 +1,16 @@
 <head>
-    <link rel="stylesheet" href="<?php echo base_url('css/adminDashboard.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('css/admin.css')?>">
 </head>
 
 <div class="dashboard-section">
+    <?php if ($roleId == 1): // Journalist only ?>
+        <h1 style="margin-bottom: 24px; color: #7c5e99;">Journalist Dashboard</h1>
+    <?php elseif ($roleId == 2): // Editor ?>
+        <h1 style="margin-bottom: 24px; color: #7c5e99;">Editor Dashboard</h1>
+    <?php elseif ($roleId == 10): // Admin ?>
+        <h1 style="margin-bottom: 24px; color: #7c5e99;">Admin Dashboard</h1>
+    <?php endif; ?>
+
     <?php if ($roleId == 10): // Admin ?>
         <div class="section-box">
             <h2>User Management</h2>

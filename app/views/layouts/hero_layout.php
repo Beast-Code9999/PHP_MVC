@@ -28,9 +28,15 @@
                 <a href="/PHP_MVC/public/articles" class="nav-link">Articles</a>
                 <a href="<?php echo base_url('/about'); ?>" class="nav-link">About Us</a>
                 <?php if (isset($_SESSION['user'])): ?>
-                    <span style="color: #fff; margin-right: 1rem;">
-                        👤 <?= htmlspecialchars($_SESSION['user']['username']) ?>
-                    </span>
+                    <?php if (in_array($_SESSION['user']['role_id'], [1,2,10])): ?>
+                        <a href="/PHP_MVC/public/admin/dashboard" class="nav-user" style="color:#fff; margin-right:1rem; text-decoration:none;">
+                            👤 <?= htmlspecialchars($_SESSION['user']['username']) ?>
+                        </a>
+                    <?php else: ?>
+                        <span style="color: #fff; margin-right: 1rem;">
+                            👤 <?= htmlspecialchars($_SESSION['user']['username']) ?>
+                        </span>
+                    <?php endif; ?>
                     <a href="<?php echo base_url('user/logout'); ?>" class="login-btn">Logout</a>
                 <?php else: ?>
                     <a href="/PHP_MVC/public/user/login" class="login-btn">Login</a>
