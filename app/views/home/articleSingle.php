@@ -48,6 +48,16 @@
     
     <div class="article-actions">
         <a href="/PHP_MVC/public/articles" class="back-btn">← Back to Articles</a>
+        <?php if (
+            isset($_SESSION['user']) && (
+                in_array($_SESSION['user']['role_id'] ?? 0, [2, 10]) ||
+                (($_SESSION['user']['role_id'] ?? 0) == 1 && ($_SESSION['user']['id'] ?? 0) == $article['author_id'])
+            )
+        ): ?>
+            <a href="/PHP_MVC/public/admin/editArticles?id=<?= $article['id'] ?>" class="edit-btn" style="margin-left: 10px; background: #7c5e99; color: #fff; padding: 7px 18px; border-radius: 6px; text-decoration: none; font-weight: 500; transition: background 0.18s;">
+                ✎ Edit Article
+            </a>
+        <?php endif; ?>
         
         <?php if ($article['allow_comments']): ?>
             <div class="comments-section">
