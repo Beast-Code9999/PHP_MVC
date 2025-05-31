@@ -14,24 +14,29 @@ class Article {
                 FROM articles
                 LEFT JOIN users ON articles.author_id = users.id
                 LEFT JOIN article_tags ON articles.id = article_tags.article_id
+                LEFT JOIN tags ON article_tags.tag_id = tags.tag_id
                 WHERE articles.is_published = 1";
         $params = [];
 
         if ($search !== '') {
-            $sql .= " AND (articles.title LIKE :search OR articles.content LIKE :search)";
-            $params[':search'] = '%' . $search . '%';
+            $sql .= " AND (articles.title LIKE ? OR articles.content LIKE ? OR tags.tag_name LIKE ?)";
+            $params[] = "%$search%";
+            $params[] = "%$search%";
+            $params[] = "%$search%";
         }
         if (!empty($tagIds)) {
             $in = implode(',', array_fill(0, count($tagIds), '?'));
             $sql .= " AND article_tags.tag_id IN ($in)";
-            $params = array_merge($params, $tagIds);
+            foreach ($tagIds as $tagId) {
+                $params[] = $tagId;
+            }
         }
         $offset = (int)$offset;
         $limit = (int)$limit;
         $sql .= " ORDER BY articles.created_at DESC LIMIT $offset, $limit";
 
         $stmt = $this->db->prepare($sql);
-        $stmt->execute(array_values($params));
+        $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
