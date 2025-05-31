@@ -51,7 +51,7 @@ CREATE TABLE `articles` (
 --
 
 INSERT INTO `articles` 
-(`id`, `title`, `content`, `author_id`, `is_published`, `allow_comments`, `created_at`, `updated_at`, `image_data`, `tag_id`) VALUES
+(`id`, `title`, `content`, `author_id`, `is_published`, `allow_comments`, `created_at`, `updated_at`, `image_data`, `tags_id`) VALUES
 (1, 'The Rise of AI Journalism', 'Exploring how AI is shaping the future of newsrooms.', 1, 1, 1, '2024-11-30 15:00:00', '2024-11-30 15:00:00', NULL, 3), 
 (2, 'Climate Change and Southeast Asia', 'A detailed look into the environmental challenges in the region.', 2, 1, 0, '2024-12-01 19:30:00', '2024-12-02 13:00:00', NULL, 5), 
 (3, 'Tech Startups to Watch in 2025', 'We round up the hottest new tech startups this year.', 1, 1, 1, '2024-12-03 14:15:00', '2024-12-04 16:45:00', NULL, 3), 
