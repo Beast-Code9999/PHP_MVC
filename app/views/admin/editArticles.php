@@ -42,15 +42,16 @@
    </label>
    <br>
     
-   <label>Category:</label>
-    <select name="tag_id" class="tag_id">
-        <?php foreach ($tags as $tag): ?>
-            <option value="<?= $tag['tag_id'] ?>" <?= $tag['tag_id'] == $article['tag_id'] ? 'selected' : '' ?>>
-                <?= htmlspecialchars($tag['tag_name']) ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
-
+   <label>Tags:</label>
+   <div>
+       <?php foreach ($tags as $tag): ?>
+           <label style="margin-right: 10px;">
+               <input type="checkbox" name="tags[]" value="<?= $tag['tag_id'] ?>" <?= (isset($selected_tags) && in_array($tag['tag_id'], $selected_tags)) ? 'checked' : '' ?>>
+               <?= htmlspecialchars($tag['tag_name']) ?>
+           </label>
+       <?php endforeach; ?>
+   </div>
+   <div class="form-text">Select one or more tags for this article.</div>
 
 <br>
 

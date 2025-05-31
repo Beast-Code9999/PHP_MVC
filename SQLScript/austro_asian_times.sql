@@ -42,8 +42,7 @@ CREATE TABLE `articles` (
   `allow_comments` tinyint(1) DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `image_data` longblob DEFAULT NULL,
-  `tags_id` int(11) DEFAULT NULL
+  `image_data` longblob DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -51,22 +50,22 @@ CREATE TABLE `articles` (
 --
 
 INSERT INTO `articles` 
-(`id`, `title`, `content`, `author_id`, `is_published`, `allow_comments`, `created_at`, `updated_at`, `image_data`, `tags_id`) VALUES
-(1, 'The Rise of AI Journalism', 'Exploring how AI is shaping the future of newsrooms.', 1, 1, 1, '2024-11-30 15:00:00', '2024-11-30 15:00:00', NULL, 3), 
-(2, 'Climate Change and Southeast Asia', 'A detailed look into the environmental challenges in the region.', 2, 1, 0, '2024-12-01 19:30:00', '2024-12-02 13:00:00', NULL, 5), 
-(3, 'Tech Startups to Watch in 2025', 'We round up the hottest new tech startups this year.', 1, 1, 1, '2024-12-03 14:15:00', '2024-12-04 16:45:00', NULL, 3), 
-(4, 'Local Voices: Community Journalism', 'The importance of community-driven news in urban areas.', 3, 0, 1, '2024-12-05 03:30:00', '2025-05-29 08:15:58', NULL, 6),
-(5, 'Digital Privacy in the Modern Age', 'A closer look at how your data is handled online.', 2, 1, 1, '2024-12-05 21:20:00', '2024-12-05 21:25:00', NULL, 3),
-(6, 'Mental Health in the Digital Age', 'How social media and technology impact mental well-being.', 2, 1, 0, '2024-12-06 09:30:00', '2024-12-06 10:00:00', NULL, 4),
-(7, 'Inside the World of eSports', 'The growth and monetization of competitive gaming.', 3, 0, 1, '2024-12-07 18:00:00', '2024-12-07 18:30:00', NULL, 7),
-(8, 'Space Tourism: Hype or Reality?', 'Will commercial space travel be accessible in our lifetime?', 1, 1, 1, '2024-12-08 12:00:00', '2024-12-08 14:15:00', NULL, 3),
-(9, 'Urban Farming: Growing Greens in Cities', 'A closer look at sustainability and city agriculture.', 4, 1, 0, '2024-12-09 08:45:00', '2024-12-09 09:15:00', NULL, 5),
-(10, 'Understanding Blockchain Beyond Bitcoin', 'Exploring blockchain uses across industries.', 2, 0, 0, '2024-12-10 16:20:00', '2024-12-10 16:50:00', NULL, 3),
-(11, 'Reviving Indigenous Languages Through Tech', 'How apps and AI are preserving endangered languages.', 3, 1, 1, '2024-12-11 10:10:00', '2024-12-11 11:40:00', NULL, 6),
-(12, 'The Gig Economy: Pros and Pitfalls', 'Exploring life as a freelancer in a digital age.', 1, 0, 1, '2024-12-12 17:30:00', '2024-12-12 18:00:00', NULL, 2),
-(13, 'Cybersecurity Trends for 2025', 'The latest in protecting data and digital identities.', 4, 1, 1, '2024-12-13 14:45:00', '2024-12-13 15:00:00', NULL, 3),
-(14, 'Smart Homes: Are We There Yet?', 'A critical look at smart home tech adoption.', 3, 0, 0, '2024-12-14 11:20:00', '2024-12-14 11:40:00', NULL, 3),
-(15, 'The Rise of EdTech Startups', 'How technology is reshaping education globally.', 2, 1, 1, '2024-12-15 13:30:00', '2024-12-15 13:45:00', NULL, 6);
+(`id`, `title`, `content`, `author_id`, `is_published`, `allow_comments`, `created_at`, `updated_at`, `image_data`) VALUES
+(1, 'The Rise of AI Journalism', 'Exploring how AI is shaping the future of newsrooms.', 1, 1, 1, '2024-11-30 15:00:00', '2024-11-30 15:00:00', NULL), 
+(2, 'Climate Change and Southeast Asia', 'A detailed look into the environmental challenges in the region.', 2, 1, 0, '2024-12-01 19:30:00', '2024-12-02 13:00:00', NULL), 
+(3, 'Tech Startups to Watch in 2025', 'We round up the hottest new tech startups this year.', 1, 1, 1, '2024-12-03 14:15:00', '2024-12-04 16:45:00', NULL), 
+(4, 'Local Voices: Community Journalism', 'The importance of community-driven news in urban areas.', 3, 0, 1, '2024-12-05 03:30:00', '2025-05-29 08:15:58', NULL),
+(5, 'Digital Privacy in the Modern Age', 'A closer look at how your data is handled online.', 2, 1, 1, '2024-12-05 21:20:00', '2024-12-05 21:25:00', NULL),
+(6, 'Mental Health in the Digital Age', 'How social media and technology impact mental well-being.', 2, 1, 0, '2024-12-06 09:30:00', '2024-12-06 10:00:00', NULL),
+(7, 'Inside the World of eSports', 'The growth and monetization of competitive gaming.', 3, 0, 1, '2024-12-07 18:00:00', '2024-12-07 18:30:00', NULL),
+(8, 'Space Tourism: Hype or Reality?', 'Will commercial space travel be accessible in our lifetime?', 1, 1, 1, '2024-12-08 12:00:00', '2024-12-08 14:15:00', NULL),
+(9, 'Urban Farming: Growing Greens in Cities', 'A closer look at sustainability and city agriculture.', 4, 1, 0, '2024-12-09 08:45:00', '2024-12-09 09:15:00', NULL),
+(10, 'Understanding Blockchain Beyond Bitcoin', 'Exploring blockchain uses across industries.', 2, 0, 0, '2024-12-10 16:20:00', '2024-12-10 16:50:00', NULL),
+(11, 'Reviving Indigenous Languages Through Tech', 'How apps and AI are preserving endangered languages.', 3, 1, 1, '2024-12-11 10:10:00', '2024-12-11 11:40:00', NULL),
+(12, 'The Gig Economy: Pros and Pitfalls', 'Exploring life as a freelancer in a digital age.', 1, 0, 1, '2024-12-12 17:30:00', '2024-12-12 18:00:00', NULL),
+(13, 'Cybersecurity Trends for 2025', 'The latest in protecting data and digital identities.', 4, 1, 1, '2024-12-13 14:45:00', '2024-12-13 15:00:00', NULL),
+(14, 'Smart Homes: Are We There Yet?', 'A critical look at smart home tech adoption.', 3, 0, 0, '2024-12-14 11:20:00', '2024-12-14 11:40:00', NULL),
+(15, 'The Rise of EdTech Startups', 'How technology is reshaping education globally.', 2, 1, 1, '2024-12-15 13:30:00', '2024-12-15 13:45:00', NULL);
 
 
 -- --------------------------------------------------------
@@ -273,3 +272,15 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+-- Remove tags_id from articles table
+-- ALTER TABLE `articles` DROP COLUMN `tags_id`;
+
+-- Create article_tags join table
+CREATE TABLE `article_tags` (
+  `article_id` int(11) NOT NULL,
+  `tag_id` int(11) NOT NULL,
+  PRIMARY KEY (`article_id`, `tag_id`),
+  FOREIGN KEY (`article_id`) REFERENCES `articles`(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`tag_id`) REFERENCES `tags`(`tag_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

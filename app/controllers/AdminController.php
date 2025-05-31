@@ -270,15 +270,18 @@ class AdminController {
     }
 
     // Fetch all tags for dropdown
-    $tagsStmt = $pdo->query("SELECT tag_id, tag_name FROM tags");
-    $tags = $tagsStmt->fetchAll(PDO::FETCH_ASSOC);
+    require_once __DIR__ . '/../models/Tag.php';
+    $tagModel = new Tag();
+    $tags = $tagModel->getAllTags();
+    $selected_tags = [];
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $title = trim($_POST['title']);
         $content = trim($_POST['content']);
         $isPublished = isset($_POST['is_published']) ? 1 : 0;
         $allow_comments = isset($_POST['allow_comments']) ? 1 : 0;
-        $tag_id = $_POST['tag_id'] ?? null; // Get selected category
+        $tag_ids = isset($_POST['tags']) ? $_POST['tags'] : [];
+        $selected_tags = $tag_ids;
 
         $removeImage = isset($_POST['remove_image']) && $_POST['remove_image'] == '1';
         $backPage = $_POST['source'] ?? 'admin/articles';
@@ -301,22 +304,17 @@ class AdminController {
         }
 
         if (!$error) {
-            // Include tag_id in update
-            $stmt = $pdo->prepare("UPDATE articles 
-                SET title = ?, content = ?, is_published = ?, allow_comments = ?, image_data = ?, tag_id = ?, updated_at = NOW() 
-                WHERE id = ?");
-            $stmt->execute([$title, $content, $isPublished, $allow_comments, $imageData, $tag_id, $id]);
-
+            // Update article
+            $articleModel = new Article();
+            $articleModel->updateArticleWithTags($id, $title, $content, $isPublished, $allow_comments, $imageData, $tag_ids);
             $success = "Article updated successfully.";
-            $stmt = $pdo->prepare("SELECT * FROM articles WHERE id = ?");
-            $stmt->execute([$id]);
-            $article = $stmt->fetch(PDO::FETCH_ASSOC);
-
+            $article = $articleModel->getArticleWithTags($id);
             render('admin/editArticles', [
                 'article' => $article,
                 'success' => $success,
                 'error' => null,
                 'tags' => $tags,
+                'selected_tags' => $selected_tags,
                 'backPage' => $backPage
             ], layout: 'admin/layout');
             return;
@@ -329,25 +327,25 @@ class AdminController {
             'is_published' => $isPublished,
             'allow_comments' => $allow_comments,
             'image_data' => $imageData,
-            'tag_id' => $tag_id,
+            'tags' => $tagModel->getTagsForArticle($id),
         ];
 
         render('admin/editArticles', [
             'article' => $article,
             'error' => $error,
             'tags' => $tags,
+            'selected_tags' => $selected_tags,
             'backPage' => $backPage
         ], layout: 'admin/layout');
 
     } else {
-        $stmt = $pdo->prepare("SELECT * FROM articles WHERE id = ?");
-        $stmt->execute([$id]);
-        $article = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (!$article) die("Article not found.");
-
+        $articleModel = new Article();
+        $article = $articleModel->getArticleWithTags($id);
+        $selected_tags = array_map(function($t){return $t['tag_id'];}, $article['tags']);
         render('admin/editArticles', [
             'article' => $article,
             'tags' => $tags,
+            'selected_tags' => $selected_tags,
             'backPage' => $backPage,
             'source' => $backPage
         ], layout: 'admin/layout');

@@ -33,6 +33,16 @@
         <?= nl2br(htmlspecialchars($article['content'])) ?>
     </div>
     
+    <div class="article-tags">
+        <?php if (!empty($article['tags'])): ?>
+            <span>Tags: 
+                <?php foreach ($article['tags'] as $tag): ?>
+                    <span class="badge bg-primary" style="margin-right:5px;"> <?= htmlspecialchars($tag['tag_name']) ?> </span>
+                <?php endforeach; ?>
+            </span>
+        <?php endif; ?>
+    </div>
+    
     <div class="article-actions">
         <a href="/PHP_MVC/public/articles" class="back-btn">← Back to Articles</a>
         

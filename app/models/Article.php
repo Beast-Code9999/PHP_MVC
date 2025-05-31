@@ -95,5 +95,38 @@ class Article {
         $stmt = $this->db->prepare("DELETE FROM articles WHERE id = ?");
         return $stmt->execute([$id]);
     }
+    
+    public function getArticleWithTags($id) {
+        $stmt = $this->db->prepare("SELECT a.*, u.username AS author_name FROM articles a LEFT JOIN users u ON a.author_id = u.id WHERE a.id = ?");
+        $stmt->execute([$id]);
+        $article = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($article) {
+            require_once __DIR__ . '/Tag.php';
+            $tagModel = new Tag();
+            $article['tags'] = $tagModel->getTagsForArticle($id);
+        }
+        return $article;
+    }
+    
+    public function createArticleWithTags($title, $content, $author_id, $is_published, $allow_comments, $image_data, $tag_ids) {
+        $sql = "INSERT INTO articles (title, content, author_id, is_published, allow_comments, created_at, updated_at, image_data) VALUES (?, ?, ?, ?, ?, NOW(), NOW(), ?)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$title, $content, $author_id, $is_published, $allow_comments, $image_data]);
+        $article_id = $this->db->lastInsertId();
+        require_once __DIR__ . '/Tag.php';
+        $tagModel = new Tag();
+        $tagModel->setTagsForArticle($article_id, $tag_ids);
+        return $article_id;
+    }
+
+    public function updateArticleWithTags($id, $title, $content, $is_published, $allow_comments, $image_data, $tag_ids) {
+        $sql = "UPDATE articles SET title = ?, content = ?, is_published = ?, allow_comments = ?, updated_at = NOW(), image_data = ? WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$title, $content, $is_published, $allow_comments, $image_data, $id]);
+        require_once __DIR__ . '/Tag.php';
+        $tagModel = new Tag();
+        $tagModel->setTagsForArticle($id, $tag_ids);
+        return true;
+    }
 }
 ?>

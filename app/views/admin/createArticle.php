@@ -36,6 +36,19 @@
                             <div class="form-text">Maximum file size: 65KB</div>
                         </div>
 
+                        <div class="mb-3">
+                            <label for="tags" class="form-label">Tags</label>
+                            <div>
+                                <?php foreach ($tags as $tag): ?>
+                                    <label style="margin-right: 10px;">
+                                        <input type="checkbox" name="tags[]" value="<?= $tag['tag_id'] ?>" <?= (isset($selected_tags) && in_array($tag['tag_id'], $selected_tags)) ? 'checked' : '' ?>>
+                                        <?= htmlspecialchars($tag['tag_name']) ?>
+                                    </label>
+                                <?php endforeach; ?>
+                            </div>
+                            <div class="form-text">Select one or more tags for this article.</div>
+                        </div>
+
                         <div class="row">
                             <?php if ($user_role != 1): // Hide publish option for Authors ?>
                             <div class="col-md-6">
