@@ -251,118 +251,109 @@ class AdminController {
         render('admin/reviewArticles', $data, layout: 'admin/layout');
     }
 
-    
+    ///////////////////
     public function editArticles() {
-        if (!isset($_SESSION['user']) || !in_array($_SESSION['user']['role_id'], [2, 10])) {
-            die("Access denied. Admins and Editors only");
-        }
-    
-        $db = new Database();
-        $pdo = $db->connect();
-    
-        $id = $_GET['id'] ?? null;
-        if (!$id) die("Missing article ID.");
-        
-        // Determine where to redirect back based on referer
-        $referer = $_SERVER['HTTP_REFERER'] ?? '';
-        $backPage = 'admin/articles'; // Default
-        
-        // Check if they came from review articles page
-        if (strpos($referer, 'reviewArticles') !== false) {
-            $backPage = 'admin/reviewArticles';
-        }
-    
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $title = trim($_POST['title']);
-            $content = trim($_POST['content']);
-            $isPublished = isset($_POST['is_published']) ? 1 : 0;
-            $allow_comments = isset($_POST['allow_comments']) ? 1 : 0;
-            $removeImage = isset($_POST['remove_image']) && $_POST['remove_image'] == '1';
-    
-            // Get the source page from the form submission
-            $backPage = $_POST['source'] ?? 'admin/articles';
-    
-            // Fetch existing image
-            $stmt = $pdo->prepare("SELECT image_data FROM articles WHERE id = ?");
-            $stmt->execute([$id]);
-            $existing = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-            // Handle image removal or replacement
-            if ($removeImage) {
-                $imageData = null; // Remove the image
+    if (!isset($_SESSION['user']) || !in_array($_SESSION['user']['role_id'], [2, 10])) {
+        die("Access denied. Admins and Editors only");
+    }
+
+    $db = new Database();
+    $pdo = $db->connect();
+
+    $id = $_GET['id'] ?? null;
+    if (!$id) die("Missing article ID.");
+
+    $referer = $_SERVER['HTTP_REFERER'] ?? '';
+    $backPage = 'admin/articles';
+    if (strpos($referer, 'reviewArticles') !== false) {
+        $backPage = 'admin/reviewArticles';
+    }
+
+    // Fetch all tags for dropdown
+    $tagsStmt = $pdo->query("SELECT tag_id, tag_name FROM tags");
+    $tags = $tagsStmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $title = trim($_POST['title']);
+        $content = trim($_POST['content']);
+        $isPublished = isset($_POST['is_published']) ? 1 : 0;
+        $allow_comments = isset($_POST['allow_comments']) ? 1 : 0;
+        $tag_id = $_POST['tag_id'] ?? null; // Get selected category
+
+        $removeImage = isset($_POST['remove_image']) && $_POST['remove_image'] == '1';
+        $backPage = $_POST['source'] ?? 'admin/articles';
+
+        $stmt = $pdo->prepare("SELECT image_data FROM articles WHERE id = ?");
+        $stmt->execute([$id]);
+        $existing = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $imageData = $removeImage ? null : $existing['image_data'];
+
+        $error = null;
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $imageTmp = $_FILES['image']['tmp_name'];
+            $imageSize = filesize($imageTmp);
+            if ($imageSize > self::MAX_BLOB_SIZE) {
+                $error = "Image is too large.";
             } else {
-                $imageData = $existing['image_data']; // Keep existing image
+                $imageData = file_get_contents($imageTmp);
             }
-    
-            $error = null;
-    
-            // Handle new image upload (only if no error and new file uploaded)
-            if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-                $imageTmp = $_FILES['image']['tmp_name'];
-                $imageSize = filesize($imageTmp);
-            
-                if ($imageSize > self::MAX_BLOB_SIZE) {
-                    $error = "Image is too large. Max allowed is " . number_format(self::MAX_BLOB_SIZE) . " bytes. Please choose a smaller image.";
-                } else {
-                    $imageData = file_get_contents($imageTmp); // New image replaces everything
-                }
-            }
-    
-            if (!$error) {
-                $stmt = $pdo->prepare("UPDATE articles 
-                    SET title = ?, content = ?, is_published = ?, allow_comments = ?, image_data = ?, updated_at = NOW() 
-                    WHERE id = ?");
-                $stmt->execute([$title, $content, $isPublished, $allow_comments, $imageData, $id]);
-    
-                // Instead of redirecting, set a success message and show the form again
-                $success = "Article updated successfully.";
-    
-                // Fetch updated article data
-                $stmt = $pdo->prepare("SELECT * FROM articles WHERE id = ?");
-                $stmt->execute([$id]);
-                $article = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-                render('admin/editArticles', [
-                    'article' => $article,
-                    'success' => $success,
-                    'error' => null,
-                    'backPage' => $backPage
-                ], layout: 'admin/layout');
-                return;
-            }
-    
-            // If there's an error, fall through to show form again
-            $article = [
-                'id' => $id,
-                'title' => $title,
-                'content' => $content,
-                'is_published' => $isPublished,
-                'allow_comments' => $allow_comments,
-                'image_data' => $imageData,
-            ];
-    
-            $data = [
-                'article' => $article, 
-                'error' => $error,
-                'backPage' => $backPage
-            ];
-            render('admin/editArticles', $data, layout: 'admin/layout');
-        } else {
+        }
+
+        if (!$error) {
+            // Include tag_id in update
+            $stmt = $pdo->prepare("UPDATE articles 
+                SET title = ?, content = ?, is_published = ?, allow_comments = ?, image_data = ?, tag_id = ?, updated_at = NOW() 
+                WHERE id = ?");
+            $stmt->execute([$title, $content, $isPublished, $allow_comments, $imageData, $tag_id, $id]);
+
+            $success = "Article updated successfully.";
             $stmt = $pdo->prepare("SELECT * FROM articles WHERE id = ?");
             $stmt->execute([$id]);
             $article = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-            if (!$article) die("Article not found.");
-    
-            // For GET requests, also pass the source to preserve it
-            $data = [
+
+            render('admin/editArticles', [
                 'article' => $article,
-                'backPage' => $backPage,
-                'source' => $backPage  // Pass the detected source
-            ];
-            render('admin/editArticles', $data, layout: 'admin/layout');
+                'success' => $success,
+                'error' => null,
+                'tags' => $tags,
+                'backPage' => $backPage
+            ], layout: 'admin/layout');
+            return;
         }
+
+        $article = [
+            'id' => $id,
+            'title' => $title,
+            'content' => $content,
+            'is_published' => $isPublished,
+            'allow_comments' => $allow_comments,
+            'image_data' => $imageData,
+            'tag_id' => $tag_id,
+        ];
+
+        render('admin/editArticles', [
+            'article' => $article,
+            'error' => $error,
+            'tags' => $tags,
+            'backPage' => $backPage
+        ], layout: 'admin/layout');
+
+    } else {
+        $stmt = $pdo->prepare("SELECT * FROM articles WHERE id = ?");
+        $stmt->execute([$id]);
+        $article = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$article) die("Article not found.");
+
+        render('admin/editArticles', [
+            'article' => $article,
+            'tags' => $tags,
+            'backPage' => $backPage,
+            'source' => $backPage
+        ], layout: 'admin/layout');
     }
+}
+
 
     public function deleteArticles() {
         if (!isset($_SESSION['user']) || !in_array($_SESSION['user']['role_id'], [2, 10])) {
@@ -448,10 +439,18 @@ class AdminController {
                     $imageTmp = $_FILES['image']['tmp_name'];
                     $imageSize = filesize($imageTmp);
     
-                    if ($imageSize > MAX_BLOB_SIZE) {
-                        $error = "Image is too large. Max allowed is " . number_format(MAX_BLOB_SIZE) . " bytes. Please choose a smaller image.";
+                    //if ($imageSize > MAX_BLOB_SIZE) {
+                    //    $error = "Image is too large. Max allowed is " . number_format(MAX_BLOB_SIZE) . " bytes. Please choose a smaller image.";
+                    //} else {
+                    //    $imageData = file_get_contents($imageTmp);
+                    //}
+
+
+                    // Adjusted image function
+                    if ($imageSize > self::MAX_BLOB_SIZE) {
+                        $error = "Image is too large. Max allowed is " . number_format(self::MAX_BLOB_SIZE) . " bytes. Please choose a smaller image.";
                     } else {
-                        $imageData = file_get_contents($imageTmp);
+                        $imageData = file_get_contents($imageTmp); // New image replaces everything
                     }
                 }
     

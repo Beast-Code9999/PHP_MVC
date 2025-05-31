@@ -288,3 +288,8 @@ a:focus {
 .mt-8 {
     margin-top: 8px;
 }
+
+.tag_id{
+    font-size: 14px;
+    padding: 8px 12px;
+}

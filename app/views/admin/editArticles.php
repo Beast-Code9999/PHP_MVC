@@ -41,6 +41,18 @@
        <input type="checkbox" name="allow_comments" <?= $article['allow_comments'] ? 'checked' : '' ?>> Allow Comments
    </label>
    <br>
+    
+   <label>Category:</label>
+    <select name="tag_id" class="tag_id">
+        <?php foreach ($tags as $tag): ?>
+            <option value="<?= $tag['tag_id'] ?>" <?= $tag['tag_id'] == $article['tag_id'] ? 'selected' : '' ?>>
+                <?= htmlspecialchars($tag['tag_name']) ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+
+
+<br>
 
    <label>Upload New Image:</label>
    <div style="display: flex; align-items: center; gap: 10px; margin-top: 6px;">
