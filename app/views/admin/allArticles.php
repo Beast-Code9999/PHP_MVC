@@ -59,14 +59,21 @@
                                     <td><?= date('Y-m-d H:i', strtotime($article['updated_at'])) ?></td>
                                     <td>
                                         <div class="btn-group">
+                                            <?php if (
+                                                ($_SESSION['user']['role_id'] == 1 && $_SESSION['user']['id'] == $article['author_id']) // Author can edit own
+                                                || in_array($_SESSION['user']['role_id'], [2, 10]) // Editor/Admin can edit all
+                                            ): ?>
                                             <form action="/PHP_MVC/public/admin/editArticles" method="get" style="display:inline;">
                                                 <input type="hidden" name="id" value="<?= $article['id'] ?>">
                                                 <button type="submit" class="btn btn-sm btn-primary">Edit</button>
                                             </form>
+                                            <?php endif; ?>
+                                            <?php if (in_array($_SESSION['user']['role_id'], [2, 10])): ?>
                                             <form action="/PHP_MVC/public/admin/deleteArticles" method="post" style="display:inline;" onsubmit="return confirm('Delete this article?');">
                                                 <input type="hidden" name="id" value="<?= $article['id'] ?>">
                                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                                             </form>
+                                            <?php endif; ?>
                                         </div>
                                     </td>
                                 </tr>

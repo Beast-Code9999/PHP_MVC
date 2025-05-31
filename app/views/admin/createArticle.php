@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="row">
-                            <?php if ($user_role != 1): // Hide publish option for Authors ?>
+                            <?php if ($user_role != 1): // Only show publish option for Editors/Admins ?>
                             <div class="col-md-6">
                                 <div class="form-check mb-3">
                                     <input type="checkbox" class="form-check-input" id="is_published" name="is_published" 
@@ -60,7 +60,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <?php else: ?>
+                            <?php elseif ($user_role == 1): ?>
                             <div class="col-md-6">
                                 <div class="alert alert-info mb-3">
                                     <small><strong>Note:</strong> As an Author, your articles will be sent for admin/editor review before publishing.</small>

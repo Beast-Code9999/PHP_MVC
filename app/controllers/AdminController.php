@@ -253,104 +253,129 @@ class AdminController {
 
     ///////////////////
     public function editArticles() {
-    if (!isset($_SESSION['user']) || !in_array($_SESSION['user']['role_id'], [2, 10])) {
-        die("Access denied. Admins and Editors only");
-    }
-
-    $db = new Database();
-    $pdo = $db->connect();
-
-    $id = $_GET['id'] ?? null;
-    if (!$id) die("Missing article ID.");
-
-    $referer = $_SERVER['HTTP_REFERER'] ?? '';
-    $backPage = 'admin/articles';
-    if (strpos($referer, 'reviewArticles') !== false) {
-        $backPage = 'admin/reviewArticles';
-    }
-
-    // Fetch all tags for dropdown
-    require_once __DIR__ . '/../models/Tag.php';
-    $tagModel = new Tag();
-    $tags = $tagModel->getAllTags();
-    $selected_tags = [];
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $title = trim($_POST['title']);
-        $content = trim($_POST['content']);
-        $isPublished = isset($_POST['is_published']) ? 1 : 0;
-        $allow_comments = isset($_POST['allow_comments']) ? 1 : 0;
-        $tag_ids = isset($_POST['tags']) ? $_POST['tags'] : [];
-        $selected_tags = $tag_ids;
-
-        $removeImage = isset($_POST['remove_image']) && $_POST['remove_image'] == '1';
-        $backPage = $_POST['source'] ?? 'admin/articles';
-
-        $stmt = $pdo->prepare("SELECT image_data FROM articles WHERE id = ?");
-        $stmt->execute([$id]);
-        $existing = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $imageData = $removeImage ? null : $existing['image_data'];
-
-        $error = null;
-        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-            $imageTmp = $_FILES['image']['tmp_name'];
-            $imageSize = filesize($imageTmp);
-            if ($imageSize > self::MAX_BLOB_SIZE) {
-                $error = "Image is too large.";
-            } else {
-                $imageData = file_get_contents($imageTmp);
-            }
+        if (!isset($_SESSION['user'])) {
+            die("Access denied. Please log in.");
         }
 
-        if (!$error) {
-            // Update article
-            $articleModel = new Article();
-            $articleModel->updateArticleWithTags($id, $title, $content, $isPublished, $allow_comments, $imageData, $tag_ids);
-            $success = "Article updated successfully.";
-            $article = $articleModel->getArticleWithTags($id);
+        $db = new Database();
+        $pdo = $db->connect();
+
+        $id = $_GET['id'] ?? null;
+        if (!$id) die("Missing article ID.");
+
+        // Fetch the article to check permissions
+        $stmt = $pdo->prepare("SELECT * FROM articles WHERE id = ?");
+        $stmt->execute([$id]);
+        $article = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$article) die("Article not found.");
+
+        // Only allow:
+        // - Editors/Admins (role_id 2, 10)
+        // - Authors (role_id 1) editing their own article
+        if (
+            $_SESSION['user']['role_id'] == 1 && $_SESSION['user']['id'] != $article['author_id']
+        ) {
+            die("Access denied. You can only edit your own articles.");
+        }
+        if (
+            $_SESSION['user']['role_id'] != 1 && !in_array($_SESSION['user']['role_id'], [2, 10])
+        ) {
+            die("Access denied. Admins and Editors only");
+        }
+
+        $referer = $_SERVER['HTTP_REFERER'] ?? '';
+        $backPage = 'admin/articles';
+        if (strpos($referer, 'reviewArticles') !== false) {
+            $backPage = 'admin/reviewArticles';
+        }
+
+        // Fetch all tags for dropdown
+        require_once __DIR__ . '/../models/Tag.php';
+        $tagModel = new Tag();
+        $tags = $tagModel->getAllTags();
+        $selected_tags = [];
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $title = trim($_POST['title']);
+            $content = trim($_POST['content']);
+            $isPublished = isset($_POST['is_published']) ? 1 : 0;
+            $allow_comments = isset($_POST['allow_comments']) ? 1 : 0;
+            $tag_ids = isset($_POST['tags']) ? $_POST['tags'] : [];
+            $selected_tags = $tag_ids;
+
+            // Enforce: Journalists cannot publish directly
+            if (($_SESSION['user']['role_id'] ?? null) == 1) {
+                $isPublished = 0;
+            }
+
+            $removeImage = isset($_POST['remove_image']) && $_POST['remove_image'] == '1';
+            $backPage = $_POST['source'] ?? 'admin/articles';
+
+            $stmt = $pdo->prepare("SELECT image_data FROM articles WHERE id = ?");
+            $stmt->execute([$id]);
+            $existing = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            $imageData = $removeImage ? null : $existing['image_data'];
+
+            $error = null;
+            if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+                $imageTmp = $_FILES['image']['tmp_name'];
+                $imageSize = filesize($imageTmp);
+                if ($imageSize > self::MAX_BLOB_SIZE) {
+                    $error = "Image is too large.";
+                } else {
+                    $imageData = file_get_contents($imageTmp);
+                }
+            }
+
+            if (!$error) {
+                // Update article
+                $articleModel = new Article();
+                $articleModel->updateArticleWithTags($id, $title, $content, $isPublished, $allow_comments, $imageData, $tag_ids);
+                $success = "Article updated successfully.";
+                $article = $articleModel->getArticleWithTags($id);
+                render('admin/editArticles', [
+                    'article' => $article,
+                    'success' => $success,
+                    'error' => null,
+                    'tags' => $tags,
+                    'selected_tags' => $selected_tags,
+                    'backPage' => $backPage
+                ], layout: 'admin/layout');
+                return;
+            }
+
+            $article = [
+                'id' => $id,
+                'title' => $title,
+                'content' => $content,
+                'is_published' => $isPublished,
+                'allow_comments' => $allow_comments,
+                'image_data' => $imageData,
+                'tags' => $tagModel->getTagsForArticle($id),
+            ];
+
             render('admin/editArticles', [
                 'article' => $article,
-                'success' => $success,
-                'error' => null,
+                'error' => $error,
                 'tags' => $tags,
                 'selected_tags' => $selected_tags,
                 'backPage' => $backPage
             ], layout: 'admin/layout');
-            return;
+
+        } else {
+            $articleModel = new Article();
+            $article = $articleModel->getArticleWithTags($id);
+            $selected_tags = array_map(function($t){return $t['tag_id'];}, $article['tags']);
+            render('admin/editArticles', [
+                'article' => $article,
+                'tags' => $tags,
+                'selected_tags' => $selected_tags,
+                'backPage' => $backPage,
+                'source' => $backPage
+            ], layout: 'admin/layout');
         }
-
-        $article = [
-            'id' => $id,
-            'title' => $title,
-            'content' => $content,
-            'is_published' => $isPublished,
-            'allow_comments' => $allow_comments,
-            'image_data' => $imageData,
-            'tags' => $tagModel->getTagsForArticle($id),
-        ];
-
-        render('admin/editArticles', [
-            'article' => $article,
-            'error' => $error,
-            'tags' => $tags,
-            'selected_tags' => $selected_tags,
-            'backPage' => $backPage
-        ], layout: 'admin/layout');
-
-    } else {
-        $articleModel = new Article();
-        $article = $articleModel->getArticleWithTags($id);
-        $selected_tags = array_map(function($t){return $t['tag_id'];}, $article['tags']);
-        render('admin/editArticles', [
-            'article' => $article,
-            'tags' => $tags,
-            'selected_tags' => $selected_tags,
-            'backPage' => $backPage,
-            'source' => $backPage
-        ], layout: 'admin/layout');
     }
-}
 
 
     public function deleteArticles() {
@@ -466,18 +491,21 @@ class AdminController {
                     } else {
                         $success = "Article created successfully!";
                     }
+                    // Clear form data after successful creation
                     $title = '';
                     $content = '';
                     $isPublished = 0;
                     $allowComments = 0;
                     $selected_tags = [];
+                } else {
+                    $error = "Failed to create article. Please try again.";
                 }
             }
         } else {
             // Default values for GET request
             $title = '';
             $content = '';
-            $isPublished = 0;
+            $isPublished = ($_SESSION['user']['role_id'] == 1) ? 0 : 0;
             $allowComments = 1; // Default to allowing comments
         }
     
