@@ -1,5 +1,4 @@
 <head>
-    <link rel="stylesheet" href="<?php echo base_url('css/articlesList.css')?>">
 </head>
 
 <div>

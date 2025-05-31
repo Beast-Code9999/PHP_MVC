@@ -1,28 +1,3 @@
-<head>
-    <link rel="stylesheet" href="<?php echo base_url('css/articlesList.css')?>">
-    <style>
-        .back-to-dashboard {
-            display: inline-block;
-            margin: 2rem 0 1.5rem 2rem;
-            padding: 0.6rem 1.5rem;
-            background: linear-gradient(90deg, #7c5e99 0%, #a088b6 100%);
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: background 0.18s, transform 0.15s;
-            box-shadow: 0 2px 8px 0 rgba(124, 94, 153, 0.08);
-            cursor: pointer;
-        }
-        .back-to-dashboard:hover {
-            background: linear-gradient(90deg, #a088b6 0%, #7c5e99 100%);
-            transform: translateY(-2px) scale(1.03);
-        }
-    </style>
-</head>
-
 <div>
     <a href="<?php echo base_url('admin/dashboard') ?>" class="back-to-dashboard">
         ← Back to Dashboard

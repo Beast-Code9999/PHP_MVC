@@ -1,7 +1,3 @@
-<head>
-    <link rel="stylesheet" href="<?php echo base_url('css/articlesList.css')?>">
-</head>
-
 <div>
     <a href="<?php echo base_url('admin/dashboard') ?>" class="back-to-dashboard">
         ← Back to Dashboard
