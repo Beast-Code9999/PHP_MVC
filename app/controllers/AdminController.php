@@ -423,12 +423,16 @@ class AdminController {
             
             $allowComments = isset($_POST['allow_comments']) ? 1 : 0;
             $authorId = $_SESSION['user']['id'];
-    
+            $tag_ids = isset($_POST['tags']) ? $_POST['tags'] : [];
+            $selected_tags = $tag_ids;
+
             // Validation
             if (empty($title)) {
                 $error = "Title is required.";
             } elseif (empty($content)) {
                 $error = "Content is required.";
+            } elseif (empty($tag_ids)) {
+                $error = "At least one tag must be selected.";
             } else {
                 $imageData = null;
                 
@@ -454,26 +458,19 @@ class AdminController {
     
                 // Insert article if no errors
                 if (!$error) {
-                    $sql = "INSERT INTO articles (title, content, author_id, is_published, allow_comments, image_data, created_at, updated_at) 
-                            VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())";
-                    
-                    $stmt = $pdo->prepare($sql);
-                    
-                    if ($stmt->execute([$title, $content, $authorId, $isPublished, $allowComments, $imageData])) {
-                        if ($_SESSION['user']['role_id'] == 1) {
-                            $success = "Article created successfully and sent for review!";
-                        } else {
-                            $success = "Article created successfully!";
-                        }
-                        
-                        // Clear form data after successful creation
-                        $title = '';
-                        $content = '';
-                        $isPublished = 0;
-                        $allowComments = 0;
+                    require_once __DIR__ . '/../models/Article.php';
+                    $articleModel = new Article();
+                    $article_id = $articleModel->createArticleWithTags($title, $content, $authorId, $isPublished, $allowComments, $imageData, $tag_ids);
+                    if ($_SESSION['user']['role_id'] == 1) {
+                        $success = "Article created successfully and sent for review!";
                     } else {
-                        $error = "Failed to create article. Please try again.";
+                        $success = "Article created successfully!";
                     }
+                    $title = '';
+                    $content = '';
+                    $isPublished = 0;
+                    $allowComments = 0;
+                    $selected_tags = [];
                 }
             }
         } else {
@@ -484,6 +481,12 @@ class AdminController {
             $allowComments = 1; // Default to allowing comments
         }
     
+        // Fetch all tags for dropdown
+        require_once __DIR__ . '/../models/Tag.php';
+        $tagModel = new Tag();
+        $tags = $tagModel->getAllTags();
+        $selected_tags = [];
+    
         $data = [
             'title' => $title,
             'content' => $content,
@@ -491,7 +494,9 @@ class AdminController {
             'allow_comments' => $allowComments,
             'error' => $error,
             'success' => $success,
-            'user_role' => $_SESSION['user']['role_id']
+            'user_role' => $_SESSION['user']['role_id'],
+            'tags' => $tags,
+            'selected_tags' => $selected_tags
         ];
     
         render('admin/createArticle', $data, layout: 'admin/layout');
