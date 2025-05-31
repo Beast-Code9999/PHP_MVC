@@ -1,3 +1,9 @@
+<div>
+    <a href="<?php echo base_url('admin/dashboard') ?>" class="back-to-dashboard">
+        ← Back to Dashboard
+    </a>
+</div>
+
 <?php if (!empty($success)): ?>
     <div style="padding:10px; background:#d4edda; color:#155724; border-radius:5px; margin-bottom:15px;">
         <?= htmlspecialchars($success) ?>

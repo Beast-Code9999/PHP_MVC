@@ -2,6 +2,12 @@
     <link rel="stylesheet" href="<?php echo base_url('css/articlesList.css')?>">
 </head>
 
+<div>
+    <a href="<?php echo base_url('admin/dashboard') ?>" class="back-to-dashboard">
+        ← Back to Dashboard
+    </a>
+</div>
+
 <div class="container-fluid mt-4">
     <div class="row mb-4">
         <div class="col">

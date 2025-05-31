@@ -535,8 +535,8 @@ class AdminController {
     }
 
     public function drafts() {
-        if (!isset($_SESSION['user']) || $_SESSION['user']['role_id'] != 1) {
-            die("Access denied. Journalists only.");
+        if (!isset($_SESSION['user']) || !in_array($_SESSION['user']['role_id'], [1, 10])) {
+            die("Access denied. Journalists and Admins only.");
         }
         $userId = $_SESSION['user']['id'];
         $articleModel = new Article();

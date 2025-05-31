@@ -16,9 +16,15 @@
 <?php endif; ?>
 
 <div>
-   <a href="<?php echo base_url($backPage) ?>" class="back-to-articles">
-       ← Back to <?php echo strpos($backPage, 'review') !== false ? 'Review Articles' : 'Articles' ?>
-   </a>
+   <?php if ($_SESSION['user']['role_id'] == 1): ?>
+       <a href="<?php echo base_url('admin/dashboard') ?>" class="back-to-articles">
+           ← Back to Dashboard
+       </a>
+   <?php else: ?>
+       <a href="<?php echo base_url($backPage) ?>" class="back-to-articles">
+           ← Back to <?php echo strpos($backPage, 'review') !== false ? 'Review Articles' : 'Articles' ?>
+       </a>
+   <?php endif; ?>
 </div>
 
 <form method="post" enctype="multipart/form-data">
