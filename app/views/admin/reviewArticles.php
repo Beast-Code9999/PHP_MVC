@@ -29,15 +29,52 @@
 
         <form action="/PHP_MVC/public/admin/editArticles" method="get" style="display:inline;">
             <input type="hidden" name="id" value="<?= $article['id'] ?>">
-            <button type="submit">Edit</button>
+            <button type="submit" class="btn-update">Edit</button>
         </form>
 
         <form action="/PHP_MVC/public/admin/deleteArticles" method="post" onsubmit="return confirm('Are you sure you want to delete this article?');" style="display:inline;">
             <input type="hidden" name="id" value="<?= $article['id'] ?>">
-            <button type="submit" style="background:red; color:white;">Delete</button>
+            <button type="submit" class="btn-delete">Delete</button>
+        </form>
+
         </form>
     </div>
 <?php endforeach; ?>
 
 <!-- Back to Dashboard Button -->
 <a href="/PHP_MVC/public/admin/dashboard">&larr; Back to Dashboard</a>
+
+
+<style>
+    .btn-update,
+    .btn-delete {
+        padding: 6px 12px;
+        font-size: 14px;
+        border-radius: 4px;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        display: inline-block;
+        transition: background-color 0.2s ease;
+    }
+
+    /* Update button style */
+    .btn-update {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .btn-update:hover {
+        background-color: #0056b3;
+    }
+
+    /* Delete button style */
+    .btn-delete {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    .btn-delete:hover {
+        background-color: #a71d2a;
+    }
+</style>
