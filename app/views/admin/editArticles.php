@@ -1,8 +1,19 @@
+<head>
+    <link rel="stylesheet" href="<?php echo base_url('css/adminEditArticle.css'); ?>">
+    <script src="<?php echo base_url('js/imagePreview.js'); ?>"></script>
+</head>
+
 <?php if (!empty($success)): ?>
     <div style="padding:10px; background:#d4edda; color:#155724; border-radius:5px; margin-bottom:15px;">
         <?= htmlspecialchars($success) ?>
     </div>
 <?php endif; ?>
+
+<div>
+    <a href="/PHP_MVC/public/admin/articles" class="back-to-articles">
+        ← Back to Articles
+    </a>
+</div>
 
 <form method="post" enctype="multipart/form-data">
     <label>Title: <input type="text" name="title" value="<?= htmlspecialchars($article['title']) ?>"></label>
@@ -23,16 +34,27 @@
     </label>
     <br>
 
-    <label>Upload New Image: <input type="file" name="image"></label>
+    <label>Upload New Image:</label>
+    <div style="display: flex; align-items: center; gap: 10px; margin-top: 6px;">
+        <input type="file" name="image" id="imageInput" accept="image/*" style="flex: 1;">
+        <button type="button" id="clearNewImage" style="display: none; background: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 14px; white-space: nowrap;">Clear Selected</button>
+    </div>
+
+    <div id="imagePreview" style="display: none; margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; border: 1px solid #e5e7eb;">
+        <p style="margin: 0 0 10px 0; font-weight: 500; color: #374151;">Preview:</p>
+        <img id="previewImg" src="" width="150" style="border-radius: 6px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
+    </div>
+
     <?php if (!empty($article['image_data'])): ?>
-    <p>Current Image:
-        <img src="data:image/jpeg;base64,<?= base64_encode($article['image_data']) ?>" width="150">
-    </p>
+    <div id="currentImageSection" style="margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; border: 1px solid #e5e7eb;">
+        <p style="margin: 0 0 10px 0; font-weight: 500; color: #374151;">Current Image:</p>
+        <img src="data:image/jpeg;base64,<?= base64_encode($article['image_data']) ?>" width="150" style="border-radius: 6px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); margin-bottom: 10px;">
+        <br>
+        <button type="button" id="removeCurrentImage" style="background: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 14px;">Remove Current Image</button>
+    </div>
+    <input type="hidden" name="remove_image" id="removeImageFlag" value="0">
     <?php endif; ?>
     <br>
 
     <button type="submit">Save Changes</button>
 </form>
-
-<!-- Return to Articles Button -->
-<a href="/PHP_MVC/public/admin/articles">&larr; Return to Articles</a>

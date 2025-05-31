@@ -268,36 +268,32 @@ class AdminController {
             $content = trim($_POST['content']);
             $isPublished = isset($_POST['is_published']) ? 1 : 0;
             $allow_comments = isset($_POST['allow_comments']) ? 1 : 0;
+            $removeImage = isset($_POST['remove_image']) && $_POST['remove_image'] == '1';
 
             // Fetch existing image
             $stmt = $pdo->prepare("SELECT image_data FROM articles WHERE id = ?");
             $stmt->execute([$id]);
             $existing = $stmt->fetch(PDO::FETCH_ASSOC);
-            $imageData = $existing['image_data'];
 
-
-            if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-                $imageTmp = $_FILES['image']['tmp_name'];
-                $imageSize = filesize($imageTmp);
-
-                if ($imageSize > MAX_BLOB_SIZE) {
-                    $error = "Image is too large. Max allowed is " . number_format(MAX_BLOB_SIZE) . " bytes.";
-                } else {
-                    $imageData = file_get_contents($imageTmp);
-                }
+            // Handle image removal or replacement
+            if ($removeImage) {
+                $imageData = null; // Remove the image
+            } else {
+                $imageData = $existing['image_data']; // Keep existing image
             }
+
 
             $error = null;
 
-            // Handle new image upload
+            // Handle new image upload (only if no error and new file uploaded)
             if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
                 $imageTmp = $_FILES['image']['tmp_name'];
                 $imageSize = filesize($imageTmp);
-
+            
                 if ($imageSize > MAX_BLOB_SIZE) {
                     $error = "Image is too large. Max allowed is " . number_format(MAX_BLOB_SIZE) . " bytes. Please choose a smaller image.";
                 } else {
-                    $imageData = file_get_contents($imageTmp);
+                    $imageData = file_get_contents($imageTmp); // New image replaces everything
                 }
             }
 
