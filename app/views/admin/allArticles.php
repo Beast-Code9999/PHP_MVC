@@ -73,7 +73,10 @@
                                                 <button type="submit" class="btn btn-sm btn-primary">Edit</button>
                                             </form>
                                             <?php endif; ?>
-                                            <?php if (in_array($_SESSION['user']['role_id'], [2, 10])): ?>
+                                            <?php if (
+                                                ($_SESSION['user']['role_id'] == 1 && $_SESSION['user']['id'] == $article['author_id']) // Author can delete own
+                                                || in_array($_SESSION['user']['role_id'], [2, 10]) // Editor/Admin can delete all
+                                            ): ?>
                                             <form action="/PHP_MVC/public/admin/deleteArticles" method="post" style="display:inline;" onsubmit="return confirm('Delete this article?');">
                                                 <input type="hidden" name="id" value="<?= $article['id'] ?>">
                                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>

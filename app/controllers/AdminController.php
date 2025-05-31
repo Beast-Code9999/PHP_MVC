@@ -385,43 +385,54 @@ class AdminController {
 
 
     public function deleteArticles() {
-        if (!isset($_SESSION['user']) || !in_array($_SESSION['user']['role_id'], [2, 10])) {
-            die("Access denied. Admins and Editors only.");
+        if (!isset($_SESSION['user'])) {
+            die("Access denied. Please log in.");
         }
-    
+        $userId = $_SESSION['user']['id'];
+        $roleId = $_SESSION['user']['role_id'];
+
         $db = new Database();
         $pdo = $db->connect();
-    
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'] ?? null;
-    
+
             if (!$id) {
                 $_SESSION['error'] = "Missing article ID.";
             } else {
-                // Check if the article exists
-                $stmt = $pdo->prepare("SELECT id FROM articles WHERE id = ?");
+                // Fetch the article to check permissions
+                $stmt = $pdo->prepare("SELECT author_id FROM articles WHERE id = ?");
                 $stmt->execute([$id]);
                 $article = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
                 if (!$article) {
                     $_SESSION['error'] = "Article not found.";
                 } else {
-                    // Delete the article
-                    $stmt = $pdo->prepare("DELETE FROM articles WHERE id = ?");
-                    if ($stmt->execute([$id])) {
-                        $_SESSION['success'] = "Article deleted successfully.";
+                    // Permission check:
+                    // - Editors/Admins (role_id 2, 10) can delete any article
+                    // - Journalists (role_id 1) can only delete their own articles
+                    if (
+                        in_array($roleId, [2, 10]) ||
+                        ($roleId == 1 && $userId == $article['author_id'])
+                    ) {
+                        $stmt = $pdo->prepare("DELETE FROM articles WHERE id = ?");
+                        if ($stmt->execute([$id])) {
+                            $_SESSION['success'] = "Article deleted successfully.";
+                        } else {
+                            $_SESSION['error'] = "Failed to delete article.";
+                        }
                     } else {
-                        $_SESSION['error'] = "Failed to delete article.";
+                        $_SESSION['error'] = "Access denied. You can only delete your own articles.";
                     }
                 }
             }
-    
+
             // Get the referring page and redirect back to it
             $referer = $_SERVER['HTTP_REFERER'] ?? '/PHP_MVC/public/admin/articles';
             header("Location: $referer");
             exit;
         }
-    
+
         // If not a POST request, redirect to articles page as fallback
         header("Location: /PHP_MVC/public/admin/articles");
         exit;
@@ -542,6 +553,16 @@ class AdminController {
         $articleModel = new Article();
         $drafts = $articleModel->getDraftsByAuthor($userId);
         render('admin/drafts', ['drafts' => $drafts], layout: 'admin/layout');
+    }
+
+    public function pendingArticles() {
+        if (!isset($_SESSION['user']) || $_SESSION['user']['role_id'] != 1) {
+            die("Access denied. Journalists only.");
+        }
+        $userId = $_SESSION['user']['id'];
+        $articleModel = new Article();
+        $pending_articles = $articleModel->getPendingArticlesByAuthor($userId);
+        render('admin/pendingArticles', ['pending_articles' => $pending_articles], layout: 'admin/layout');
     }
 
 

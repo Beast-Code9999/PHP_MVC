@@ -26,6 +26,7 @@ $routes = [
         'admin/createArticle' => 'AdminController@createArticle',
         'admin/yourArticles' => 'AdminController@yourArticles',
         'admin/drafts' => 'AdminController@drafts',
+        'admin/pendingArticles' => 'AdminController@pendingArticles',
         
     ],
     'POST' => [

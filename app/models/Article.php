@@ -165,5 +165,12 @@ class Article {
         $tagModel->setTagsForArticle($id, $tag_ids);
         return true;
     }
+
+    public function getPendingArticlesByAuthor($author_id) {
+        $sql = "SELECT * FROM articles WHERE author_id = ? AND status = 'pending' ORDER BY created_at DESC";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$author_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>

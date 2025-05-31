@@ -33,6 +33,13 @@
 
     <?php if ($roleId == 1): // Journalist only ?>
         <div class="section-box">
+            <h2>Pending Review</h2>
+            <a href="/PHP_MVC/public/admin/pendingArticles" class="pill-button">Pending Articles</a>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($roleId == 1): // Journalist only ?>
+        <div class="section-box">
             <h2>Continue Editing Drafts</h2>
             <a href="/PHP_MVC/public/admin/drafts" class="pill-button">Your Drafts</a>
         </div>
