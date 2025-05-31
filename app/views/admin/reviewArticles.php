@@ -17,7 +17,7 @@
 <h1>Unpublished Articles - Admin Review</h1>
 
 <?php foreach ($articles as $article): ?>
-    <div style="background:#fff; padding:15px; margin-bottom:20px; border-radius:8px;">
+    <div class="admin-article-card">
         <h3><?= htmlspecialchars($article['title']) ?></h3>
         <p><strong>Author:</strong> <?= htmlspecialchars($article['username']) ?></p>
         <p><strong>Date:</strong> <?= htmlspecialchars($article['created_at']) ?></p>
@@ -52,35 +52,69 @@
 
 
 <style>
-    .btn-update,
-    .btn-delete {
-        padding: 6px 12px;
-        font-size: 14px;
-        border-radius: 4px;
-        text-decoration: none;
-        border: none;
-        cursor: pointer;
-        display: inline-block;
-        transition: background-color 0.2s ease;
-    }
+.back-to-dashboard {
+    display: inline-block;
+    margin: 2rem 0 1.5rem 2rem;
+    padding: 0.6rem 1.5rem;
+    background: linear-gradient(90deg, #7c5e99 0%, #a088b6 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.18s, transform 0.15s;
+    box-shadow: 0 2px 8px 0 rgba(124, 94, 153, 0.08);
+    cursor: pointer;
+}
+.back-to-dashboard:hover {
+    background: linear-gradient(90deg, #a088b6 0%, #7c5e99 100%);
+    transform: translateY(-2px) scale(1.03);
+}
 
-    /* Update button style */
-    .btn-update {
-        background-color: #007bff;
-        color: #fff;
-    }
+.btn-update,
+.btn-delete {
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    transition: background-color 0.2s ease;
+}
+.btn-update {
+    background-color: #1976d2;
+    color: #fff;
+}
+.btn-update:hover {
+    background-color: #1565c0;
+}
+.btn-delete {
+    background-color: #e57373;
+    color: #fff;
+}
+.btn-delete:hover {
+    background-color: #c62828;
+}
 
-    .btn-update:hover {
-        background-color: #0056b3;
-    }
+/* Article Card */
+.admin-article-card {
+    background: #fff;
+    padding: 18px;
+    margin-bottom: 22px;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(124, 94, 153, 0.07);
+}
 
-    /* Delete button style */
-    .btn-delete {
-        background-color: #dc3545;
-        color: #fff;
+@media (max-width: 700px) {
+    .back-to-dashboard {
+        margin-left: 0.5rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.95rem;
     }
-
-    .btn-delete:hover {
-        background-color: #a71d2a;
+    .admin-article-card {
+        padding: 10px;
     }
+}
 </style>

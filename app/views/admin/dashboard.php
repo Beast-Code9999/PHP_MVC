@@ -1,5 +1,5 @@
 <head>
-    <link rel="stylesheet" href="<?php echo base_url('css/admin.css')?>">
+    <link rel="stylesheet" href="<?php echo base_url('css/adminDashboard.css')?>">
 </head>
 
 <div class="dashboard-section">
