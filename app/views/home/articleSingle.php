@@ -6,6 +6,19 @@
     <div class="article-header">
         <h1 class="article-title"><?= htmlspecialchars($article['title']) ?></h1>
         
+        <div class="article-tags" style="margin: 12px 0;">
+            <strong>Tags:</strong>
+            <?php if (!empty($article['tags'])): ?>
+                <?php foreach ($article['tags'] as $tag): ?>
+                    <a href="/PHP_MVC/public/articles?tags[]=<?= $tag['tag_id'] ?>" class="badge bg-primary" style="margin-right:5px; text-decoration:none; color:white;">
+                        <?= htmlspecialchars($tag['tag_name']) ?>
+                    </a>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <span style="color: #888;">None</span>
+            <?php endif; ?>
+        </div>
+        
         <div class="article-meta">
             <div class="meta-left">
                 <span class="article-author">By <?= htmlspecialchars($article['author_name'] ?? 'Unknown Author') ?></span>
@@ -31,16 +44,6 @@
     
     <div class="article-content">
         <?= nl2br(htmlspecialchars($article['content'])) ?>
-    </div>
-    
-    <div class="article-tags">
-        <?php if (!empty($article['tags'])): ?>
-            <span>Tags: 
-                <?php foreach ($article['tags'] as $tag): ?>
-                    <span class="badge bg-primary" style="margin-right:5px;"> <?= htmlspecialchars($tag['tag_name']) ?> </span>
-                <?php endforeach; ?>
-            </span>
-        <?php endif; ?>
     </div>
     
     <div class="article-actions">

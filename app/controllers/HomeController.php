@@ -105,7 +105,16 @@ class HomeController {
             header("Location: /PHP_MVC/public/articles");
             exit;
         }
-        
+
+        // Use model to get article with tags
+        require_once __DIR__ . '/../models/Article.php';
+        $articleModel = new Article();
+        $article = $articleModel->getArticleWithTags($id);
+        if (!$article) {
+            header("Location: /PHP_MVC/public/articles");
+            exit;
+        }
+
         require_once __DIR__ . '/../models/Comment.php';
         $commentModel = new Comment();
         $comments = $commentModel->getByArticle($id);
@@ -116,6 +125,7 @@ class HomeController {
         ];
 
         render('home/articleSingle', $data);
+        return;
     }
     
     public function postComment() {
