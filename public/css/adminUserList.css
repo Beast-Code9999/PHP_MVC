@@ -1,0 +1,215 @@
+/* Admin User List Page Styles - Works with existing HTML */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #eaf1fb;
+    color: #1a237e;
+    margin: 0;
+}
+
+/* Back to Dashboard Button (existing structure) */
+a[href*="dashboard"].btn-update {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    margin: 0 0 24px 2rem;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+a[href*="dashboard"].btn-update:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6b42a0 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    text-decoration: none;
+    color: white;
+}
+
+/* Page Title */
+h2 {
+    text-align: center;
+    margin: 2rem 0;
+    color: #1565c0;
+    font-size: 2.2rem;
+    font-weight: 700;
+}
+
+/* Create User Button */
+.btn-create {
+    display: inline-block;
+    margin: 1.5rem 0 1rem 2rem;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+    cursor: pointer;
+}
+
+.btn-create:hover {
+    background: linear-gradient(135deg, #45a049 0%, #4CAF50 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+    text-decoration: none;
+    color: white;
+}
+
+/* Table Styling */
+table {
+    width: 90%;
+    margin: 2rem auto;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(21, 101, 192, 0.1);
+    overflow: hidden;
+    border: 1px solid #e3f0fd;
+}
+
+/* Table Header */
+table th {
+    background: #4a5568;
+    color: white;
+    padding: 16px 12px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: left;
+    border: none;
+}
+
+/* Table Body */
+table td {
+    padding: 14px 12px;
+    text-align: left;
+    border-bottom: 1px solid #f0f4f8;
+    font-size: 14px;
+    color: #4a5568;
+}
+
+table tr:last-child td {
+    border-bottom: none;
+}
+
+table tr:hover {
+    background-color: #f8fafc;
+}
+
+/* Action Buttons */
+.btn-update:not([href*="dashboard"]),
+.btn-delete {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    margin-right: 8px;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+    min-width: 60px;
+    text-align: center;
+}
+
+/* Update Button */
+.btn-update:not([href*="dashboard"]) {
+    background: #2196F3;
+    color: white;
+    box-shadow: 0 1px 4px rgba(33, 150, 243, 0.3);
+}
+
+.btn-update:not([href*="dashboard"]):hover {
+    background: #1976D2;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(33, 150, 243, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+/* Delete Button */
+.btn-delete {
+    background: #f44336;
+    color: white;
+    box-shadow: 0 1px 4px rgba(244, 67, 54, 0.3);
+}
+
+.btn-delete:hover {
+    background: #d32f2f;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(244, 67, 54, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+/* "You" indicator */
+td:contains('(You)'),
+td {
+    color: #4a5568;
+}
+
+/* Special styling for "(You)" text */
+table td:last-child {
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 16px;
+    }
+    
+    table {
+        width: 95%;
+        font-size: 12px;
+    }
+    
+    table th,
+    table td {
+        padding: 10px 8px;
+        font-size: 12px;
+    }
+    
+    h2 {
+        font-size: 1.8rem;
+        margin: 1rem 0;
+    }
+    
+    .btn-create {
+        margin-left: 0.5rem;
+        padding: 10px 20px;
+        font-size: 12px;
+    }
+    
+    a[href*="dashboard"].btn-update {
+        margin-left: 0.5rem;
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+    
+    .btn-update:not([href*="dashboard"]),
+    .btn-delete {
+        display: block;
+        margin: 4px 0;
+        width: 90%;
+        font-size: 11px;
+        padding: 4px 8px;
+    }
+}
+
+/* Focus states for accessibility */
+.btn-update:focus,
+.btn-delete:focus,
+.btn-create:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
