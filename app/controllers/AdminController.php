@@ -109,7 +109,7 @@ class AdminController {
             'success' => $success
         ];
 
-        render('admin/updateUser', $data, layout: 'admin/updateUser');
+        render('admin/updateUser', $data, layout:'admin/layout');
     }
 
     

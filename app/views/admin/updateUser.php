@@ -1,3 +1,7 @@
+<head>
+    <link rel="stylesheet" href="<?php echo base_url('css/adminUpdateUser.css'); ?>">
+</head>
+
 <h2>Update User Details</h2>
 
 <?php if ($error): ?>
