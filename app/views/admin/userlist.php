@@ -1,3 +1,7 @@
+<head>
+    <link rel="stylesheet" href="<?php echo base_url('css/adminUserList.css')?>">
+</head>
+
 <a href="/PHP_MVC/public/admin/dashboard" class="btn-update" style="margin-left:2rem; margin-top:2rem; display:inline-block;">← Back to Dashboard</a>
 
 <h2>Admin Dashboard – User List</h2>
