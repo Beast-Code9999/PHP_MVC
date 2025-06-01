@@ -47,5 +47,3 @@
     </div>
 <?php endforeach; ?>
 
-<!-- Back to Dashboard Button -->
-<a href="/PHP_MVC/public/admin/dashboard">&larr; Back to Dashboard</a>
