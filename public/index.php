@@ -31,8 +31,8 @@ $method = $_SERVER['REQUEST_METHOD'];
 if(isset($routes[$method][$request])) {
     list($controller, $action) = explode('@', $routes[$method][$request]); // get either GET or POST then the URI
 
-    var_dump($action);
-    var_dump($controller);
+    //var_dump($action);
+    //var_dump($controller);
 
     require_once __DIR__ . '/../app/controllers/' . $controller . '.php';
 
