@@ -1,0 +1,208 @@
+/* Review Articles Page Styles */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #eaf1fb;
+    color: #1a237e;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Back to Dashboard Button */
+.back-to-dashboard {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.back-to-dashboard:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6b42a0 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    text-decoration: none;
+    color: white;
+}
+
+/* Page Title */
+h1 {
+    color: #1565c0;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0 0 30px 0;
+    text-align: center;
+}
+
+/* Article Card */
+.admin-article-card {
+    background: white;
+    border: 1px solid #e3f0fd;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(21, 101, 192, 0.1);
+    transition: all 0.2s ease;
+}
+
+.admin-article-card:hover {
+    box-shadow: 0 6px 25px rgba(21, 101, 192, 0.15);
+    transform: translateY(-2px);
+}
+
+/* Article Title */
+.admin-article-card h3 {
+    color: #1565c0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    line-height: 1.3;
+}
+
+/* Article Meta Info */
+.admin-article-card p {
+    margin: 0 0 12px 0;
+    line-height: 1.5;
+    color: #4a5568;
+}
+
+.admin-article-card p strong {
+    color: #2d3748;
+    font-weight: 600;
+}
+
+/* Article Content Preview */
+.admin-article-card p:last-of-type {
+    margin-bottom: 20px;
+    padding-top: 8px;
+    border-top: 1px solid #f0f4f8;
+    font-style: italic;
+}
+
+/* Image Styling */
+.admin-article-card img {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 16px;
+    margin-bottom: 16px;
+    max-width: 200px;
+    height: auto;
+}
+
+/* Button Container */
+.admin-article-card form {
+    display: inline-block;
+    margin-right: 8px;
+}
+
+/* Button Styling */
+.btn-update,
+.btn-delete {
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 8px;
+}
+
+/* Edit Button */
+.btn-update {
+    background: #2196F3;
+    color: white;
+    box-shadow: 0 1px 4px rgba(33, 150, 243, 0.3);
+}
+
+.btn-update:hover {
+    background: #1976D2;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(33, 150, 243, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+/* Delete Button */
+.btn-delete {
+    background: #f44336;
+    color: white;
+    box-shadow: 0 1px 4px rgba(244, 67, 54, 0.3);
+}
+
+.btn-delete:hover {
+    background: #d32f2f;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(244, 67, 54, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+/* Success/Error Messages */
+div[style*="background:#d4edda"] {
+    background: #d4edda !important;
+    color: #155724 !important;
+    padding: 16px 20px !important;
+    border-radius: 8px !important;
+    margin-bottom: 20px !important;
+    border: 1px solid #c3e6cb;
+    font-weight: 500;
+}
+
+div[style*="background:#f8d7da"] {
+    background: #f8d7da !important;
+    color: #721c24 !important;
+    padding: 16px 20px !important;
+    border-radius: 8px !important;
+    margin-bottom: 20px !important;
+    border: 1px solid #f5c6cb;
+    font-weight: 500;
+}
+
+/* Hide duplicate back button */
+a[href="/PHP_MVC/public/admin/dashboard"]:last-of-type {
+    display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 16px;
+    }
+    
+    .admin-article-card {
+        padding: 20px;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    .admin-article-card h3 {
+        font-size: 1.2rem;
+    }
+    
+    .btn-update,
+    .btn-delete {
+        display: block;
+        width: 100%;
+        margin: 4px 0;
+        text-align: center;
+    }
+}
+
+/* Focus states for accessibility */
+.btn-update:focus,
+.btn-delete:focus,
+.back-to-dashboard:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
