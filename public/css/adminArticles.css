@@ -1,0 +1,316 @@
+/* Admin Articles Page Styles */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #eaf1fb;
+    color: #1a237e;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container */
+.container-fluid {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Back to Dashboard Button */
+.back-to-dashboard {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.back-to-dashboard:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6b42a0 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    text-decoration: none;
+    color: white;
+}
+
+/* Header Section */
+.row.mb-4 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px 0;
+    border-bottom: 2px solid #e3f0fd;
+}
+
+.row.mb-4 h2 {
+    margin: 0;
+    color: #1565c0;
+    font-size: 2.2rem;
+    font-weight: 700;
+}
+
+/* Create Article Button */
+.btn.btn-primary {
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    border: none;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+
+.btn.btn-primary:hover {
+    background: linear-gradient(135deg, #45a049 0%, #4CAF50 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+    text-decoration: none;
+    color: white;
+}
+
+/* Card Container */
+.card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(21, 101, 192, 0.1);
+    border: 1px solid #e3f0fd;
+    overflow: hidden;
+}
+
+.card-body {
+    padding: 0;
+}
+
+/* Table Container */
+.table-responsive {
+    overflow-x: auto;
+    border-radius: 12px;
+}
+
+/* Table Styling */
+.table {
+    width: 100%;
+    margin: 0;
+    border-collapse: collapse;
+    background: white;
+    table-layout: fixed;
+}
+
+.table thead th {
+    background: #4a5568;
+    color: white;
+    padding: 16px 12px;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: left;
+    border: none;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+/* Column widths */
+.table thead th:nth-child(1) { width: 5%; }   /* ID */
+.table thead th:nth-child(2) { width: 18%; }  /* Title */
+.table thead th:nth-child(3) { width: 20%; }  /* Content */
+.table thead th:nth-child(4) { width: 12%; }  /* Author */
+.table thead th:nth-child(5) { width: 10%; }  /* Published */
+.table thead th:nth-child(6) { width: 10%; }  /* Comments */
+.table thead th:nth-child(7) { width: 12%; }  /* Created */
+.table thead th:nth-child(8) { width: 12%; }  /* Updated */
+.table thead th:nth-child(9) { width: 15%; }  /* Actions */
+
+.table tbody td {
+    padding: 14px 12px;
+    border-bottom: 1px solid #f0f4f8;
+    vertical-align: middle;
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.table tbody td:nth-child(2),
+.table tbody td:nth-child(3) {
+    white-space: normal;
+    word-wrap: break-word;
+    max-width: none;
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+/* Badge Styling */
+.badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid;
+}
+
+.badge.bg-success {
+    background: #10B981;
+    color: white;
+    border-color: #10B981;
+}
+
+.badge.bg-warning {
+    background: #F59E0B;
+    color: white;
+    border-color: #F59E0B;
+}
+
+.badge.bg-info {
+    background: #3B82F6;
+    color: white;
+    border-color: #3B82F6;
+}
+
+.badge.bg-secondary {
+    background: #6B7280;
+    color: white;
+    border-color: #6B7280;
+}
+
+/* Button Group */
+.btn-group {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Action Buttons */
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+    min-width: 60px;
+    text-align: center;
+}
+
+.btn-sm.btn-primary {
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+    color: white;
+    box-shadow: 0 1px 4px rgba(33, 150, 243, 0.3);
+}
+
+.btn-sm.btn-primary:hover {
+    background: linear-gradient(135deg, #1976D2 0%, #1565C0 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(33, 150, 243, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+.btn-sm.btn-danger {
+    background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+    color: white;
+    box-shadow: 0 1px 4px rgba(244, 67, 54, 0.3);
+}
+
+.btn-sm.btn-danger:hover {
+    background: linear-gradient(135deg, #d32f2f 0%, #c62828 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(244, 67, 54, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+/* Text Center */
+.text-center {
+    text-align: center;
+    color: #718096;
+    font-style: italic;
+    padding: 40px 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .table thead th,
+    .table tbody td {
+        padding: 12px 8px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 992px) {
+    .table thead th,
+    .table tbody td {
+        padding: 10px 6px;
+        font-size: 12px;
+    }
+    
+    .btn-group {
+        flex-direction: column;
+        gap: 4px;
+    }
+    
+    .btn-sm {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container-fluid {
+        padding: 16px;
+    }
+    
+    .row.mb-4 {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    
+    .row.mb-4 h2 {
+        font-size: 1.8rem;
+    }
+    
+    .table thead th,
+    .table tbody td {
+        padding: 8px 4px;
+        font-size: 11px;
+    }
+    
+    .badge {
+        padding: 4px 8px;
+        font-size: 10px;
+    }
+    
+    .back-to-dashboard {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+}
+
+/* Focus states for accessibility */
+.btn:focus,
+.back-to-dashboard:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
