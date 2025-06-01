@@ -11,14 +11,19 @@ class HomeController {
         // echo base_path();
         // echo views_path('home/index.php');
 
+        // Get the 5 most recent published articles
+        require_once __DIR__ . '/../models/Article.php';
+        $articleModel = new Article();
+        $recentArticles = $articleModel->getFilteredArticles('', 0, 5); // Get 5 recent articles
+
         $data = [
             'title' => 'This is the main home page title',
             'message' => 'Welcome to the home page',
-
+            'recentArticles' => $recentArticles
         ];
 
         render('home/index', $data, 'layouts/hero_layout');
-    } 
+    }
 
     public function about() {
         // route the index.php 
