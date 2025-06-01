@@ -15,6 +15,13 @@ class HomeController {
         require_once __DIR__ . '/../models/Article.php';
         $articleModel = new Article();
         $recentArticles = $articleModel->getFilteredArticles('', 0, 5); // Get 5 recent articles
+        // Attach tags to each article for display
+        require_once __DIR__ . '/../models/Tag.php';
+        $tagModel = new Tag();
+        foreach ($recentArticles as &$article) {
+            $article['tags'] = $tagModel->getTagsForArticle($article['id']);
+        }
+        unset($article);
 
         $data = [
             'title' => 'This is the main home page title',

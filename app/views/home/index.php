@@ -26,6 +26,18 @@
                                 </a>
                             </h3>
                             
+                            <?php if (!empty($article['tags'])): ?>
+                                <div class="article-tags" style="margin-bottom: 8px;">
+                                    <span>Tags:
+                                        <?php foreach ($article['tags'] as $tag): ?>
+                                            <a href="/PHP_MVC/public/articles?tags[]=<?= $tag['tag_id'] ?>" class="badge bg-primary" style="margin-right:5px; text-decoration:none; color:white;">
+                                                <?= htmlspecialchars($tag['tag_name']) ?>
+                                            </a>
+                                        <?php endforeach; ?>
+                                    </span>
+                                </div>
+                            <?php endif; ?>
+                            
                             <div class="article-meta">
                                 <span class="author">By <?= htmlspecialchars($article['author_name']) ?></span>
                                 <span class="date"><?= date('M j, Y', strtotime($article['created_at'])) ?></span>

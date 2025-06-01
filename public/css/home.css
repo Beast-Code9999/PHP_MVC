@@ -171,6 +171,30 @@
     border: 1px solid #e2e8f0;
 }
 
+/* --- Tag badge styles (match articles page) --- */
+.article-tags {
+    margin-bottom: 8px;
+}
+.article-tags .badge {
+    display: inline-block;
+    background: #7c5e99;
+    color: #fff;
+    border-radius: 12px;
+    padding: 0.25em 0.9em;
+    font-size: 0.95em;
+    margin-right: 0.4em;
+    margin-bottom: 0.2em;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+.article-tags .badge:hover {
+    background: #4a2c5a;
+    color: #fff;
+    text-decoration: underline;
+    cursor: pointer;
+}
+/* --- End tag badge styles --- */
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .recent-articles-section {
