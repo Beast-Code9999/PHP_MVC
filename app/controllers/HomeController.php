@@ -6,7 +6,7 @@ class HomeController {
     public function index() {
         // route the index.php 
         // require_once __DIR__ . '/../views/home/index.php';
-        echo views_path('home/index.php');
+        //echo views_path('home/index.php');
         // echo base_url();
         // echo base_path();
         // echo views_path('home/index.php');
@@ -23,7 +23,7 @@ class HomeController {
     public function about() {
         // route the index.php 
         // require_once __DIR__ . '/../views/home/index.php';
-        echo views_path('home/about.php');
+        //echo views_path('home/about.php');
 
         $data = [
             'title' => 'About page',
@@ -37,7 +37,7 @@ class HomeController {
     public function contact() {
         // route the index.php 
         // require_once __DIR__ . '/../views/home/index.php';
-        echo views_path('home/contact.php');
+        //echo views_path('home/contact.php');
 
         $data = [
             'title' => 'Contact page',
