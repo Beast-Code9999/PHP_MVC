@@ -1,3 +1,7 @@
+<head>
+    <link rel="stylesheet" href="<?php echo base_url('css/adminCreateUser.css')?>">
+</head>
+
 <h2>Create New User</h2>
 
 <?php if (!empty($error)): ?>
