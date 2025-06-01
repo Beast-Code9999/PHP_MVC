@@ -16,17 +16,17 @@
         </div>
         
         <div class="about-image-main">
-            <img src="/placeholder-main.jpg" alt="About us main image">
+            <img src="/PHP_MVC/public/images/imageE.png" alt="About us main image">
         </div>
     </div>
     
     <div class="about-images-bottom">
         <div class="about-image-left">
-            <img src="/placeholder-left.jpg" alt="About us image 1">
+            <img src="/PHP_MVC/public/images/vergil.jpg" alt="About us image 1">
         </div>
         
         <div class="about-image-right">
-            <img src="/placeholder-right.jpg" alt="About us image 2">
+            <img src="/PHP_MVC/public/images/IMG_4252.png" alt="About us image 2">
         </div>
     </div>
 </div>
