@@ -24,7 +24,7 @@ class HomeController {
         unset($article);
 
         $data = [
-            'title' => 'This is the main home page title',
+            'title' => 'Home',
             'message' => 'Welcome to the home page',
             'recentArticles' => $recentArticles
         ];
