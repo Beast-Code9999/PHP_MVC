@@ -1,5 +1,3 @@
-
-
 -- Insert a new article
 INSERT INTO `articles` (`title`, `content`, `author_id`, `is_published`, `allow_comments`, `created_at`, `updated_at`, `status`)
 VALUES ('Test Article for CRUD', 'This is a test article for CRUD operations.', 1, 1, 1, NOW(), NOW(), 'draft');
@@ -11,12 +9,6 @@ VALUES (16, 2), (16, 3);
 -- Insert a comment on the new article
 INSERT INTO `comments` (`article_id`, `user_id`, `content`, `is_approved`, `created_at`)
 VALUES (16, 2, 'Testing comment insert.', 0, NOW());
-
--- Read newly created article
-SELECT * FROM `articles` WHERE `id` = 16;
-
--- Read comments on the new article
-SELECT * FROM `comments` WHERE `article_id` = 16;
 
 -- Update article title and status
 UPDATE `articles`
