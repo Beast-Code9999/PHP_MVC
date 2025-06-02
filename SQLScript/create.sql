@@ -18,9 +18,15 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `austro_asian_times`
---
 
+-- Database: `austro_asian_times`
+-- Create the database if it doesn't exist
+CREATE DATABASE IF NOT EXISTS austro_asian_times
+  DEFAULT CHARACTER SET utf8mb4
+  COLLATE utf8mb4_general_ci;
+
+-- Use the newly created (or existing) database
+USE austro_asian_times;
 -- --------------------------------------------------------
 
 --
