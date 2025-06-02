@@ -1,3 +1,5 @@
+
+
 -- Insert a new article
 INSERT INTO `articles` (`title`, `content`, `author_id`, `is_published`, `allow_comments`, `created_at`, `updated_at`, `status`)
 VALUES ('Test Article for CRUD', 'This is a test article for CRUD operations.', 1, 1, 1, NOW(), NOW(), 'draft');
