@@ -20,7 +20,27 @@ SET time_zone = "+00:00";
 --
 -- Database: `austro_asian_times`
 --
+USE austro_asian_times;
 
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `email`, `password`, `role_id`, `created_at`) VALUES
+(1, 'JohnWriter', 'john@example.com', 'test1', 1, '2025-05-08 19:51:14'),
+(2, 'JaneEditor', 'jane@example.com', 'test2', 2, '2025-05-08 19:51:15'),
+(3, 'MichaelReader', 'mike@example.com', 'test3', 3, '2025-05-09 05:21:15'),
+(4, 'AdminUser', 'admin@example.com', 'adminpass', 10, '2025-05-18 16:32:25'),
+(5, 'SarahWriter', 'sarah@example.com', 'pass123', 1, '2025-04-21 14:30:00'),
+(6, 'TomEditor', 'tom@example.com', 'editme', 2, '2025-04-23 09:15:00'),
+(7, 'LilyReader', 'lily@example.com', 'readpass', 3, '2025-04-25 18:45:00'),
+(8, 'ChrisWriter', 'chris@example.com', 'chrispass', 1, '2025-04-30 12:10:00'),
+(9, 'NinaEditor', 'nina@example.com', 'ninaedit', 2, '2025-05-02 08:00:00'),
+(10, 'BenReader', 'ben@example.com', 'benread', 3, '2025-05-03 11:11:00'),
+(11, 'OliviaWriter', 'olivia@example.com', 'olipass', 1, '2025-05-04 17:25:00'),
+(12, 'EthanEditor', 'ethan@example.com', 'ethanpass', 2, '2025-05-05 10:55:00'),
+(13, 'ZoeReader', 'zoe@example.com', 'zoeread', 3, '2025-05-06 14:45:00'),
+(14, 'SuperAdmin', 'superadmin@example.com', 'supersecure', 10, '2025-05-07 16:30:00');
 --
 -- Dumping data for table `articles`
 --
@@ -41,6 +61,22 @@ INSERT INTO `articles` (`id`, `title`, `content`, `author_id`, `is_published`, `
 (13, 'Cybersecurity Trends for 2025', 'The latest in protecting data and digital identities.', 4, 1, 1, '2024-12-13 14:45:00', '2024-12-13 15:00:00', NULL, 'published'),
 (14, 'Smart Homes: Are We There Yet?', 'A critical look at smart home tech adoption.', 3, 0, 0, '2024-12-14 11:20:00', '2024-12-14 11:40:00', NULL, 'pending'),
 (15, 'The Rise of EdTech Startups', 'How technology is reshaping education globally.', 2, 1, 1, '2024-12-15 13:30:00', '2024-12-15 13:45:00', NULL, 'published');
+
+
+--
+-- Dumping data for table `tags`
+--
+
+INSERT INTO `tags` (`tag_name`, `tag_id`) VALUES
+('Politics', 1),
+('Economy', 2),
+('Technology', 3),
+('Health', 4),
+('Environment', 5),
+('Education', 6),
+('Sports', 7),
+('Entertainment', 8);
+
 
 --
 -- Dumping data for table `article_tags`
@@ -140,39 +176,7 @@ INSERT INTO `roles` (`id`, `name`) VALUES
 (2, 'Editor'),
 (3, 'User');
 
---
--- Dumping data for table `tags`
---
 
-INSERT INTO `tags` (`tag_name`, `tag_id`) VALUES
-('Politics', 1),
-('Economy', 2),
-('Technology', 3),
-('Health', 4),
-('Environment', 5),
-('Education', 6),
-('Sports', 7),
-('Entertainment', 8);
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `username`, `email`, `password`, `role_id`, `created_at`) VALUES
-(1, 'JohnWriter', 'john@example.com', 'test1', 1, '2025-05-08 19:51:14'),
-(2, 'JaneEditor', 'jane@example.com', 'test2', 2, '2025-05-08 19:51:15'),
-(3, 'MichaelReader', 'mike@example.com', 'test3', 3, '2025-05-09 05:21:15'),
-(4, 'AdminUser', 'admin@example.com', 'adminpass', 10, '2025-05-18 16:32:25'),
-(5, 'SarahWriter', 'sarah@example.com', 'pass123', 1, '2025-04-21 14:30:00'),
-(6, 'TomEditor', 'tom@example.com', 'editme', 2, '2025-04-23 09:15:00'),
-(7, 'LilyReader', 'lily@example.com', 'readpass', 3, '2025-04-25 18:45:00'),
-(8, 'ChrisWriter', 'chris@example.com', 'chrispass', 1, '2025-04-30 12:10:00'),
-(9, 'NinaEditor', 'nina@example.com', 'ninaedit', 2, '2025-05-02 08:00:00'),
-(10, 'BenReader', 'ben@example.com', 'benread', 3, '2025-05-03 11:11:00'),
-(11, 'OliviaWriter', 'olivia@example.com', 'olipass', 1, '2025-05-04 17:25:00'),
-(12, 'EthanEditor', 'ethan@example.com', 'ethanpass', 2, '2025-05-05 10:55:00'),
-(13, 'ZoeReader', 'zoe@example.com', 'zoeread', 3, '2025-05-06 14:45:00'),
-(14, 'SuperAdmin', 'superadmin@example.com', 'supersecure', 10, '2025-05-07 16:30:00');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
