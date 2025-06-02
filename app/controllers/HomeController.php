@@ -1,5 +1,9 @@
 <?php 
 
+// Move all require_once statements to the top for better organization
+require_once __DIR__ . '/../models/Article.php';
+require_once __DIR__ . '/../models/Tag.php';
+require_once __DIR__ . '/../models/Comment.php';
 
 class HomeController {
 
@@ -12,11 +16,10 @@ class HomeController {
         // echo views_path('home/index.php');
 
         // Get the 5 most recent published articles
-        require_once __DIR__ . '/../models/Article.php';
         $articleModel = new Article();
         $recentArticles = $articleModel->getFilteredArticles('', 0, 5); // Get 5 recent articles
+        
         // Attach tags to each article for display
-        require_once __DIR__ . '/../models/Tag.php';
         $tagModel = new Tag();
         foreach ($recentArticles as &$article) {
             $article['tags'] = $tagModel->getTagsForArticle($article['id']);
@@ -64,8 +67,6 @@ class HomeController {
         $search = isset($_GET['search']) ? trim($_GET['search']) : '';
         $selectedTags = isset($_GET['tags']) ? (array)$_GET['tags'] : [];
 
-        require_once __DIR__ . '/../models/Article.php';
-        require_once __DIR__ . '/../models/Tag.php';
         $articleModel = new Article();
         $tagModel = new Tag();
         $allTags = $tagModel->getAllTags();
@@ -73,8 +74,6 @@ class HomeController {
         $articles = $articleModel->getFilteredArticles($search, 0, 50, $selectedTags);
 
         foreach ($articles as &$article) {
-            require_once __DIR__ . '/../models/Tag.php';
-            $tagModel = new Tag();
             $article['tags'] = $tagModel->getTagsForArticle($article['id']);
         }
 
@@ -87,7 +86,6 @@ class HomeController {
 
         render('home/articles', $data);
     }
-
 
     public function singleArticle() {
         // Get ID from query parameter
@@ -119,7 +117,6 @@ class HomeController {
         }
 
         // Use model to get article with tags
-        require_once __DIR__ . '/../models/Article.php';
         $articleModel = new Article();
         $article = $articleModel->getArticleWithTags($id);
         if (!$article) {
@@ -127,7 +124,6 @@ class HomeController {
             exit;
         }
 
-        require_once __DIR__ . '/../models/Comment.php';
         $commentModel = new Comment();
         $comments = $commentModel->getByArticle($id);
 
@@ -147,7 +143,6 @@ class HomeController {
             $user_id = $_SESSION['user']['id'];
 
             if ($content) {
-                require_once __DIR__ . '/../models/Comment.php';
                 $commentModel = new Comment();
                 $commentModel->add($article_id, $user_id, $content);
             }
@@ -162,7 +157,6 @@ class HomeController {
             $user_id = $_SESSION['user']['id'];
             $role_id = $_SESSION['user']['role_id'] ?? 0;
 
-            require_once __DIR__ . '/../models/Comment.php';
             $commentModel = new Comment();
             
             if (in_array($role_id, [2, 10])) {
@@ -188,7 +182,6 @@ class HomeController {
             $user_id = $_SESSION['user']['id'];
 
             if ($content) {
-                require_once __DIR__ . '/../models/Comment.php';
                 $commentModel = new Comment();
                 $commentModel->update($comment_id, $user_id, $content);
             }
