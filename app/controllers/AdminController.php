@@ -1,8 +1,9 @@
 <?php
+
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../models/Article.php';
-
+require_once __DIR__ . '/../models/Tag.php';
 
 class AdminController {
     const MAX_BLOB_SIZE = 2097152; // 2MB = 2,097,152 bytes for images
@@ -124,8 +125,7 @@ class AdminController {
 
         $userId = (int)$_GET['id'];
 
-            require_once __DIR__ . '/../models/User.php';
-            $userModel = new User();
+        $userModel = new User();
 
         try {
             if ($userModel->deleteUserById($userId)) {
@@ -291,7 +291,6 @@ class AdminController {
         }
 
         // Fetch all tags for dropdown
-        require_once __DIR__ . '/../models/Tag.php';
         $tagModel = new Tag();
         $tags = $tagModel->getAllTags();
         $selected_tags = [];
@@ -445,8 +444,6 @@ class AdminController {
             die("Access denied. Authors, Editors, and Admins only.");
         }
     
-
-    
         $db = new Database();
         $pdo = $db->connect();
     
@@ -483,7 +480,6 @@ class AdminController {
             }
 
             if (!$error) {
-                require_once __DIR__ . '/../models/Article.php';
                 $articleModel = new Article();
                 $article_id = $articleModel->createArticleWithStatus($title, $content, $authorId, $status, $isPublished, $allowComments, $imageData, $tag_ids);
                 if ($_SESSION['user']['role_id'] == 1 && $status === 'draft') {
@@ -511,7 +507,6 @@ class AdminController {
         }
     
         // Fetch all tags for dropdown
-        require_once __DIR__ . '/../models/Tag.php';
         $tagModel = new Tag();
         $tags = $tagModel->getAllTags();
         $selected_tags = [];
@@ -565,12 +560,5 @@ class AdminController {
         $pending_articles = $articleModel->getPendingArticlesByAuthor($userId);
         render('admin/pendingArticles', ['pending_articles' => $pending_articles], layout: 'admin/layout');
     }
-
-
-
-
-
-
-
 }
 ?>

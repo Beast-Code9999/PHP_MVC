@@ -1,6 +1,5 @@
 <?php 
 
-// Move all require_once statements to the top for better organization
 require_once __DIR__ . '/../models/Article.php';
 require_once __DIR__ . '/../models/Tag.php';
 require_once __DIR__ . '/../models/Comment.php';
